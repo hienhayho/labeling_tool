@@ -1,0 +1,18 @@
+branch: main
+download-external-modules: true
+evaluate-variables: true
+external-modules-download-path: .external_modules
+framework:
+  - terraform
+  - cloudformation
+  - dockerfile
+  - kubernetes
+skip-check:
+  - CKV_AWS_23 # Enable S3 bucket versioning
+  - CKV_AWS_18 # Ensure the S3 bucket has access logging enabled
+  - CKV_AWS_144 # Ensure S3 bucket has cross-region replication enabled
+  - CKV_DOCKER_2 # Ensure that HEALTHCHECK instructions have been added to container images
+  - CKV_DOCKER_3 # Ensure that a user for the container has been created
+skip-path:
+  - node_modules
+  - "**/.terraform/**"

@@ -1,0 +1,133 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ["--maxkb=3072"] # Set limit to 3MB (3072KB)
+        exclude: |
+          (?x)^(
+              frontend/package-lock\.json|
+              backend/uv\.lock
+          )$
+      - id: check-toml
+      - id: check-yaml
+        args:
+          - --unsafe
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+        exclude: |
+          (?x)^(
+              frontend/src/client/.*|
+              backend/app/email-templates/build/.*
+          )$
+      - id: trailing-whitespace
+        exclude: ^frontend/src/client/.*
+      - id: detect-private-key
+      - id: check-json
+      - id: check-case-conflict
+      - id: detect-private-key
+      - id: forbid-new-submodules
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+
+  # Python code formatting and linting
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.12.0
+    hooks:
+      - id: ruff
+        args:
+          - --fix
+      - id: ruff-format
+
+  # Secret detection
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.5.0
+    hooks:
+      - id: detect-secrets
+        args: ["--baseline", ".secrets.baseline"]
+        exclude: package-lock.json|pnpm-lock.yaml|yarn.lock|.ipynb$|alembic/versions/.*\.py|tests/.*
+
+  # Python security scanning
+  # - repo: https://github.com/PyCQA/bandit
+  #   rev: 1.8.5
+  #   hooks:
+  #     - id: bandit
+  #       args:
+  #         ["-ll", "-r", "backend"]
+  #       exclude: "tests/"
+
+  # JavaScript/TypeScript linting and formatting
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        types_or: [javascript, jsx, ts, tsx, json, css, scss, yaml]
+        exclude: |
+          (?x)^(
+              frontend/src/client/.*|
+              frontend/\.next/.*|
+              frontend/node_modules/.*
+          )$
+
+  # Infrastructure security scanning
+  - repo: https://github.com/bridgecrewio/checkov.git
+    rev: 3.2.442
+    hooks:
+      - id: checkov
+        args: [--quiet, --skip-framework, secrets]
+        files: \.(yaml|yml|json)$
+
+  # Docker security scanning
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.13.1-beta
+    hooks:
+      - id: hadolint
+        args: ["--ignore", "DL3008", "--ignore", "DL3013", "--ignore", "DL3018"]
+        files: Dockerfile.*
+
+  # Dependency checking
+  # - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
+  #   rev: v1.4.2
+  #   hooks:
+  #     - id: python-safety-dependencies-check
+  #       files: pyproject.toml
+
+  # Custom hooks
+  - repo: local
+    hooks:
+      - id: check-secrets
+        name: check for secrets
+        entry: ./scripts/security/check-secrets.sh
+        language: script
+        pass_filenames: false
+      # - id: run-critical-tests
+      #   name: run critical tests
+      #   entry: ./hooks/pre-commit-run-tests.sh
+      #   language: script
+      #   pass_filenames: false
+      #   stages: [pre-commit]
+      - id: check-dependencies
+        name: check for vulnerable dependencies
+        entry: ./hooks/pre-commit-check-dependencies.sh
+        language: script
+        pass_filenames: false
+        stages: [pre-commit]
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint
+        entry: sh -c 'cd frontend && npx eslint'
+        language: system
+        types: [file]
+        files: \.(js|jsx|ts|tsx)$
+        exclude: |
+          (?x)^(
+              frontend/client/.*|
+              frontend/\.next/.*|
+              frontend/node_modules/.*
+          )$
+
+ci:
+  autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
+  autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate
