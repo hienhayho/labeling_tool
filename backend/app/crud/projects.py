@@ -328,16 +328,17 @@ def get_project_for_download(
     *,
     session: Session,
     project_id: int,
-    limit: int,
-    include_statuses: list[LineItemStatus],
+    limit: int | None = None,
+    include_statuses: list[LineItemStatus] | None = None,
 ) -> list[LineItem]:
     statement = (
         select(LineItem)
         .where(LineItem.project_id == project_id)
         .order_by(LineItem.line_index)
-        .limit(limit)
         .options(selectinload(LineItem.line_messages))
     )
+    if limit:
+        statement = statement.limit(limit)
     if include_statuses:
         statement = statement.where(LineItem.status.in_(include_statuses))
     line_items = session.exec(statement).all()

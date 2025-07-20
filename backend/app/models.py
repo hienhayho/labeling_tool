@@ -254,7 +254,7 @@ class Task(SQLModel, table=True):
 
 
 class ProjectDownloadRequest(SQLModel):
-    limit: int
+    limit: int | None = None
     include_statuses: list[LineItemStatus]
     file_name: str
 
