@@ -11,7 +11,6 @@ from app.api.deps import (
     CurrentUser,
     SessionDep,
     get_current_active_superuser,
-    get_current_user,
 )
 from app.celery_app import celery_app
 from app.core.config import settings
@@ -25,6 +24,7 @@ from app.crud.projects import (
     get_project_for_download,
     get_projects,
     get_projects_dashboard,
+    get_projects_dashboard_user,
     get_user_task_summary_in_project,
 )
 from app.models import (
@@ -186,9 +186,14 @@ def confirm_line_item_message_route(
     return {"message": "Line item confirmed successfully"}
 
 
-@router.get("/dashboard", dependencies=[Depends(get_current_user)])
-def get_dashboard(session: SessionDep):
+@router.get("/dashboard", dependencies=[Depends(get_current_active_superuser)])
+def get_dashboard_admin(session: SessionDep):
     return get_projects_dashboard(session=session)
+
+
+@router.get("/dashboard_user")
+def get_dashboard_user(session: SessionDep, current_user: CurrentUser):
+    return get_projects_dashboard_user(session=session, current_user=current_user)
 
 
 @router.post(

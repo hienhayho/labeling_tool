@@ -608,6 +608,49 @@ export type ProjectDashboard = {
 };
 
 /**
+ * ProjectUserDashboard
+ */
+export type ProjectUserDashboard = {
+    /**
+     * Project Id
+     */
+    project_id: number;
+    /**
+     * Project Name
+     */
+    project_name: string;
+    /**
+     * Project Description
+     */
+    project_description: string;
+    /**
+     * Task Count
+     */
+    task_count: number;
+    /**
+     * Status Counts
+     */
+    status_counts: {
+        /**
+         * Unlabeled Count
+         */
+        UNLABELED?: number;
+        /**
+         * Confirmed Count
+         */
+        CONFIRMED?: number;
+        /**
+         * Approved Count
+         */
+        APPROVED?: number;
+        /**
+         * Rejected Count
+         */
+        REJECTED?: number;
+    };
+};
+
+/**
  * ProjectDownloadRequest
  */
 export type ProjectDownloadRequest = {
@@ -1128,6 +1171,22 @@ export type ProjectsGetDashboardResponses = {
 };
 
 export type ProjectsGetDashboardResponse = ProjectsGetDashboardResponses[keyof ProjectsGetDashboardResponses];
+
+export type ProjectsGetDashboardUserData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/projects/dashboard_user';
+};
+
+export type ProjectsGetDashboardUserResponses = {
+    /**
+     * Successful Response
+     */
+    200: Array<ProjectUserDashboard>;
+};
+
+export type ProjectsGetDashboardUserResponse = ProjectsGetDashboardUserResponses[keyof ProjectsGetDashboardUserResponses];
 
 export type ProjectsDownloadProjectData = {
     body: ProjectDownloadRequest;

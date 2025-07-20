@@ -324,6 +324,56 @@ def get_projects_dashboard(*, session: Session) -> list[dict]:
     return project_data
 
 
+def get_projects_dashboard_user(*, session: Session, current_user: User) -> list[dict]:
+    # 1. Lấy danh sách các project mà user này đã được assign task
+    project_stmt = (
+        select(Project)
+        .join(Task, Project.id == Task.project_id)
+        .where(Task.user_id == current_user.id)
+        .distinct()
+    )
+
+    projects = session.exec(project_stmt).all()
+    project_data = []
+
+    for project in projects:
+        # 2. Đếm số task user được assign trong project này
+        task_count_stmt = (
+            select(func.count())
+            .select_from(Task)
+            .where(Task.project_id == project.id, Task.user_id == current_user.id)
+        )
+        task_count = session.exec(task_count_stmt).one()
+
+        # 3. Đếm số lượng theo từng status
+        status_stmt = (
+            select(LineItem.status, func.count())
+            .select_from(LineItem)
+            .join(Task, LineItem.id == Task.line_item_id)
+            .where(Task.project_id == project.id, Task.user_id == current_user.id)
+            .group_by(LineItem.status)
+        )
+        status_result = session.exec(status_stmt).all()
+
+        # Đảm bảo đủ mọi status (kể cả = 0)
+        status_counts = {status.value: 0 for status in LineItemStatus}
+        for status, count in status_result:
+            status_counts[status.value] = count
+
+        # 4. Gộp dữ liệu
+        project_data.append(
+            {
+                "project_id": project.id,
+                "project_name": project.name,
+                "project_description": project.description,
+                "task_count": task_count,
+                "status_counts": status_counts,
+            }
+        )
+
+    return project_data
+
+
 def get_project_for_download(
     *,
     session: Session,

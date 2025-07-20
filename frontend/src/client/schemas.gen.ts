@@ -947,6 +947,52 @@ export const ProjectDashboardSchema = {
     title: 'ProjectDashboard'
 } as const;
 
+export const ProjectUserDashboardSchema = {
+    properties: {
+        project_id: {
+            type: 'integer',
+            title: 'Project Id'
+        },
+        project_name: {
+            type: 'string',
+            title: 'Project Name'
+        },
+        project_description: {
+            type: 'string',
+            title: 'Project Description'
+        },
+        task_count: {
+            type: 'integer',
+            title: 'Task Count'
+        },
+        status_counts: {
+            type: 'object',
+            properties: {
+                UNLABELED: {
+                    type: 'integer',
+                    title: 'Unlabeled Count'
+                },
+                CONFIRMED: {
+                    type: 'integer',
+                    title: 'Confirmed Count'
+                },
+                APPROVED: {
+                    type: 'integer',
+                    title: 'Approved Count'
+                },
+                REJECTED: {
+                    type: 'integer',
+                    title: 'Rejected Count'
+                }
+            },
+            title: 'Status Counts'
+        }
+    },
+    type: 'object',
+    required: ['project_id', 'project_name', 'project_description', 'task_count', 'status_counts'],
+    title: 'ProjectUserDashboard'
+} as const;
+
 export const ProjectDownloadRequestSchema = {
     properties: {
         limit: {

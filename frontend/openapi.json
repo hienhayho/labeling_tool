@@ -713,6 +713,30 @@
         }
       }
     },
+    "/api/v1/projects/dashboard_user": {
+      "get": {
+        "tags": ["projects"],
+        "summary": "Get User Dashboard Data",
+        "description": "Get dashboard statistics for current user projects.",
+        "operationId": "projects-get_dashboard_user",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProjectUserDashboard"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/projects/{project_id}/download": {
       "post": {
         "tags": ["projects"],
@@ -1785,6 +1809,57 @@
           "user_task_summary"
         ],
         "title": "ProjectDashboard"
+      },
+      "ProjectUserDashboard": {
+        "properties": {
+          "project_id": {
+            "type": "integer",
+            "title": "Project Id"
+          },
+          "project_name": {
+            "type": "string",
+            "title": "Project Name"
+          },
+          "project_description": {
+            "type": "string",
+            "title": "Project Description"
+          },
+          "task_count": {
+            "type": "integer",
+            "title": "Task Count"
+          },
+          "status_counts": {
+            "type": "object",
+            "properties": {
+              "UNLABELED": {
+                "type": "integer",
+                "title": "Unlabeled Count"
+              },
+              "CONFIRMED": {
+                "type": "integer",
+                "title": "Confirmed Count"
+              },
+              "APPROVED": {
+                "type": "integer",
+                "title": "Approved Count"
+              },
+              "REJECTED": {
+                "type": "integer",
+                "title": "Rejected Count"
+              }
+            },
+            "title": "Status Counts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "project_id",
+          "project_name",
+          "project_description",
+          "task_count",
+          "status_counts"
+        ],
+        "title": "ProjectUserDashboard"
       },
       "ProjectDownloadRequest": {
         "properties": {

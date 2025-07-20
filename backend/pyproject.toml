@@ -28,6 +28,7 @@ dependencies = [
     "celery>=5.5.3",
     "redis>=6.2.0",
     "json-repair>=0.47.8",
+    "cryptography>=45.0.5",
 ]
 
 [tool.uv]
