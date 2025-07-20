@@ -60,5 +60,5 @@ def extract_data(self: Task, url: str, file_path: str, project_id: int) -> None:
 
     self.update_state(
         state="SUCCESS",
-        meta={"type": "extracting", "content": "Extraction process completed"},
+        meta={"type": "completed", "content": "Extraction process completed"},
     )
