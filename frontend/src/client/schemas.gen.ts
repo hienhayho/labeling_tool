@@ -847,6 +847,28 @@ export const LineItemsPublicSchema = {
         num_pages: {
             type: 'integer',
             title: 'Num Pages'
+        },
+        status_counts: {
+            type: 'object',
+            properties: {
+                UNLABELED: {
+                    type: 'integer',
+                    title: 'Unlabeled Count'
+                },
+                CONFIRMED: {
+                    type: 'integer',
+                    title: 'Confirmed Count'
+                },
+                APPROVED: {
+                    type: 'integer',
+                    title: 'Approved Count'
+                },
+                REJECTED: {
+                    type: 'integer',
+                    title: 'Rejected Count'
+                }
+            },
+            title: 'Status Counts'
         }
     },
     type: 'object',

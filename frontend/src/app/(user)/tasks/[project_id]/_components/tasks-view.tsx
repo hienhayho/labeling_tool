@@ -45,12 +45,16 @@ export function TasksView({
       }),
   });
 
-  // Set initial selected sample when data is loaded
+  // Set initial selected sample when data is loaded (only if no sample is selected yet)
   useEffect(() => {
-    if (lineItemsData?.data?.data && lineItemsData.data.data.length > 0) {
+    if (
+      lineItemsData?.data?.data &&
+      lineItemsData.data.data.length > 0 &&
+      selectedSampleIndex === 1
+    ) {
       setSelectedSampleIndex(lineItemsData.data.data[0].line_index);
     }
-  }, [lineItemsData]);
+  }, [lineItemsData, selectedSampleIndex]);
 
   const handleSelectSample = (lineItem: any) => {
     setSelectedSampleIndex(lineItem.line_index);

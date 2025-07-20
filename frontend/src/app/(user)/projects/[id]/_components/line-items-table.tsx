@@ -17,12 +17,33 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ChevronLeft, ChevronRight, Eye, Loader2 } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  Loader2,
+  BarChart3,
+} from "lucide-react";
 import { useApi } from "@/hooks/use-api";
 import { LineItemRead, projectsGetLineItems } from "@/client";
 import toast from "react-hot-toast";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Legend,
+  Tooltip,
+} from "recharts";
 
 interface LineItemsTableProps {
   projectId: number;
@@ -207,6 +228,124 @@ export function LineItemsTable({
         <CardTitle className="flex items-center justify-between">
           <span>Danh sách mẫu</span>
           <div className="flex items-center gap-4">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  View Chart
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-2xl">
+                <DialogHeader>
+                  <DialogTitle>Thống kê trạng thái mẫu</DialogTitle>
+                </DialogHeader>
+                <div className="mt-6">
+                  {lineItemsData?.data?.status_counts && (
+                    <div className="space-y-6">
+                      {/* Pie Chart */}
+                      <div className="h-80">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={Object.entries(
+                                lineItemsData.data.status_counts,
+                              ).map(([key, value]) => ({
+                                name:
+                                  key === "UNLABELED"
+                                    ? "Chờ xử lý"
+                                    : key === "CONFIRMED"
+                                      ? "Hoàn thành"
+                                      : key === "APPROVED"
+                                        ? "Đã duyệt"
+                                        : key === "REJECTED"
+                                          ? "Lỗi"
+                                          : key,
+                                value: value,
+                                color:
+                                  key === "UNLABELED"
+                                    ? "#6b7280"
+                                    : key === "CONFIRMED"
+                                      ? "#3b82f6"
+                                      : key === "APPROVED"
+                                        ? "#10b981"
+                                        : key === "REJECTED"
+                                          ? "#ef4444"
+                                          : "#9ca3af",
+                              }))}
+                              cx="50%"
+                              cy="50%"
+                              outerRadius={80}
+                              dataKey="value"
+                              label={({ name, percent }) =>
+                                `${name} ${((percent || 0) * 100).toFixed(0)}%`
+                              }
+                            >
+                              {Object.entries(
+                                lineItemsData.data.status_counts,
+                              ).map(([key, value], index) => (
+                                <Cell
+                                  key={`cell-${index}`}
+                                  fill={
+                                    key === "UNLABELED"
+                                      ? "#6b7280"
+                                      : key === "CONFIRMED"
+                                        ? "#3b82f6"
+                                        : key === "APPROVED"
+                                          ? "#10b981"
+                                          : key === "REJECTED"
+                                            ? "#ef4444"
+                                            : "#9ca3af"
+                                  }
+                                />
+                              ))}
+                            </Pie>
+                            <Tooltip
+                              formatter={(value) => [value, "Số lượng"]}
+                            />
+                            <Legend />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+
+                      {/* Summary Stats */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {Object.entries(lineItemsData.data.status_counts).map(
+                          ([key, value]) => (
+                            <div
+                              key={key}
+                              className="text-center p-4 rounded-lg border"
+                            >
+                              <div className="text-2xl font-bold text-gray-900">
+                                {value}
+                              </div>
+                              <div className="text-sm text-gray-600">
+                                {key === "UNLABELED"
+                                  ? "Chờ xử lý"
+                                  : key === "CONFIRMED"
+                                    ? "Hoàn thành"
+                                    : key === "APPROVED"
+                                      ? "Đã duyệt"
+                                      : key === "REJECTED"
+                                        ? "Lỗi"
+                                        : key}
+                              </div>
+                            </div>
+                          ),
+                        )}
+                      </div>
+
+                      {/* Total */}
+                      <div className="text-center p-4 bg-gray-50 rounded-lg">
+                        <div className="text-lg font-semibold text-gray-900">
+                          Tổng cộng: {lineItemsData.data.total_count} mẫu
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </DialogContent>
+            </Dialog>
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="outline" className="w-[180px]">

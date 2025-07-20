@@ -202,6 +202,7 @@ class LineItemsPublic(SQLModel):
     data: list[LineItemRead]
     total_count: int
     num_pages: int
+    status_counts: dict[LineItemStatus, int]
 
 
 class LineItemMessageConfirmRequest(SQLModel):

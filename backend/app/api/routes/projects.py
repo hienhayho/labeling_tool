@@ -131,7 +131,7 @@ def get_line_items_route(
     limit: int = Query(default=10, ge=1, description="Number of items per page"),
     status: LineItemStatus | None = None,
 ):
-    line_items, total_count, num_pages = get_line_items(
+    line_items, total_count, num_pages, status_counts = get_line_items(
         session=session,
         project_id=project_id,
         page=page,
@@ -144,6 +144,7 @@ def get_line_items_route(
         data=line_items,
         total_count=total_count,
         num_pages=num_pages,
+        status_counts=status_counts,
     )
 
 

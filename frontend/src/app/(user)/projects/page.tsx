@@ -144,24 +144,26 @@ export default function ProjectsPage() {
                       <span className="text-xs text-gray-500">
                         ID: {project.id}
                       </span>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="text-xs px-2 py-1 text-red-600 border-red-300 hover:bg-red-50 hover:border-red-400"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          e.stopPropagation();
-                          handleDeleteProject(project.id, project.name);
-                        }}
-                        disabled={deleteProjectMutation.isPending}
-                      >
-                        {deleteProjectMutation.isPending ? (
-                          <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                        ) : (
-                          <Trash2 className="h-3 w-3 mr-1" />
-                        )}
-                        Xóa
-                      </Button>
+                      {user?.is_superuser && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="text-xs px-2 py-1 text-red-600 border-red-300 hover:bg-red-50 hover:border-red-400"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            handleDeleteProject(project.id, project.name);
+                          }}
+                          disabled={deleteProjectMutation.isPending}
+                        >
+                          {deleteProjectMutation.isPending ? (
+                            <Loader2 className="h-3 w-3 mr-1 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-3 w-3 mr-1" />
+                          )}
+                          Xóa
+                        </Button>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -169,7 +171,7 @@ export default function ProjectsPage() {
             ))}
       </div>
 
-      {!isLoading && projects?.length === 0 && (
+      {user?.is_superuser && !isLoading && projects?.length === 0 && (
         <div className="text-center py-8">
           <p className="text-gray-500 mb-3">Bạn chưa có dự án nào</p>
           <CreateProjectDialog>

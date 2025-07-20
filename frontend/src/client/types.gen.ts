@@ -520,6 +520,27 @@ export type LineItemsPublic = {
      * Num Pages
      */
     num_pages: number;
+    /**
+     * Status Counts
+     */
+    status_counts?: {
+        /**
+         * Unlabeled Count
+         */
+        UNLABELED?: number;
+        /**
+         * Confirmed Count
+         */
+        CONFIRMED?: number;
+        /**
+         * Approved Count
+         */
+        APPROVED?: number;
+        /**
+         * Rejected Count
+         */
+        REJECTED?: number;
+    };
 };
 
 /**

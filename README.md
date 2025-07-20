@@ -15,6 +15,8 @@ cp .env.example .env
 ```bash
 cd backend && uv sync
 
+uv run alembic upgrade head
+
 uv run fastapi run --reload app/main.py
 ```
 

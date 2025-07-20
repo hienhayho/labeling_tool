@@ -84,7 +84,27 @@ def get_line_items(
     line_items = session.exec(statement).all()
     num_pages = math.ceil(total_count / limit)
 
-    return line_items, total_count, num_pages
+    # Get status counts
+    status_counts_stmt = (
+        select(LineItem.status, func.count())
+        .where(LineItem.project_id == project_id)
+        .group_by(LineItem.status)
+    )
+    if user_id and not is_superuser:
+        status_counts_stmt = (
+            status_counts_stmt.select_from(LineItem)
+            .join(Task, LineItem.id == Task.line_item_id)
+            .where(Task.user_id == user_id, Task.project_id == project_id)
+        )
+
+    status_counts_result = session.exec(status_counts_stmt).all()
+
+    # Always include all statuses with default = 0
+    status_counts = {status.value: 0 for status in LineItemStatus}
+    for status, count in status_counts_result:
+        status_counts[status.value] = count
+
+    return line_items, total_count, num_pages, status_counts
 
 
 def create_project(
