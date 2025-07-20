@@ -24,6 +24,7 @@ const eslintConfig = [
       "src/client/client/types.ts",
       "src/client/core/bodySerializer.ts",
       "src/client/transformers.gen.ts",
+      ".next",
     ],
   },
 ];
