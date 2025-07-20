@@ -5,7 +5,6 @@ from celery.result import AsyncResult
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import FileResponse
 from loguru import logger
-from rich.pretty import pprint
 
 from app.api.deps import (
     CurrentUser,
@@ -174,7 +173,6 @@ def confirm_line_item_message_route(
     session: SessionDep,
     current_user: CurrentUser,
 ):
-    pprint(line_item_confirm_request)
     confirm_line_item(
         session=session,
         user_id=current_user.id,

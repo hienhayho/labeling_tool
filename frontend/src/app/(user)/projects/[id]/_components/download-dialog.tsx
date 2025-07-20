@@ -29,10 +29,24 @@ const STATUS_OPTIONS = [
   { value: "UNLABELED" as const, label: "Chờ xử lý" },
   { value: "CONFIRMED" as const, label: "Hoàn thành" },
   { value: "APPROVED" as const, label: "Đã duyệt" },
-  { value: "REJECTED" as const, label: "Lỗi" },
+  { value: "REJECTED" as const, label: "Từ chối" },
 ];
 
 type StatusType = "UNLABELED" | "CONFIRMED" | "APPROVED" | "REJECTED";
+
+function sanitizeFilename(input: string): string {
+  let name = input;
+  name = name.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  name = name.replace(/[^a-zA-Z0-9\s-_]/g, "");
+
+  name = name.trim().replace(/\s+/g, "-");
+
+  if (name.length > 100) {
+    name = name.substring(0, 100);
+  }
+
+  return name;
+}
 
 export function DownloadDialog({
   projectId,
@@ -47,12 +61,15 @@ export function DownloadDialog({
     "REJECTED",
   ]);
   const [fileName, setFileName] = useState(
-    projectName ? `${projectName}_data` : `project_${projectId}_data`,
+    projectName
+      ? `${sanitizeFilename(projectName)}_data`
+      : `project_${projectId}_data`,
   );
   const { client, headers } = useApi();
 
   const downloadMutation = useMutation({
     mutationFn: async () => {
+      const sanitizedFileName = sanitizeFilename(fileName);
       const response = await projectsDownloadProject({
         client,
         headers,
@@ -60,7 +77,7 @@ export function DownloadDialog({
         body: {
           limit: limit ? parseInt(limit) : null,
           include_statuses: selectedStatuses,
-          file_name: fileName,
+          file_name: sanitizedFileName,
         },
       });
 
@@ -71,7 +88,7 @@ export function DownloadDialog({
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${fileName}.jsonl`;
+      a.download = `${sanitizedFileName}.jsonl`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);

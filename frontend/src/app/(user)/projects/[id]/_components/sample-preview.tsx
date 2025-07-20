@@ -19,6 +19,7 @@ import { SampleInfo } from "./sample-info";
 import { ExpandedContentDialog } from "./expanded-content-dialog";
 import { EditMessageDialog } from "./edit-message-dialog";
 import toast from "react-hot-toast";
+import { useAuth } from "@/contexts/auth-context";
 
 interface SamplePreviewProps {
   projectId: number;
@@ -27,6 +28,29 @@ interface SamplePreviewProps {
   initialSampleIndex?: number;
   onSampleChange?: (sampleIndex: number) => void;
 }
+
+const renderMessage = (
+  message: LineItemMessageRead,
+  isSuperuser: boolean,
+  onExpandMessage: (message: LineItemMessageRead) => void,
+  onShowRawContent: (content: string, role: string, index: number) => void,
+  onEditMessage: (message: LineItemMessageRead) => void,
+) => {
+  if (message.role === "system") {
+    if (!isSuperuser) {
+      return null;
+    }
+  }
+  return (
+    <MessageCard
+      key={message.id}
+      message={message}
+      onExpandMessage={onExpandMessage}
+      onShowRawContent={onShowRawContent}
+      onEditMessage={onEditMessage}
+    />
+  );
+};
 
 export function SamplePreview({
   projectId,
@@ -38,6 +62,7 @@ export function SamplePreview({
   const [currentSampleIndex, setCurrentSampleIndex] = useState(
     initialSampleIndex || 1,
   );
+  const { user } = useAuth();
 
   // Update currentSampleIndex when initialSampleIndex changes
   useEffect(() => {
@@ -186,6 +211,48 @@ export function SamplePreview({
     },
   });
 
+  // Approve line item mutation
+  const rejectMutation = useMutation({
+    mutationFn: (lineItemId: number) => {
+      if (!sampleData?.data) {
+        throw new Error("No sample data available");
+      }
+
+      const lineMessages =
+        sampleData.data.line_messages?.map((message: LineItemMessageRead) => ({
+          id: message.id,
+          role: message.role,
+          content: processMessageContentForConfirm(message),
+        })) || [];
+
+      return projectsConfirmLineItem({
+        client,
+        headers,
+        path: {
+          project_id: projectId,
+          line_item_id: lineItemId,
+        },
+        body: {
+          line_messages: lineMessages,
+          tools: sampleData.data.tools || null,
+          feedback: null,
+          status: "REJECTED" as const,
+        },
+      });
+    },
+    onSuccess: () => {
+      // Invalidate and refetch sample data
+      queryClient.invalidateQueries({
+        queryKey: ["sample", projectId, currentSampleIndex],
+      });
+      // Invalidate line items table
+      queryClient.invalidateQueries({
+        queryKey: ["line-items", projectId],
+      });
+      toast.success("Từ chối sample thành công");
+    },
+  });
+
   const handlePrevious = () => {
     if (currentSampleIndex > 1) {
       isUserInteraction.current = true;
@@ -253,6 +320,12 @@ export function SamplePreview({
   const handleApprove = () => {
     if (sampleData?.data?.id) {
       approveMutation.mutate(sampleData.data.id);
+    }
+  };
+
+  const handleReject = () => {
+    if (sampleData?.data?.id) {
+      rejectMutation.mutate(sampleData.data.id);
     }
   };
 
@@ -329,10 +402,13 @@ export function SamplePreview({
           numSamples={numSamples}
           onPrevious={handlePrevious}
           onNext={handleNext}
+          status={sampleData?.data?.status ?? "UNLABELED"}
           onConfirm={handleConfirm}
           isConfirming={confirmMutation.isPending}
           onApprove={handleApprove}
           isApproving={approveMutation.isPending}
+          onReject={handleReject}
+          isRejecting={rejectMutation.isPending}
           isSwitching={isSwitchingSample}
         />
         <CardContent className="flex-1 overflow-y-auto p-6">
@@ -350,11 +426,13 @@ export function SamplePreview({
 
           {sampleData?.data && (
             <div className="space-y-4">
-              {/* Tools Section */}
-              <ToolsSection
-                tools={sampleData.data.tools || []}
-                onExpand={handleExpandTools}
-              />
+              {/* Tools Section - Only for superusers */}
+              {user?.is_superuser && (
+                <ToolsSection
+                  tools={sampleData.data.tools || []}
+                  onExpand={handleExpandTools}
+                />
+              )}
 
               {/* Messages Section */}
               <div>
@@ -371,15 +449,14 @@ export function SamplePreview({
                 </div>
                 <div className="space-y-4">
                   {sampleData.data.line_messages?.map(
-                    (message: LineItemMessageRead) => (
-                      <MessageCard
-                        key={message.id}
-                        message={message}
-                        onExpandMessage={handleExpandMessage}
-                        onShowRawContent={handleShowRawContent}
-                        onEditMessage={handleEditMessage}
-                      />
-                    ),
+                    (message: LineItemMessageRead) =>
+                      renderMessage(
+                        message,
+                        user?.is_superuser || false,
+                        handleExpandMessage,
+                        handleShowRawContent,
+                        handleEditMessage,
+                      ),
                   )}
                 </div>
               </div>

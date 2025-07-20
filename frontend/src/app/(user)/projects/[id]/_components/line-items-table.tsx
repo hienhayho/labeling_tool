@@ -12,11 +12,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -182,14 +183,10 @@ export function LineItemsTable({
       case "APPROVED":
         return <Badge variant="success">Đã duyệt</Badge>;
       case "REJECTED":
-        return <Badge variant="destructive">Lỗi</Badge>;
+        return <Badge variant="destructive">Từ chối</Badge>;
       default:
         return <Badge variant="outline">Không xác định</Badge>;
     }
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString("vi-VN");
   };
 
   if (isLoading) {
@@ -258,7 +255,7 @@ export function LineItemsTable({
                                       : key === "APPROVED"
                                         ? "Đã duyệt"
                                         : key === "REJECTED"
-                                          ? "Lỗi"
+                                          ? "Từ chối"
                                           : key,
                                 value: value,
                                 color:
@@ -326,7 +323,7 @@ export function LineItemsTable({
                                     : key === "APPROVED"
                                       ? "Đã duyệt"
                                       : key === "REJECTED"
-                                        ? "Lỗi"
+                                        ? "Từ chối"
                                         : key}
                               </div>
                             </div>
@@ -346,43 +343,18 @@ export function LineItemsTable({
               </DialogContent>
             </Dialog>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-[180px]">
-                  {status
-                    ? status === "UNLABELED"
-                      ? "Chờ xử lý"
-                      : status === "CONFIRMED"
-                        ? "Hoàn thành"
-                        : status === "REJECTED"
-                          ? "Lỗi"
-                          : status === "APPROVED"
-                            ? "Đã duyệt"
-                            : "Tất cả"
-                    : "Tất cả"}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => handleStatusChange("all")}>
-                  Tất cả
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleStatusChange("UNLABELED")}
-                >
-                  Chờ xử lý
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleStatusChange("CONFIRMED")}
-                >
-                  Hoàn thành
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleStatusChange("REJECTED")}
-                >
-                  Lỗi
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Select value={status || "all"} onValueChange={handleStatusChange}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Chọn trạng thái" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Tất cả</SelectItem>
+                <SelectItem value="UNLABELED">Chờ xử lý</SelectItem>
+                <SelectItem value="CONFIRMED">Hoàn thành</SelectItem>
+                <SelectItem value="APPROVED">Đã duyệt</SelectItem>
+                <SelectItem value="REJECTED">Từ chối</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
         </CardTitle>
       </CardHeader>
