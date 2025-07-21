@@ -315,15 +315,15 @@ export default function HomePage() {
             <div>
               <h4 className="font-semibold mb-4">Liên hệ</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>Email: support@labellingtool.com</li>
+                <li>Email: support@labelingtool.com</li>
                 <li>Phone: +84 123 456 789</li>
-                <li>Address: Hà Nội, Việt Nam</li>
+                <li>Address: Hồ Chí Minh, Việt Nam</li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Labelling Tool. All rights reserved.</p>
+            <p>&copy; 2025 Labeling Tool. All rights reserved.</p>
           </div>
         </div>
       </footer>
