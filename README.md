@@ -35,5 +35,7 @@ cp .env.example ./frontend/.env
 
 cd frontend/
 
+pnpm i --frozen-lockfile
+
 pnpm build && pnpm start
 ```
