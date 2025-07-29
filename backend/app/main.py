@@ -57,11 +57,11 @@ def get_db_session() -> Session:
     return next(session)
 
 
-def lifespan(app: FastAPI):  # noqa: ARG001
+async def lifespan(app: FastAPI):  # noqa: ARG001
     logger.info("Starting up...")
     session = get_db_session()
     Path(settings.TEMP_DOWNLOAD_FOLDER).mkdir(parents=True, exist_ok=True)
-    init_db(session)
+    await init_db(session)
     logger.info("Database initialized")
     asyncio.create_task(delete_old_files(60, 1, settings.TEMP_DOWNLOAD_FOLDER))
     yield

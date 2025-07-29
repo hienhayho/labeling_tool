@@ -1,2 +1,5 @@
 node_modules
 .next
+
+# Ignore .env file since we pass NEXT_PUBLIC_API_URL as an argument
+.env

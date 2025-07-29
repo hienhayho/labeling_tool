@@ -1,4 +1,7 @@
+from pathlib import Path
+
 from celery import Task
+from loguru import logger
 
 from app.api.deps import get_db_context
 from app.celery_app import celery_app
@@ -13,6 +16,7 @@ def extract_data(self: Task, url: str, file_path: str, project_id: int) -> None:
         meta={"type": "downloading", "content": "Downloading file from Google Drive"},
     )
 
+    logger.info(f"Downloading file from {url} to {file_path}...")
     download_file_from_gdrive(url, file_path)
 
     self.update_state(
@@ -20,6 +24,7 @@ def extract_data(self: Task, url: str, file_path: str, project_id: int) -> None:
         meta={"type": "extracting", "content": "Starting extraction process ..."},
     )
 
+    logger.info(f"Extracting data from {file_path}...")
     with get_db_context() as session:
         current = 0
 
@@ -57,6 +62,9 @@ def extract_data(self: Task, url: str, file_path: str, project_id: int) -> None:
         session.add(db_project)
         session.commit()
         session.refresh(db_project)
+
+    logger.info(f"Deleting file {file_path}...")
+    Path(file_path).unlink(missing_ok=True)
 
     self.update_state(
         state="SUCCESS",

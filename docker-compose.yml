@@ -1,0 +1,134 @@
+services:
+  traefik:
+    image: traefik:v3.0
+    container_name: traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080" # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - labeling_network
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql-db-production
+    env_file:
+      - .env.production
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD?variable_not_set}
+      - MYSQL_DATABASE=${MYSQL_DB?variable_not_set}
+      - MYSQL_USER=${MYSQL_APP_USER?variable_not_set}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD?variable_not_set}
+    volumes:
+      - ./volumes/mysql/data:/var/lib/mysql
+    networks:
+      - labeling_network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  redis:
+    image: redis:latest
+    container_name: redis-db-production
+    volumes:
+      - ./volumes/redis/data:/data
+    networks:
+      - labeling_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend-production
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    env_file:
+      - .env.production
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME?variable_not_set}
+      - MYSQL_SERVER=mysql
+      - BACKEND_CORS_ORIGINS=${BACKEND_CORS_ORIGINS?variable_not_set}
+      - MYSQL_PORT=${MYSQL_PORT?variable_not_set}
+      - MYSQL_APP_USER=${MYSQL_APP_USER?variable_not_set}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD?variable_not_set}
+      - MYSQL_DB=${MYSQL_DB?variable_not_set}
+      - FIRST_SUPERUSER=${FIRST_SUPERUSER?variable_not_set}
+      - FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD?variable_not_set}
+      - CELERY_BACKEND=${CELERY_BACKEND?variable_not_set}
+      - CELERY_BROKER_URL=${CELERY_BROKER_URL?variable_not_set}
+    command:
+      ["fastapi", "run", "app/main.py", "--host", "0.0.0.0", "--port", "8000"]
+    networks:
+      - labeling_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`api.${DOMAIN:-localhost}`) || PathPrefix(`/api`)"
+      - "traefik.http.routers.backend.entrypoints=web"
+      - "traefik.http.services.backend.loadbalancer.server.port=8000"
+
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: celery-production
+    depends_on:
+      backend:
+        condition: service_started
+      redis:
+        condition: service_healthy
+    env_file:
+      - .env.production
+    environment:
+      - PROJECT_NAME=${PROJECT_NAME?variable_not_set}
+      - MYSQL_SERVER=mysql
+      - MYSQL_PORT=${MYSQL_PORT?variable_not_set}
+      - MYSQL_APP_USER=${MYSQL_APP_USER?variable_not_set}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD?variable_not_set}
+      - MYSQL_DB=${MYSQL_DB?variable_not_set}
+      - FIRST_SUPERUSER=${FIRST_SUPERUSER?variable_not_set}
+      - FIRST_SUPERUSER_PASSWORD=${FIRST_SUPERUSER_PASSWORD?variable_not_set}
+      - CELERY_BACKEND=${CELERY_BACKEND?variable_not_set}
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    command: ["celery", "-A", "app.celery_app", "worker", "--loglevel=info"]
+    networks:
+      - labeling_network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://api.localhost}
+    container_name: frontend-production
+    depends_on:
+      backend:
+        condition: service_started
+    networks:
+      - labeling_network
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=Host(`${DOMAIN:-localhost}`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+
+networks:
+  labeling_network:
+    driver: bridge

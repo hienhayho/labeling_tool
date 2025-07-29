@@ -29,6 +29,8 @@ dependencies = [
     "redis>=6.2.0",
     "json-repair>=0.47.8",
     "cryptography>=45.0.5",
+    "asyncmy>=0.2.10",
+    "greenlet>=3.1.1",
 ]
 
 [tool.uv]

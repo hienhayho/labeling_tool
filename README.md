@@ -1,5 +1,19 @@
 # Conversational Labeling Tool
 
+## Quickstart
+
+**Run:**
+
+```bash
+chmod +x start-production.sh
+
+bash start-production.sh
+```
+
+You can now access `frontend` at [http://localhost](http://localhost). `Traefik` at [http://localhost:8000](http://localhost:8000)
+
+**(Optional)** Modify `DOMAIN`, `BACKEND_CORS_ORIGINS`, `NEXT_PUBLIC_API_URL` to your domain in [.env.production](./.env.production).
+
 ## Dev
 
 ```bash

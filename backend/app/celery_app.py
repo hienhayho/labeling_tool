@@ -1,9 +1,17 @@
 import os
+from pathlib import Path
 
 from celery import Celery
 from dotenv import load_dotenv
+from loguru import logger
+
+from app.core.config import settings
 
 load_dotenv()
+
+
+Path(settings.TEMP_DOWNLOAD_FOLDER).mkdir(parents=True, exist_ok=True)
+logger.info(f"Created temp download folder: {settings.TEMP_DOWNLOAD_FOLDER}")
 
 celery_app = Celery(
     "labelling_tools",
@@ -17,7 +25,7 @@ celery_app.conf.update(
     task_serializer="json",
     result_serializer="json",
     accept_content=["json"],
-    broker_transport_options={"global_keyprefix": "kb_chatbot_"},
+    broker_transport_options={"global_keyprefix": "labelling_tool_"},
     timezone="UTC",
     enable_utc=True,
 )

@@ -53,15 +53,31 @@ class Settings(BaseSettings):
     SENTRY_DSN: HttpUrl | None = None
     MYSQL_SERVER: str
     MYSQL_PORT: int = 3306
-    MYSQL_USER: str
     MYSQL_PASSWORD: str = ""
+    MYSQL_APP_USER: str = ""
     MYSQL_DB: str = ""
+
+    @property
+    def MYSQL_USER(self) -> str:
+        return self.MYSQL_APP_USER
 
     @computed_field  # type: ignore[prop-decorator]
     @property
     def SQLALCHEMY_DATABASE_URI(self) -> MySQLDsn:
         return MultiHostUrl.build(
             scheme="mysql+pymysql",
+            username=self.MYSQL_USER,
+            password=self.MYSQL_PASSWORD,
+            host=self.MYSQL_SERVER,
+            port=self.MYSQL_PORT,
+            path=self.MYSQL_DB,
+        )
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def SQLALCHEMY_DATABASE_URI_ASYNC(self) -> MySQLDsn:
+        return MultiHostUrl.build(
+            scheme="mysql+asyncmy",
             username=self.MYSQL_USER,
             password=self.MYSQL_PASSWORD,
             host=self.MYSQL_SERVER,
