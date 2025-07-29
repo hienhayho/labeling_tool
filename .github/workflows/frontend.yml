@@ -1,0 +1,59 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "frontend/**"
+      - ".github/workflows/frontend.yml"
+
+jobs:
+  build-frontend-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Frontend Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          push: false
+          tags: labelling-tool-frontend:${{ github.sha }}
+          build-args: |
+            NEXT_PUBLIC_API_URL=http://localhost:8000
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+      - name: Test Frontend Docker image build
+        run: |
+          docker images | grep labelling-tool-frontend
+
+      - name: Test Frontend container startup
+        run: |
+          # Run container in background
+          docker run -d --name frontend-test -p 3000:3000 \
+            -e NEXT_PUBLIC_API_URL=http://localhost:8000 \
+            labelling-tool-frontend:${{ github.sha }}
+
+          # Wait for container to be healthy
+          sleep 10
+
+          # Check if container is still running
+          docker ps | grep frontend-test
+
+          # Check logs
+          docker logs frontend-test
+
+          # Cleanup
+          docker stop frontend-test
+          docker rm frontend-test

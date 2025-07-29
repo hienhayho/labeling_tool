@@ -1,0 +1,129 @@
+name: Quickstart Integration Test
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - "docker-compose.yml"
+      - "start-production.sh"
+      - ".env.example"
+      - "backend/**"
+      - "frontend/**"
+      - ".github/workflows/quickstart.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "docker-compose.yml"
+      - "start-production.sh"
+      - ".env.example"
+      - "backend/**"
+      - "frontend/**"
+      - ".github/workflows/quickstart.yml"
+
+jobs:
+  test-quickstart:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Make start script executable
+        run: chmod +x start-production.sh
+
+      - name: Start services with quickstart script
+        run: |
+          bash ./start-production.sh
+
+      - name: Wait for services to be ready
+        run: |
+          echo "Waiting for services to start..."
+          sleep 30
+
+          # Check if containers are running
+          docker ps
+
+          # Check docker compose status
+          docker compose --env-file .env.production ps
+
+      - name: Test Backend API health
+        run: |
+          # Test backend is accessible
+          max_attempts=10
+          attempt=0
+
+          while [ $attempt -lt $max_attempts ]; do
+            if curl -f http://api.localhost/api/v1/utils/health-check; then
+              echo "Backend API is healthy"
+              break
+            fi
+
+            echo "Waiting for backend... (attempt $((attempt + 1))/$max_attempts)"
+            sleep 5
+            attempt=$((attempt + 1))
+          done
+
+          if [ $attempt -eq $max_attempts ]; then
+            echo "Backend failed to start"
+            docker compose --env-file .env.production logs backend
+            exit 1
+          fi
+
+      - name: Test Frontend accessibility
+        run: |
+          # Test frontend is accessible
+          max_attempts=10
+          attempt=0
+
+          while [ $attempt -lt $max_attempts ]; do
+            if curl -f http://localhost; then
+              echo "Frontend is accessible"
+              break
+            fi
+
+            echo "Waiting for frontend... (attempt $((attempt + 1))/$max_attempts)"
+            sleep 5
+            attempt=$((attempt + 1))
+          done
+
+          if [ $attempt -eq $max_attempts ]; then
+            echo "Frontend failed to start"
+            docker compose --env-file .env.production logs frontend
+            exit 1
+          fi
+
+      - name: Check all services are healthy
+        run: |
+          # List all running containers
+          echo "=== Running containers ==="
+          docker ps
+
+          # Check compose services status
+          echo "=== Compose services status ==="
+          docker compose --env-file .env.production ps
+
+          # Verify expected services are running
+          services=("backend" "frontend" "db")
+          for service in "${services[@]}"; do
+            if docker compose --env-file .env.production ps | grep -q "$service.*running"; then
+              echo "✓ $service is running"
+            else
+              echo "✗ $service is not running"
+              docker compose --env-file .env.production logs $service
+              exit 1
+            fi
+          done
+
+      - name: Show logs on failure
+        if: failure()
+        run: |
+          echo "=== Docker Compose Logs ==="
+          docker compose --env-file .env.production logs
+
+          echo "=== Docker ps -a ==="
+          docker ps -a
+
+      - name: Cleanup
+        if: always()
+        run: |
+          docker compose --env-file .env.production down -v
+          rm -f .env.production
