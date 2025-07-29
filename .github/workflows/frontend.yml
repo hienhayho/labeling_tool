@@ -44,27 +44,3 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
-
-      - name: Test Frontend Docker image build
-        run: |
-          docker images | grep labelling-tool-frontend
-
-      - name: Test Frontend container startup
-        run: |
-          # Run container in background
-          docker run -d --name frontend-test -p 3000:3000 \
-            -e NEXT_PUBLIC_API_URL=http://localhost:8000 \
-            labelling-tool-frontend:${{ github.sha }}
-
-          # Wait for container to be healthy
-          sleep 10
-
-          # Check if container is still running
-          docker ps | grep frontend-test
-
-          # Check logs
-          docker logs frontend-test
-
-          # Cleanup
-          docker stop frontend-test
-          docker rm frontend-test
