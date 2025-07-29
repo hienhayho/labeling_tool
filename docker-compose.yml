@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:v3.0
+    image: traefik:v3.5
     container_name: traefik
     command:
       - "--api.insecure=true"
@@ -8,6 +8,7 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
       - "--entrypoints.websecure.address=:443"
+      - "--ping"
     ports:
       - "80:80"
       - "443:443"
@@ -16,6 +17,11 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - labeling_network
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   mysql:
     image: mysql:latest
@@ -58,7 +64,7 @@ services:
       mysql:
         condition: service_healthy
       redis:
-        condition: service_started
+        condition: service_healthy
     env_file:
       - .env.production
     environment:
@@ -82,6 +88,13 @@ services:
       - "traefik.http.routers.backend.rule=Host(`api.${DOMAIN:-localhost}`) || PathPrefix(`/api`)"
       - "traefik.http.routers.backend.entrypoints=web"
       - "traefik.http.services.backend.loadbalancer.server.port=8000"
+    healthcheck:
+      test:
+        ["CMD", "curl", "-f", "http://localhost:8000/api/v1/utils/health-check"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   celery:
     build:
@@ -90,7 +103,7 @@ services:
     container_name: celery-production
     depends_on:
       backend:
-        condition: service_started
+        condition: service_healthy
       redis:
         condition: service_healthy
     env_file:
@@ -110,6 +123,12 @@ services:
     command: ["celery", "-A", "app.celery_app", "worker", "--loglevel=info"]
     networks:
       - labeling_network
+    healthcheck:
+      test: ["CMD", "celery", "-A", "app.celery_app", "inspect", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   frontend:
     build:
@@ -120,7 +139,7 @@ services:
     container_name: frontend-production
     depends_on:
       backend:
-        condition: service_started
+        condition: service_healthy
     networks:
       - labeling_network
     labels:
@@ -128,6 +147,18 @@ services:
       - "traefik.http.routers.frontend.rule=Host(`${DOMAIN:-localhost}`)"
       - "traefik.http.routers.frontend.entrypoints=web"
       - "traefik.http.services.frontend.loadbalancer.server.port=3000"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1); })",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
 networks:
   labeling_network:
