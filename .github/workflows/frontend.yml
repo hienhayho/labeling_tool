@@ -19,6 +19,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Verify frontend structure
+        run: |
+          # Check if required directories exist
+          test -d frontend/src/lib || (echo "Missing frontend/src/lib directory" && exit 1)
+          test -f frontend/tsconfig.json || (echo "Missing tsconfig.json" && exit 1)
+
+          # Verify tsconfig has baseUrl for path resolution
+          if ! grep -q '"baseUrl"' frontend/tsconfig.json; then
+            echo "WARNING: tsconfig.json missing baseUrl - this may cause build issues"
+          fi
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
