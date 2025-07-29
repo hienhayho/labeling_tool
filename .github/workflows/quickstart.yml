@@ -6,7 +6,7 @@ on:
     paths:
       - "docker-compose.yml"
       - "start-production.sh"
-      - ".env.example"
+      - ".env.production"
       - "backend/**"
       - "frontend/**"
       - ".github/workflows/quickstart.yml"
@@ -15,7 +15,7 @@ on:
     paths:
       - "docker-compose.yml"
       - "start-production.sh"
-      - ".env.example"
+      - ".env.production"
       - "backend/**"
       - "frontend/**"
       - ".github/workflows/quickstart.yml"
