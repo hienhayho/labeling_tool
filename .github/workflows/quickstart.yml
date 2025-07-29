@@ -102,12 +102,12 @@ jobs:
           docker compose --env-file .env.production ps
 
           # Verify expected services are running
-          services=("backend" "frontend" "db")
+          services=("backend" "frontend" "db" "redis" "traefik" "celery")
           for service in "${services[@]}"; do
-            if docker compose --env-file .env.production ps | grep -q "$service.*running"; then
-              echo "✓ $service is running"
+            if docker compose --env-file .env.production ps | grep -q "$service.*healthy"; then
+              echo "✓ $service is healthy"
             else
-              echo "✗ $service is not running"
+              echo "✗ $service is not healthy"
               docker compose --env-file .env.production logs $service
               exit 1
             fi
@@ -126,4 +126,3 @@ jobs:
         if: always()
         run: |
           docker compose --env-file .env.production down -v
-          rm -f .env.production
