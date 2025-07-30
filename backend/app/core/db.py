@@ -41,7 +41,7 @@ async def init_db(session: Session) -> None:
 
     try:
         statement = select(User).limit(1)
-        result = await session.exec(statement)  # noqa: F841
+        result = session.exec(statement)  # noqa: F841
 
     except Exception:
         # If table doesn't exist, create all tables
