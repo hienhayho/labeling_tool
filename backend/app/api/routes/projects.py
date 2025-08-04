@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import polars as pl
-from celery.result import AsyncResult
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import FileResponse
 from loguru import logger
@@ -11,7 +10,6 @@ from app.api.deps import (
     SessionDep,
     get_current_active_superuser,
 )
-from app.celery_app import celery_app
 from app.core.config import settings
 from app.crud.projects import (
     assign_task,
@@ -69,16 +67,13 @@ def create_project_route(
 
 
 @router.get("/{project_id}/status", response_model=ProjectStatus)
-def get_project_status(project_id: int, session: SessionDep):
+def get_project_status_route(project_id: int, session: SessionDep):
     project = get_project_by_id(session=session, project_id=project_id)
     if not project:
         raise HTTPException(status_code=404, detail="Project not found")
 
-    task_id = project.task_id
-    task = AsyncResult(task_id, app=celery_app)
-
-    state = task.state
-    info = task.info
+    state = project.status
+    info = project.info
     num_samples = len(project.line_items)
     num_task_assigned = len(project.tasks)
     num_task_not_assigned = num_samples - num_task_assigned

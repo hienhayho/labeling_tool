@@ -92,6 +92,7 @@ class Project(ProjectBase, table=True):
     id: int = Field(primary_key=True, sa_column_kwargs={"autoincrement": True})
     task_id: str | None = Field(default=None, max_length=255)
     status: str | None = Field(default=None, max_length=255)
+    info: dict | None = Field(default=None, sa_column=Column(JSON))
     owner_id: int = Field(foreign_key="user.id", nullable=False, ondelete="CASCADE")
     owner: User = Relationship(back_populates="projects")
     line_items: list["LineItem"] = Relationship(

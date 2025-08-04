@@ -132,7 +132,13 @@ def download_file_from_gdrive(url: str, output_path: str) -> None:
 
 def extract_data_from_jsonl(
     file_path: Path,
-) -> Generator[tuple[LineItemBase, list[LineItemMessageBase]], None, None]:
+) -> Generator[tuple[LineItemBase, list[LineItemMessageBase], int], None, None]:
+    """
+    Yields:
+        - item_base: LineItemBase
+        - line_messages: list[LineItemMessageBase]
+        - total (int): total number of lines in the file
+    """
     df = pl.read_ndjson(file_path)
     total = len(df)
     for row in tqdm(df.iter_rows(named=True), total=total):

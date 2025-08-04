@@ -23,3 +23,5 @@ echo "  - Traefik Dashboard: http://localhost:8080"
 echo ""
 echo "To view logs: docker logs -f [container_name]"
 echo "To stop services: docker compose --env-file .env.production down"
+
+docker compose --env-file .env.production logs -f
