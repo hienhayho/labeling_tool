@@ -719,6 +719,35 @@ export const LineItemConfirmRequestSchema = {
     title: 'LineItemConfirmRequest'
 } as const;
 
+export const LineItemMessageUpdateRequestSchema = {
+    properties: {
+        role: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Role'
+        },
+        content: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Content'
+        }
+    },
+    type: 'object',
+    title: 'LineItemMessageUpdateRequest'
+} as const;
+
 export const LineItemMessageReadSchema = {
     properties: {
         line_message_index: {

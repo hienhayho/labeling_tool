@@ -220,6 +220,11 @@ class LineItemConfirmRequest(SQLModel):
     status: LineItemStatus = LineItemStatus.CONFIRMED
 
 
+class LineItemMessageUpdateRequest(SQLModel):
+    role: str | None = None
+    content: str | None = None
+
+
 class LineItemMessage(LineItemMessageBase, table=True):
     __tablename__ = "line_item_message"
     id: int = Field(primary_key=True, sa_column_kwargs={"autoincrement": True})

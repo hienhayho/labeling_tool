@@ -1,8 +1,8 @@
 "use client";
 
 import { useAuth } from "@/contexts/auth-context";
-import DashboardAdminPage from "./_components/admin";
-import DashboardUserPage from "./_components/user";
+import DashboardAdminPage from "@/components/dashboard/admin";
+import DashboardUserPage from "@/components/dashboard/user";
 
 export default function DashboardPage() {
   const { user } = useAuth();

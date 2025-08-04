@@ -1,5 +1,5 @@
-import UserAuthForm from "./user-auth-form";
 import { cn } from "@/lib/utils";
+import UserAuthForm from "./user-auth-form";
 
 export default function SignInViewPage() {
   return (

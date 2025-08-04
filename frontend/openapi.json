@@ -1064,6 +1064,66 @@
           }
         }
       }
+    },
+    "/api/v1/projects/{project_id}/update/{line_item_message_id}": {
+      "post": {
+        "tags": ["projects"],
+        "summary": "Update Line Item Message",
+        "description": "Update a line item message with new content and role.",
+        "operationId": "projects-update_line_item_message",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          },
+          {
+            "name": "line_item_message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Line Item Message Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LineItemMessageUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LineItemMessageRead"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1587,6 +1647,20 @@
         "type": "object",
         "required": ["line_messages", "status"],
         "title": "LineItemConfirmRequest"
+      },
+      "LineItemMessageUpdateRequest": {
+        "properties": {
+          "role": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Role"
+          },
+          "content": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "title": "LineItemMessageUpdateRequest"
       },
       "LineItemMessageRead": {
         "properties": {

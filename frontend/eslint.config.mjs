@@ -18,12 +18,12 @@ const eslintConfig = [
   },
   {
     ignores: [
-      "src/client/**/*.gen.ts",
-      "src/client/**/*.gen.tsx",
-      "src/client/client/client.ts",
-      "src/client/client/types.ts",
-      "src/client/core/bodySerializer.ts",
-      "src/client/transformers.gen.ts",
+      "./src/client/**/*.gen.ts",
+      "./src/client/**/*.gen.tsx",
+      "./src/client/client/client.ts",
+      "./src/client/client/types.ts",
+      "./src/client/core/bodySerializer.ts",
+      "./src/client/transformers.gen.ts",
       ".next",
     ],
   },

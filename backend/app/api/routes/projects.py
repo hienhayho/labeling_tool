@@ -23,10 +23,12 @@ from app.crud.projects import (
     get_projects_dashboard,
     get_projects_dashboard_user,
     get_user_task_summary_in_project,
+    update_line_item_message,
 )
 from app.models import (
     AssignTaskRequest,
     LineItemConfirmRequest,
+    LineItemMessageUpdateRequest,
     LineItemRead,
     LineItemsPublic,
     LineItemStatus,
@@ -187,6 +189,21 @@ def get_dashboard_admin(session: SessionDep):
 @router.get("/dashboard_user")
 def get_dashboard_user(session: SessionDep, current_user: CurrentUser):
     return get_projects_dashboard_user(session=session, current_user=current_user)
+
+
+@router.post("/{project_id}/update/{line_item_message_id}")
+def update_line_item_message_route(
+    project_id: int,
+    line_item_message_id: int,
+    line_item_message_update_request: LineItemMessageUpdateRequest,
+    session: SessionDep,
+):
+    return update_line_item_message(
+        session=session,
+        project_id=project_id,
+        line_item_message_id=line_item_message_id,
+        line_item_message_update_request=line_item_message_update_request,
+    )
 
 
 @router.post(

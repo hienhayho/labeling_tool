@@ -16,9 +16,9 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { projectsGetProjectStatus } from "@/client";
 import { useApi } from "@/hooks/use-api";
-import { SamplesView } from "./_components/samples-view";
-import { ProjectUsers } from "./_components/project-users";
-import { DownloadDialog } from "./_components/download-dialog";
+import { SamplesView } from "@/components/projects/samples-view";
+import { ProjectUsers } from "@/components/projects/project-users";
+import { DownloadDialog } from "@/components/projects/download-dialog";
 
 export default function ProjectDetailPage() {
   const params = useParams();

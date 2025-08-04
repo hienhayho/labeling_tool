@@ -62,8 +62,8 @@ async def lifespan(app: FastAPI):  # noqa: ARG001
     session = get_db_session()
     Path(settings.TEMP_DOWNLOAD_FOLDER).mkdir(parents=True, exist_ok=True)
     await init_db(session)
-    logger.info("Database initialized")
-    asyncio.create_task(delete_old_files(60, 1, settings.TEMP_DOWNLOAD_FOLDER))
+    logger.success("Database initialized")
+    asyncio.create_task(delete_old_files(60, 5, settings.TEMP_DOWNLOAD_FOLDER))
     yield
 
 

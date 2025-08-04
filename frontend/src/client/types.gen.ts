@@ -427,6 +427,20 @@ export type LineItemConfirmRequest = {
 };
 
 /**
+ * LineItemMessageUpdateRequest
+ */
+export type LineItemMessageUpdateRequest = {
+    /**
+     * Role
+     */
+    role?: string | null;
+    /**
+     * Content
+     */
+    content?: string | null;
+};
+
+/**
  * LineItemMessageRead
  */
 export type LineItemMessageRead = {
@@ -1388,6 +1402,40 @@ export type ProjectsConfirmLineItemResponses = {
 };
 
 export type ProjectsConfirmLineItemResponse = ProjectsConfirmLineItemResponses[keyof ProjectsConfirmLineItemResponses];
+
+export type ProjectsUpdateLineItemMessageData = {
+    body: LineItemMessageUpdateRequest;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: number;
+        /**
+         * Line Item Message Id
+         */
+        line_item_message_id: number;
+    };
+    query?: never;
+    url: '/api/v1/projects/{project_id}/update/{line_item_message_id}';
+};
+
+export type ProjectsUpdateLineItemMessageErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ProjectsUpdateLineItemMessageError = ProjectsUpdateLineItemMessageErrors[keyof ProjectsUpdateLineItemMessageErrors];
+
+export type ProjectsUpdateLineItemMessageResponses = {
+    /**
+     * Successful Response
+     */
+    200: LineItemMessageRead;
+};
+
+export type ProjectsUpdateLineItemMessageResponse = ProjectsUpdateLineItemMessageResponses[keyof ProjectsUpdateLineItemMessageResponses];
 
 export type ClientOptions = {
     baseUrl: `${string}://${string}` | (string & {});

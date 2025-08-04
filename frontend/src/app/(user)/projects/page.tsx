@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { projectsDeleteProject, projectsGetOwnProjects } from "@/client";
 import { useApi } from "@/hooks/use-api";
-import { CreateProjectDialog } from "./_components/create-project-dialog";
+import { CreateProjectDialog } from "@/components/projects/create-project-dialog";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import toast from "react-hot-toast";

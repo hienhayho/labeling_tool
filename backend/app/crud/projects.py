@@ -12,6 +12,7 @@ from app.models import (
     LineItem,
     LineItemConfirmRequest,
     LineItemMessage,
+    LineItemMessageUpdateRequest,
     LineItemStatus,
     Project,
     ProjectCreate,
@@ -407,3 +408,30 @@ def get_project_for_download(
             }
         )
     return results
+
+
+def update_line_item_message(
+    *,
+    session: Session,
+    project_id: int,
+    line_item_message_id: int,
+    line_item_message_update_request: LineItemMessageUpdateRequest,
+) -> None:
+    line_item_message = session.exec(
+        select(LineItemMessage)
+        .where(
+            LineItemMessage.id == line_item_message_id,
+        )
+        .join(LineItem, LineItemMessage.line_item_id == LineItem.id)
+        .where(LineItem.project_id == project_id)
+    ).first()
+    if not line_item_message:
+        raise HTTPException(status_code=400, detail="Line item message not found")
+    if line_item_message_update_request.role:
+        line_item_message.role = line_item_message_update_request.role
+    if line_item_message_update_request.content:
+        line_item_message.content = line_item_message_update_request.content
+    session.add(line_item_message)
+    session.commit()
+    session.refresh(line_item_message)
+    return line_item_message

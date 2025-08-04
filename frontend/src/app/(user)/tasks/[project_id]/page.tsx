@@ -8,7 +8,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useApi } from "@/hooks/use-api";
 import { projectsGetProjectStatus } from "@/client";
-import { TasksView } from "./_components";
+import { TasksView } from "@/components/tasks/tasks-view";
 import { useAuth } from "@/contexts/auth-context";
 
 export default function TasksPage() {

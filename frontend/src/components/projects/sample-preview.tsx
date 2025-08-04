@@ -9,6 +9,7 @@ import { useApi } from "@/hooks/use-api";
 import {
   projectsGetSampleByIndex,
   projectsConfirmLineItem,
+  projectsUpdateLineItemMessage,
   LineItemMessageRead,
 } from "@/client";
 import { processMessageContentForConfirm } from "./sample-utils";
@@ -253,6 +254,39 @@ export function SamplePreview({
     },
   });
 
+  // Update line item message mutation
+  const updateMessageMutation = useMutation({
+    mutationFn: (data: {
+      messageId: number;
+      role: string;
+      content: string;
+    }) => {
+      return projectsUpdateLineItemMessage({
+        client,
+        headers,
+        path: {
+          project_id: projectId,
+          line_item_message_id: data.messageId,
+        },
+        body: {
+          role: data.role,
+          content: data.content,
+        },
+      });
+    },
+    onSuccess: () => {
+      // Invalidate and refetch sample data
+      queryClient.invalidateQueries({
+        queryKey: ["sample", projectId, currentSampleIndex],
+      });
+      toast.success("Đã cập nhật tin nhắn thành công");
+    },
+    onError: (error) => {
+      toast.error("Có lỗi xảy ra khi cập nhật tin nhắn");
+      console.error("Error updating message:", error);
+    },
+  });
+
   const handlePrevious = () => {
     if (currentSampleIndex > 1) {
       isUserInteraction.current = true;
@@ -334,7 +368,7 @@ export function SamplePreview({
     setIsEditDialogOpen(true);
   };
 
-  const handleSaveEditedMessage = (updatedMessage: {
+  const handleSaveEditedMessage = async (updatedMessage: {
     id: number;
     role: string;
     thinkContent: string;
@@ -351,27 +385,15 @@ export function SamplePreview({
       newContent = updatedMessage.originalContent;
     }
 
-    // Cập nhật message trong sample data
-    if (sampleData?.data?.line_messages) {
-      const updatedMessages = sampleData.data.line_messages.map((msg) =>
-        msg.id === updatedMessage.id
-          ? { ...msg, role: updatedMessage.role, content: newContent }
-          : msg,
-      );
-
-      // Cập nhật cache
-      queryClient.setQueryData(["sample", projectId, currentSampleIndex], {
-        ...sampleData,
-        data: {
-          ...sampleData.data,
-          line_messages: updatedMessages,
-        },
-      });
-    }
+    // Call API to update the message
+    updateMessageMutation.mutate({
+      messageId: updatedMessage.id,
+      role: updatedMessage.role,
+      content: newContent,
+    });
 
     setIsEditDialogOpen(false);
     setEditingMessage(null);
-    toast.success("Đã cập nhật tin nhắn thành công");
   };
 
   const handleCloseEditDialog = () => {

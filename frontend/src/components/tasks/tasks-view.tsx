@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useApi } from "@/hooks/use-api";
 import { projectsGetProjectStatus, projectsGetLineItems } from "@/client";
-import { LineItemsTable } from "@/app/(user)/projects/[id]/_components/line-items-table";
-import { SamplePreview } from "@/app/(user)/projects/[id]/_components/sample-preview";
+import { LineItemsTable } from "@/components/projects/line-items-table";
+import { SamplePreview } from "@/components/projects/sample-preview";
 
 interface TasksViewProps {
   projectId: number;

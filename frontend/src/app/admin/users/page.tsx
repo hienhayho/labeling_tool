@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import { UsersTable } from "./_components/users-table";
-import { UserDialog } from "./_components/user-dialog";
+import { UsersTable } from "@/components/admin/users-table";
+import { UserDialog } from "@/components/admin/user-dialog";
 import { useApi } from "@/hooks/use-api";
 import { UserPublic, UserCreate, UserUpdate } from "@/client/types.gen";
 import {

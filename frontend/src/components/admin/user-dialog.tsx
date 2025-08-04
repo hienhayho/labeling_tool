@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { UserPublic, UserCreate, UserUpdate } from "@/client/types.gen";
+import { UserPublic } from "@/client/types.gen";
 
 const userSchema = z.object({
   email: z.string().email("Email không hợp lệ"),
