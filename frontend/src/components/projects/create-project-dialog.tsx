@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { toast } from "react-hot-toast";
 import { Plus, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   Dialog,
@@ -31,19 +32,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { projectsCreateProject } from "@/client";
 import { useApi } from "@/hooks/use-api";
 
-const formSchema = z.object({
-  name: z
-    .string()
-    .min(1, "Tên dự án là bắt buộc")
-    .max(255, "Tên dự án không được quá 255 ký tự"),
-  description: z.string().max(255, "Mô tả không được quá 255 ký tự").optional(),
-  url: z
-    .string()
-    .url("URL không hợp lệ")
-    .max(255, "URL không được quá 255 ký tự"),
-});
+const createFormSchema = (t: any) =>
+  z.object({
+    name: z
+      .string()
+      .min(1, t("project.projectNameRequired"))
+      .max(255, t("project.projectNameTooLong")),
+    description: z
+      .string()
+      .max(255, t("project.descriptionTooLong"))
+      .optional(),
+    url: z
+      .string()
+      .url(t("project.urlInvalid"))
+      .max(255, t("project.urlTooLong")),
+  });
 
-type FormData = z.infer<typeof formSchema>;
+type FormData = z.infer<ReturnType<typeof createFormSchema>>;
 
 interface CreateProjectDialogProps {
   children: React.ReactNode;
@@ -51,8 +56,10 @@ interface CreateProjectDialogProps {
 
 export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
   const [open, setOpen] = useState(false);
+  const t = useTranslations();
   const { client, headers } = useApi();
   const queryClient = useQueryClient();
+  const formSchema = createFormSchema(t);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -71,13 +78,13 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
         body: data,
       }),
     onSuccess: () => {
-      toast.success("Tạo dự án thành công!");
+      toast.success(t("project.createSuccess"));
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       setOpen(false);
       form.reset();
     },
     onError: (error: any) => {
-      toast.error(error.message || "Có lỗi xảy ra khi tạo dự án");
+      toast.error(error.message || t("project.createError"));
     },
   });
 
@@ -90,9 +97,9 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Tạo dự án mới</DialogTitle>
+          <DialogTitle>{t("project.createProject")}</DialogTitle>
           <DialogDescription>
-            Điền thông tin để tạo một dự án mới. Nhấn Lưu khi hoàn thành.
+            {t("project.createProjectDescription")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -102,9 +109,12 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Tên dự án *</FormLabel>
+                  <FormLabel>{t("project.projectName")} *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Nhập tên dự án..." {...field} />
+                    <Input
+                      placeholder={t("project.enterProjectName")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -115,10 +125,10 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Mô tả</FormLabel>
+                  <FormLabel>{t("common.description")}</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Nhập mô tả dự án..."
+                      placeholder={t("project.enterProjectDescription")}
                       className="resize-none"
                       {...field}
                     />
@@ -132,7 +142,7 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
               name="url"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>URL Google Drive *</FormLabel>
+                  <FormLabel>{t("project.googleDriveUrl")} *</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="https://drive.google.com/..."
@@ -150,18 +160,18 @@ export function CreateProjectDialog({ children }: CreateProjectDialogProps) {
                 onClick={() => setOpen(false)}
                 disabled={createProjectMutation.isPending}
               >
-                Hủy
+                {t("common.cancel")}
               </Button>
               <Button type="submit" disabled={createProjectMutation.isPending}>
                 {createProjectMutation.isPending ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Đang tạo...
+                    {t("project.creating")}
                   </>
                 ) : (
                   <>
                     <Plus className="mr-2 h-4 w-4" />
-                    Tạo dự án
+                    {t("project.createProject")}
                   </>
                 )}
               </Button>

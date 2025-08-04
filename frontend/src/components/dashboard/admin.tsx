@@ -23,6 +23,7 @@ import {
 } from "recharts";
 import { useApi } from "@/hooks/use-api";
 import { projectsGetDashboard } from "@/client";
+import { useTranslations } from "next-intl";
 import {
   Loader2,
   Users,
@@ -45,6 +46,7 @@ const STATUS_COLORS = ["#FFBB28", "#00C49F", "#0088FE", "#FF8042"];
 
 export default function DashboardAdminPage() {
   const { client, headers } = useApi();
+  const t = useTranslations();
 
   const {
     data: dashboardData,
@@ -67,7 +69,7 @@ export default function DashboardAdminPage() {
       <div className="container mx-auto p-6">
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-8 w-8 animate-spin" />
-          <span className="ml-2">Đang tải dữ liệu dashboard...</span>
+          <span className="ml-2">{t("errors.loading")}</span>
         </div>
       </div>
     );
@@ -78,11 +80,11 @@ export default function DashboardAdminPage() {
       <div className="container mx-auto p-6">
         <Card>
           <CardHeader>
-            <CardTitle>Lỗi</CardTitle>
+            <CardTitle>{t("errors.errorTitle")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-red-500 text-center py-8">
-              Có lỗi xảy ra khi tải dữ liệu dashboard: {error.message}
+              {t("errors.errorLoadingDashboard")}: {error.message}
             </div>
           </CardContent>
         </Card>
@@ -99,7 +101,7 @@ export default function DashboardAdminPage() {
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
-              <p className="text-gray-500">Chưa có dữ liệu thống kê.</p>
+              <p className="text-gray-500">{t("errors.noData")}</p>
             </div>
           </CardContent>
         </Card>
@@ -122,19 +124,19 @@ export default function DashboardAdminPage() {
   // Dữ liệu cho biểu đồ tổng quan
   const overviewData = [
     {
-      name: "Dự án",
+      name: t("dashboard.stats.projects"),
       value: totalProjects,
       icon: FileText,
       color: "#0088FE",
     },
     {
-      name: "Mẫu dữ liệu",
+      name: t("dashboard.stats.samples"),
       value: totalSamples,
       icon: FileText,
       color: "#00C49F",
     },
     {
-      name: "Người dùng",
+      name: t("dashboard.stats.users"),
       value: totalUsers,
       icon: Users,
       color: "#FFBB28",
@@ -146,25 +148,25 @@ export default function DashboardAdminPage() {
     .flatMap((project) =>
       project.user_task_summary.flatMap((user) => [
         {
-          name: "Chờ xử lý",
+          name: t("status.pending"),
           value: user.unlabeled,
           project: project.project_name,
           user: user.full_name,
         },
         {
-          name: "Hoàn thành",
+          name: t("status.confirmed"),
           value: user.confirmed,
           project: project.project_name,
           user: user.full_name,
         },
         {
-          name: "Đã duyệt",
+          name: t("status.completed"),
           value: user.approved,
           project: project.project_name,
           user: user.full_name,
         },
         {
-          name: "Lỗi",
+          name: t("status.rejected"),
           value: user.rejected,
           project: project.project_name,
           user: user.full_name,
@@ -205,11 +207,12 @@ export default function DashboardAdminPage() {
 
     return {
       name: project.project_name,
-      "Tổng số": totalTasks,
-      "Hoàn thành": totalConfirmed,
-      "Đã duyệt": totalApproved,
-      Lỗi: totalRejected,
-      "Chờ xử lý": totalTasks - totalConfirmed - totalApproved - totalRejected,
+      [t("dashboard.stats.total")]: totalTasks,
+      [t("status.confirmed")]: totalConfirmed,
+      [t("status.completed")]: totalApproved,
+      [t("status.rejected")]: totalRejected,
+      [t("status.pending")]:
+        totalTasks - totalConfirmed - totalApproved - totalRejected,
     };
   });
 
@@ -217,11 +220,11 @@ export default function DashboardAdminPage() {
   const userData = dashboardData.data.flatMap((project) =>
     project.user_task_summary.map((user) => ({
       name: user.full_name,
-      "Tổng số": user.task_count,
-      "Hoàn thành": user.confirmed,
-      "Đã duyệt": user.approved,
-      Lỗi: user.rejected,
-      "Chờ xử lý": user.unlabeled,
+      [t("dashboard.stats.total")]: user.task_count,
+      [t("status.confirmed")]: user.confirmed,
+      [t("status.completed")]: user.approved,
+      [t("status.rejected")]: user.rejected,
+      [t("status.pending")]: user.unlabeled,
       project: project.project_name,
     })),
   );
@@ -240,9 +243,9 @@ export default function DashboardAdminPage() {
 
     return {
       name: project.project_name,
-      "Tiến độ (%)": Math.round(progress),
-      "Tổng số": totalTasks,
-      "Hoàn thành": completedTasks,
+      [t("dashboard.stats.progress")]: Math.round(progress),
+      [t("dashboard.stats.total")]: totalTasks,
+      [t("status.confirmed")]: completedTasks,
     };
   });
 
@@ -251,7 +254,7 @@ export default function DashboardAdminPage() {
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Dashboard</h1>
         <Badge variant="outline" className="text-sm">
-          Cập nhật tự động mỗi 30 giây
+          {t("charts.autoUpdateBadge")}
         </Badge>
       </div>
 
@@ -275,10 +278,14 @@ export default function DashboardAdminPage() {
       {/* Biểu đồ */}
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="overview">Tổng quan</TabsTrigger>
-          <TabsTrigger value="projects">Theo dự án</TabsTrigger>
-          <TabsTrigger value="users">Theo người dùng</TabsTrigger>
-          <TabsTrigger value="progress">Tiến độ</TabsTrigger>
+          <TabsTrigger value="overview">{t("dashboard.title")}</TabsTrigger>
+          <TabsTrigger value="projects">
+            {t("dashboard.tabs.byProject")}
+          </TabsTrigger>
+          <TabsTrigger value="users">{t("dashboard.tabs.byUser")}</TabsTrigger>
+          <TabsTrigger value="progress">
+            {t("dashboard.tabs.progress")}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -286,7 +293,7 @@ export default function DashboardAdminPage() {
             {/* Biểu đồ tròn - Trạng thái tổng hợp */}
             <Card>
               <CardHeader>
-                <CardTitle>Trạng thái tổng hợp</CardTitle>
+                <CardTitle>{t("dashboard.charts.overallStatus")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -319,7 +326,7 @@ export default function DashboardAdminPage() {
             {/* Biểu đồ cột - Số lượng mẫu theo dự án */}
             <Card>
               <CardHeader>
-                <CardTitle>Số lượng mẫu theo dự án</CardTitle>
+                <CardTitle>{t("charts.samplesPerProject")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -339,7 +346,7 @@ export default function DashboardAdminPage() {
         <TabsContent value="projects" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Thống kê theo dự án</CardTitle>
+              <CardTitle>{t("dashboard.charts.projectStats")}</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
@@ -349,10 +356,26 @@ export default function DashboardAdminPage() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="Chờ xử lý" stackId="a" fill="#FFBB28" />
-                  <Bar dataKey="Hoàn thành" stackId="a" fill="#00C49F" />
-                  <Bar dataKey="Đã duyệt" stackId="a" fill="#0088FE" />
-                  <Bar dataKey="Lỗi" stackId="a" fill="#FF8042" />
+                  <Bar
+                    dataKey={t("status.pending")}
+                    stackId="a"
+                    fill="#FFBB28"
+                  />
+                  <Bar
+                    dataKey={t("status.confirmed")}
+                    stackId="a"
+                    fill="#00C49F"
+                  />
+                  <Bar
+                    dataKey={t("status.completed")}
+                    stackId="a"
+                    fill="#0088FE"
+                  />
+                  <Bar
+                    dataKey={t("status.rejected")}
+                    stackId="a"
+                    fill="#FF8042"
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -362,7 +385,7 @@ export default function DashboardAdminPage() {
         <TabsContent value="users" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Thống kê theo người dùng</CardTitle>
+              <CardTitle>{t("dashboard.charts.userStats")}</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
@@ -372,10 +395,26 @@ export default function DashboardAdminPage() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="Chờ xử lý" stackId="a" fill="#FFBB28" />
-                  <Bar dataKey="Hoàn thành" stackId="a" fill="#00C49F" />
-                  <Bar dataKey="Đã duyệt" stackId="a" fill="#0088FE" />
-                  <Bar dataKey="Lỗi" stackId="a" fill="#FF8042" />
+                  <Bar
+                    dataKey={t("status.pending")}
+                    stackId="a"
+                    fill="#FFBB28"
+                  />
+                  <Bar
+                    dataKey={t("status.confirmed")}
+                    stackId="a"
+                    fill="#00C49F"
+                  />
+                  <Bar
+                    dataKey={t("status.completed")}
+                    stackId="a"
+                    fill="#0088FE"
+                  />
+                  <Bar
+                    dataKey={t("status.rejected")}
+                    stackId="a"
+                    fill="#FF8042"
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -387,7 +426,7 @@ export default function DashboardAdminPage() {
             {/* Biểu đồ đường - Tiến độ */}
             <Card>
               <CardHeader>
-                <CardTitle>Tiến độ hoàn thành</CardTitle>
+                <CardTitle>{t("dashboard.charts.progressChart")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -398,7 +437,7 @@ export default function DashboardAdminPage() {
                     <Tooltip />
                     <Line
                       type="monotone"
-                      dataKey="Tiến độ (%)"
+                      dataKey={t("dashboard.stats.progress")}
                       stroke="#8884d8"
                       strokeWidth={2}
                     />
@@ -410,7 +449,7 @@ export default function DashboardAdminPage() {
             {/* Biểu đồ vùng - So sánh hoàn thành */}
             <Card>
               <CardHeader>
-                <CardTitle>So sánh hoàn thành</CardTitle>
+                <CardTitle>{t("charts.comparisonComplete")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -421,14 +460,14 @@ export default function DashboardAdminPage() {
                     <Tooltip />
                     <Area
                       type="monotone"
-                      dataKey="Tổng số"
+                      dataKey={t("dashboard.stats.total")}
                       stackId="1"
                       stroke="#8884d8"
                       fill="#8884d8"
                     />
                     <Area
                       type="monotone"
-                      dataKey="Hoàn thành"
+                      dataKey={t("status.confirmed")}
                       stackId="1"
                       stroke="#82ca9d"
                       fill="#82ca9d"
@@ -444,7 +483,7 @@ export default function DashboardAdminPage() {
       {/* Chi tiết dự án */}
       <Card>
         <CardHeader>
-          <CardTitle>Chi tiết dự án</CardTitle>
+          <CardTitle>{t("charts.projectDetails")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -460,7 +499,7 @@ export default function DashboardAdminPage() {
                     </p>
                   </div>
                   <Badge variant="outline">
-                    {project.num_samples.toLocaleString()} mẫu
+                    {project.num_samples.toLocaleString()} {t("charts.samples")}
                   </Badge>
                 </div>
 
@@ -468,19 +507,19 @@ export default function DashboardAdminPage() {
                   {project.user_task_summary.map((user) => {
                     const pieData = [
                       {
-                        name: "Chờ xử lý",
+                        name: t("status.pending"),
                         value: user.unlabeled,
                       },
                       {
-                        name: "Hoàn thành",
+                        name: t("status.confirmed"),
                         value: user.confirmed,
                       },
                       {
-                        name: "Đã duyệt",
+                        name: t("status.completed"),
                         value: user.approved,
                       },
                       {
-                        name: "Lỗi",
+                        name: t("status.rejected"),
                         value: user.rejected,
                       },
                     ];
@@ -524,7 +563,7 @@ export default function DashboardAdminPage() {
                             <div className="flex items-center justify-between">
                               <span className="flex items-center">
                                 <Clock className="h-3 w-3 mr-1 text-yellow-500" />
-                                Chờ xử lý
+                                {t("status.pending")}
                               </span>
                               <span className="font-medium">
                                 {user.unlabeled}
@@ -533,7 +572,7 @@ export default function DashboardAdminPage() {
                             <div className="flex items-center justify-between">
                               <span className="flex items-center">
                                 <CheckCircle className="h-3 w-3 mr-1 text-green-500" />
-                                Hoàn thành
+                                {t("status.confirmed")}
                               </span>
                               <span className="font-medium">
                                 {user.confirmed}
@@ -542,7 +581,7 @@ export default function DashboardAdminPage() {
                             <div className="flex items-center justify-between">
                               <span className="flex items-center">
                                 <CheckCircle className="h-3 w-3 mr-1 text-blue-500" />
-                                Đã duyệt
+                                {t("status.completed")}
                               </span>
                               <span className="font-medium">
                                 {user.approved}
@@ -551,7 +590,7 @@ export default function DashboardAdminPage() {
                             <div className="flex items-center justify-between">
                               <span className="flex items-center">
                                 <AlertCircle className="h-3 w-3 mr-1 text-red-500" />
-                                Lỗi
+                                {t("status.rejected")}
                               </span>
                               <span className="font-medium">
                                 {user.rejected}

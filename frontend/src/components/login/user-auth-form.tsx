@@ -19,18 +19,18 @@ import type { BodyLoginLoginAccessToken } from "@/client/types.gen";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
-
-const formSchema = z.object({
-  username: z.string().email({ message: "Enter a valid email address" }),
-  password: z
-    .string()
-    .min(8, { message: "Password must be at least 8 characters" }),
-});
+import { useTranslations } from "next-intl";
 
 export default function UserAuthForm() {
   const [loading, startTransition] = useTransition();
+  const t = useTranslations();
 
   const { loginMutation } = useAuth();
+
+  const formSchema = z.object({
+    username: z.string().email({ message: t("validation.emailInvalid") }),
+    password: z.string().min(8, { message: t("validation.passwordMinLength") }),
+  });
 
   const defaultValues = {
     username: "",
@@ -62,7 +62,7 @@ export default function UserAuthForm() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="text-gray-700 dark:text-gray-300">
-                  Email
+                  {t("common.email")}
                 </FormLabel>
                 <FormControl>
                   <Input
@@ -92,13 +92,13 @@ export default function UserAuthForm() {
                 <FormItem>
                   <div className="flex items-center justify-between">
                     <FormLabel className="text-gray-700 dark:text-gray-300">
-                      Mật khẩu
+                      {t("auth.password")}
                     </FormLabel>
                     <Link
                       className="text-sm text-orange-600 hover:text-orange-500 dark:text-orange-400 dark:hover:text-orange-300 transition-colors duration-200"
                       href="/forgot-password"
                     >
-                      Quên mật khẩu?
+                      {t("auth.forgotPassword")}
                     </Link>
                   </div>
                   <FormControl>
@@ -133,7 +133,7 @@ export default function UserAuthForm() {
             type="submit"
           >
             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Đăng nhập
+            {loading ? t("auth.loggingIn") : t("auth.loginButton")}
           </Button>
         </form>
       </Form>

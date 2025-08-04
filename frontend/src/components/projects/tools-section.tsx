@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Maximize2 } from "lucide-react";
@@ -11,6 +12,7 @@ interface ToolsSectionProps {
 }
 
 export function ToolsSection({ tools, onExpand }: ToolsSectionProps) {
+  const t = useTranslations();
   if (!tools || tools.length === 0) {
     return null;
   }
@@ -18,10 +20,10 @@ export function ToolsSection({ tools, onExpand }: ToolsSectionProps) {
   return (
     <div className="mb-6">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-semibold">Công cụ có sẵn</h3>
+        <h3 className="text-lg font-semibold">{t("sample.availableTools")}</h3>
         <Button variant="outline" size="sm" onClick={onExpand}>
           <Maximize2 className="h-4 w-4 mr-2" />
-          Phóng to
+          {t("message.expand")}
         </Button>
       </div>
       <div className="space-y-2">

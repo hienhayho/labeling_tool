@@ -1,0 +1,386 @@
+{
+  "common": {
+    "add": "Thêm",
+    "edit": "Sửa",
+    "delete": "Xóa",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "back": "Quay lại",
+    "confirm": "Xác nhận",
+    "submit": "Gửi",
+    "search": "Tìm kiếm",
+    "home": "Trang chủ",
+    "loading": "Đang tải...",
+    "saving": "Đang lưu...",
+    "deleting": "Đang xóa...",
+    "confirming": "Đang xác nhận...",
+    "name": "Tên",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "description": "Mô tả",
+    "status": "Trạng thái",
+    "active": "Hoạt động",
+    "inactive": "Không hoạt động"
+  },
+  "auth": {
+    "login": "Đăng nhập",
+    "logout": "Đăng xuất",
+    "register": "Đăng ký",
+    "password": "Mật khẩu",
+    "forgotPassword": "Quên mật khẩu?",
+    "welcomeBack": "Chào mừng trở lại!",
+    "loginToContinue": "Đăng nhập để tiếp tục vào dashboard",
+    "loginButton": "Đăng nhập",
+    "loggingIn": "Đang đăng nhập...",
+    "rememberMe": "Ghi nhớ đăng nhập",
+    "orContinueWith": "Hoặc tiếp tục với",
+    "byContinuing": "Bằng việc tiếp tục, bạn đồng ý với",
+    "terms": "Điều khoản",
+    "and": "và",
+    "privacyPolicy": "Chính sách bảo mật",
+    "loginSuccess": "Đăng nhập thành công",
+    "signupSuccess": "Tạo tài khoản thành công"
+  },
+  "user": {
+    "addAccount": "Thêm tài khoản",
+    "editAccount": "Sửa tài khoản",
+    "addNewAccount": "Thêm tài khoản mới",
+    "fullName": "Tên",
+    "deleteSuccess": "Xóa người dùng thành công",
+    "confirmDelete": "Xác nhận xóa",
+    "confirmDeleteMessage": "Bạn có chắc chắn muốn xóa người dùng này?",
+    "passwordOptional": "(để trống nếu không thay đổi)",
+    "addUser": "Thêm user",
+    "title": "Quản lý tài khoản",
+    "subtitle": "Quản lý tài khoản trong hệ thống",
+    "createSuccess": "Tạo người dùng thành công",
+    "updateSuccess": "Cập nhật người dùng thành công",
+    "deleteError": "Có lỗi xảy ra khi xóa người dùng",
+    "createError": "Có lỗi xảy ra khi tạo người dùng",
+    "updateError": "Có lỗi xảy ra khi cập nhật người dùng",
+    "loadError": "Có lỗi xảy ra khi tải dữ liệu",
+    "loadErrorMessage": "Vui lòng thử lại sau hoặc liên hệ quản trị viên",
+    "confirmDeletePrompt": "Bạn có chắc chắn muốn xóa người dùng",
+    "confirmDeleteWarning": "Hành động này không thể hoàn tác.",
+    "showing": "Hiển thị",
+    "to": "đến",
+    "of": "trong tổng số",
+    "users": "người dùng",
+    "page": "Trang",
+    "previous": "Trước",
+    "next": "Sau",
+    "creating": "Đang tạo...",
+    "updating": "Đang cập nhật...",
+    "noName": "Chưa có tên",
+    "neverLoggedIn": "Chưa đăng nhập",
+    "updateAccountInfo": "Cập nhật thông tin tài khoản",
+    "createNewAccount": "Tạo tài khoản mới",
+    "namePlaceholder": "Nguyễn Văn A",
+    "adminPrivileges": "Quyền quản trị viên"
+  },
+  "project": {
+    "projectName": "Tên dự án",
+    "projectNameRequired": "Tên dự án là bắt buộc",
+    "projectNameTooLong": "Tên dự án không được quá 255 ký tự",
+    "descriptionTooLong": "Mô tả không được quá 255 ký tự",
+    "createProject": "Tạo dự án mới",
+    "createProjectDescription": "Điền thông tin để tạo một dự án mới. Nhấn Lưu khi hoàn thành.",
+    "deleteProject": "Xóa dự án",
+    "confirmDeleteProject": "Xác nhận xóa dự án",
+    "confirmDeleteProjectMessage": "Bạn có chắc chắn muốn xóa dự án",
+    "deleteSuccess": "Đã xóa dự án thành công!",
+    "deleteError": "Lỗi khi xóa dự án",
+    "loadError": "Có lỗi xảy ra khi tải danh sách dự án",
+    "createProjectToStart": "Tạo một dự án mới để bắt đầu",
+    "noDescription": "Không có mô tả",
+    "noProjects": "Bạn chưa có dự án nào",
+    "createFirstProject": "Tạo dự án đầu tiên",
+    "createSuccess": "Tạo dự án thành công!",
+    "createError": "Có lỗi xảy ra khi tạo dự án",
+    "urlInvalid": "URL không hợp lệ",
+    "urlTooLong": "URL không được quá 255 ký tự",
+    "enterProjectName": "Nhập tên dự án...",
+    "enterProjectDescription": "Nhập mô tả dự án...",
+    "googleDriveUrl": "URL Google Drive",
+    "creating": "Đang tạo...",
+    "projectDetails": "Chi tiết dự án",
+    "statusError": "Lỗi",
+    "loadDetailsError": "Có lỗi xảy ra khi tải thông tin dự án",
+    "detailedInfo": "Thông tin chi tiết",
+    "loadingStatus": "Đang tải trạng thái...",
+    "numSamples": "Số mẫu",
+    "activeUsers": "Users đang thực hiện",
+    "assignTaskToUser": "Assign task cho user",
+    "selectUser": "Chọn user",
+    "selectUserPlaceholder": "Chọn user...",
+    "maximum": "Tối đa",
+    "assignTask": "Assign Task",
+    "noUserAssigned": "Chưa có user nào được assign task",
+    "unassignedSamplesText": "Còn",
+    "unassignedSamplesUnit": "mẫu chưa được assign"
+  },
+  "sample": {
+    "confirmSample": "Xác nhận",
+    "confirmSuccess": "Xác nhận sample thành công",
+    "confirming": "Đang xác nhận...",
+    "confirm": "Xác nhận",
+    "approving": "Đang phê duyệt...",
+    "approve": "Phê duyệt",
+    "rejecting": "Đang từ chối...",
+    "reject": "Từ chối",
+    "approveSuccess": "Phê duyệt sample thành công",
+    "rejectSuccess": "Từ chối sample thành công",
+    "availableTools": "Công cụ có sẵn",
+    "conversation": "Cuộc hội thoại",
+    "waitToView": "Vui lòng đợi để xem các mẫu ...",
+    "loadError": "Có lỗi xảy ra khi tải mẫu",
+    "sampleId": "ID mẫu",
+    "index": "Index"
+  },
+  "message": {
+    "saveChanges": "Lưu thay đổi",
+    "thinkContent": "Phần suy luận (Think)",
+    "enterThinkContent": "Nhập phần suy luận...",
+    "thinkContentNote": "Phần suy luận sẽ được đặt trong thẻ <think>...</think>",
+    "mainContent": "Nội dung chính",
+    "enterMainContent": "Nhập nội dung chính...",
+    "preview": "Xem trước nội dung",
+    "noContent": "Chưa có nội dung",
+    "expand": "Phóng to",
+    "viewRawContent": "Xem raw content",
+    "rawContent": "Nội dung gốc",
+    "originalContent": "Nội dung gốc",
+    "thinking": "Suy nghĩ",
+    "updateSuccess": "Đã cập nhật tin nhắn thành công",
+    "updateError": "Có lỗi xảy ra khi cập nhật tin nhắn"
+  },
+  "file": {
+    "fileName": "Tên file"
+  },
+  "validation": {
+    "emailInvalid": "Email không hợp lệ",
+    "nameRequired": "Tên không được để trống",
+    "passwordMinLength": "Mật khẩu phải có ít nhất 8 ký tự"
+  },
+  "contact": {
+    "address": "Hồ Chí Minh, Việt Nam"
+  },
+  "navigation": {
+    "home": "Trang chủ",
+    "projects": "Quản lý dự án",
+    "users": "Quản lý tài khoản",
+    "mainFeatures": "CHỨC NĂNG CHÍNH",
+    "settings": "Cài đặt",
+    "support": "Hỗ trợ",
+    "logout": "Đăng xuất"
+  },
+  "sidebar": {
+    "title": "Labelling Tool",
+    "subtitle": "Tool dùng để tạo dữ liệu cho dự án"
+  },
+  "dashboard": {
+    "title": "Tổng quan",
+    "stats": {
+      "projects": "Dự án",
+      "samples": "Mẫu dữ liệu",
+      "users": "Người dùng",
+      "progress": "Tiến độ (%)",
+      "total": "Tổng số"
+    },
+    "tabs": {
+      "byProject": "Theo dự án",
+      "byUser": "Theo người dùng",
+      "progress": "Tiến độ",
+      "status": "Trạng thái"
+    },
+    "charts": {
+      "overallStatus": "Trạng thái tổng hợp",
+      "projectStats": "Thống kê theo dự án",
+      "userStats": "Thống kê theo người dùng",
+      "progressChart": "Tiến độ hoàn thành",
+      "progressByProject": "Tiến độ dự án"
+    }
+  },
+  "samples": {
+    "samplesList": "Danh sách mẫu",
+    "loadSuccess": "Tải dữ liệu thành công",
+    "loadError": "Có lỗi xảy ra khi tải danh sách",
+    "quantity": "Số lượng",
+    "total": "Tổng cộng",
+    "samples": "mẫu",
+    "selectStatus": "Chọn trạng thái",
+    "all": "Tất cả",
+    "numMessages": "Số tin nhắn",
+    "view": "Xem",
+    "showing": "Hiển thị",
+    "of": "trong số",
+    "page": "Trang",
+    "preview": "Xem trước mẫu",
+    "backToList": "Quay lại danh sách",
+    "viewSample": "Xem mẫu"
+  },
+  "status": {
+    "pending": "Chờ xử lý",
+    "confirmed": "Đã xác nhận",
+    "processing": "Đang xử lý",
+    "completed": "Hoàn thành",
+    "rejected": "Từ chối",
+    "active": "Hoạt động",
+    "inactive": "Không hoạt động",
+    "unknown": "Không xác định"
+  },
+  "table": {
+    "user": "Người dùng",
+    "status": "Trạng thái",
+    "action": "Hành động",
+    "actions": "Hành động",
+    "email": "Email",
+    "role": "Vai trò",
+    "createdAt": "Ngày tạo",
+    "updatedAt": "Ngày cập nhật",
+    "lastLogin": "Đăng nhập cuối"
+  },
+  "role": {
+    "user": "Người dùng",
+    "assistant": "Trợ lý",
+    "admin": "Quản trị viên",
+    "superuser": "Siêu quản trị",
+    "role": "Vai trò",
+    "selectRole": "Chọn vai trò",
+    "system": "Hệ thống",
+    "toolCall": "Gọi công cụ",
+    "toolResponse": "Phản hồi công cụ"
+  },
+  "dialog": {
+    "editMessage": "Chỉnh sửa tin nhắn",
+    "statusStats": "Thống kê trạng thái mẫu",
+    "statusToDownload": "Trạng thái cần tải",
+    "irreversibleAction": "Hành động này không thể hoàn tác",
+    "deleteProjectWarning": "Hành động này không thể hoàn tác và sẽ xóa vĩnh viễn tất cả dữ liệu liên quan đến dự án này.",
+    "userCanLogin": "Người dùng có thể đăng nhập"
+  },
+  "progress": {
+    "title": "Tiến độ",
+    "status": "Trạng thái xử lý",
+    "processing": "Đang xử lý",
+    "sampleData": "Dữ liệu mẫu"
+  },
+  "errors": {
+    "loading": "Đang tải dữ liệu dashboard...",
+    "errorTitle": "Lỗi",
+    "errorLoadingDashboard": "Có lỗi xảy ra khi tải dữ liệu dashboard",
+    "noData": "Chưa có dữ liệu thống kê.",
+    "errorOccurred": "Có lỗi xảy ra"
+  },
+  "charts": {
+    "comparisonComplete": "So sánh hoàn thành",
+    "projectDetails": "Chi tiết dự án",
+    "autoUpdateBadge": "Cập nhật tự động mỗi 30 giây",
+    "samples": "mẫu",
+    "tasks": "tasks",
+    "samplesPerProject": "Số lượng mẫu theo dự án"
+  },
+  "tasks": {
+    "loadProjectError": "Có lỗi xảy ra khi tải dự án",
+    "projectNotFound": "Không tìm thấy dự án",
+    "projectNotFoundMessage": "Dự án không tồn tại hoặc bạn không có quyền truy cập.",
+    "projectNotReady": "Dự án chưa sẵn sàng",
+    "projectNotActivated": "Dự án chưa được kích hoạt. Vui lòng chờ để bắt đầu làm việc."
+  },
+  "download": {
+    "success": "Tải xuống thành công!",
+    "error": "Lỗi tải xuống",
+    "selectStatusError": "Vui lòng chọn ít nhất một trạng thái",
+    "enterFileNameError": "Vui lòng nhập tên file",
+    "downloadData": "Tải dữ liệu",
+    "downloadProjectData": "Tải dữ liệu dự án",
+    "selectConfigDescription": "Chọn cấu hình để tải dữ liệu dự án dưới dạng file JSONL",
+    "limitOptional": "Giới hạn (tùy chọn)",
+    "leaveEmptyForAll": "Để trống để tải tất cả",
+    "leaveEmptyNote": "Để trống để tải tất cả dữ liệu",
+    "selectAll": "Chọn tất cả",
+    "deselectAll": "Bỏ chọn tất cả",
+    "downloading": "Đang tải xuống...",
+    "download": "Tải xuống"
+  },
+  "landing": {
+    "subtitle": "Công cụ gán nhãn dữ liệu AI",
+    "hero": {
+      "title": "Gán nhãn dữ liệu",
+      "highlight": "thông minh",
+      "description": "Công cụ mạnh mẽ giúp bạn gán nhãn dữ liệu hội thoại AI một cách hiệu quả và chính xác. Hỗ trợ đa người dùng, quản lý dự án và xuất dữ liệu dễ dàng.",
+      "ctaStart": "Bắt đầu ngay",
+      "ctaFeatures": "Xem tính năng"
+    },
+    "features": {
+      "title": "Tính năng nổi bật",
+      "subtitle": "Khám phá những tính năng mạnh mẽ giúp việc gán nhãn dữ liệu trở nên dễ dàng và hiệu quả",
+      "conversation": {
+        "title": "Gán nhãn theo đoạn hội thoại",
+        "description": "Gán nhãn từng tin nhắn trong cuộc hội thoại một cách chi tiết và có cấu trúc. Hỗ trợ đa vai trò (user, assistant) và định dạng đặc biệt."
+      },
+      "multiuser": {
+        "title": "Hỗ trợ đa người dùng",
+        "description": "Phân công công việc cho nhiều người dùng cùng lúc. Theo dõi tiến độ và chất lượng công việc của từng thành viên."
+      },
+      "project": {
+        "title": "Quản lý dự án",
+        "description": "Tạo và quản lý nhiều dự án gán nhãn. Theo dõi trạng thái, tiến độ và xuất dữ liệu dễ dàng."
+      },
+      "quality": {
+        "title": "Kiểm soát chất lượng",
+        "description": "Hệ thống phê duyệt và kiểm tra chất lượng. Đảm bảo dữ liệu được gán nhãn chính xác và nhất quán."
+      },
+      "analytics": {
+        "title": "Báo cáo và thống kê",
+        "description": "Dashboard thống kê chi tiết với biểu đồ trực quan. Theo dõi hiệu suất và tiến độ dự án theo thời gian thực."
+      },
+      "export": {
+        "title": "Xuất dữ liệu nhanh chóng",
+        "description": "Xuất dữ liệu đã gán nhãn dưới định dạng JSONL. Lọc theo trạng thái và giới hạn số lượng theo nhu cầu."
+      }
+    },
+    "howItWorks": {
+      "title": "Cách hoạt động",
+      "subtitle": "Quy trình gán nhãn dữ liệu đơn giản và hiệu quả",
+      "step1": {
+        "title": "Tạo dự án",
+        "description": "Tạo dự án mới và upload dữ liệu hội thoại cần gán nhãn"
+      },
+      "step2": {
+        "title": "Gán nhãn",
+        "description": "Xem từng đoạn hội thoại và gán nhãn cho từng tin nhắn"
+      },
+      "step3": {
+        "title": "Xuất dữ liệu",
+        "description": "Xuất dữ liệu đã gán nhãn để sử dụng cho training AI"
+      }
+    },
+    "cta": {
+      "title": "Sẵn sàng bắt đầu?",
+      "subtitle": "Tham gia cùng chúng tôi để tạo ra những bộ dữ liệu chất lượng cao cho AI",
+      "button": "Đăng nhập ngay"
+    },
+    "footer": {
+      "subtitle": "Công cụ gán nhãn dữ liệu AI",
+      "description": "Công cụ mạnh mẽ giúp bạn gán nhãn dữ liệu hội thoại AI một cách hiệu quả và chính xác.",
+      "features": {
+        "title": "Tính năng",
+        "conversation": "Gán nhãn hội thoại",
+        "project": "Quản lý dự án",
+        "multiuser": "Đa người dùng",
+        "export": "Xuất dữ liệu"
+      },
+      "support": {
+        "title": "Hỗ trợ",
+        "guide": "Hướng dẫn sử dụng",
+        "faq": "FAQ",
+        "contact": "Liên hệ",
+        "report": "Báo lỗi"
+      },
+      "contact": {
+        "title": "Liên hệ"
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { LineItemsTable } from "./line-items-table";
@@ -17,6 +18,7 @@ export function SamplesView({
   numSamples,
   isEnabled,
 }: SamplesViewProps) {
+  const t = useTranslations();
   const [viewMode, setViewMode] = useState<"table" | "preview">("table");
   const [selectedSample, setSelectedSample] = useState<any>(null);
 
@@ -40,10 +42,10 @@ export function SamplesView({
             className="flex items-center gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
-            Quay lại danh sách
+            {t("samples.backToList")}
           </Button>
           <h2 className="text-lg font-semibold">
-            Xem mẫu #{selectedSample.line_index}
+            {t("samples.viewSample")} #{selectedSample.line_index}
           </h2>
         </div>
         <SamplePreview

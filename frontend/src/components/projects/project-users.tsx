@@ -23,6 +23,7 @@ import {
 import { UserPlus, Loader2 } from "lucide-react";
 import { useApi } from "@/hooks/use-api";
 import { usersReadUsers, projectsAssignTask } from "@/client";
+import { useTranslations } from "next-intl";
 
 interface ProjectUsersProps {
   projectId: number;
@@ -35,6 +36,7 @@ export function ProjectUsers({
   numTaskNotAssigned,
   userTaskSummary,
 }: ProjectUsersProps) {
+  const t = useTranslations();
   const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [numSamples, setNumSamples] = useState(1);
@@ -101,7 +103,7 @@ export function ProjectUsers({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>Users đang thực hiện</span>
+          <span>{t("project.activeUsers")}</span>
           <Dialog
             open={isAssignDialogOpen}
             onOpenChange={setIsAssignDialogOpen}
@@ -109,17 +111,17 @@ export function ProjectUsers({
             <DialogTrigger asChild>
               <Button size="sm" disabled={availableUsers.length === 0}>
                 <UserPlus className="h-4 w-4 mr-2" />
-                Thêm user
+                {t("user.addUser")}
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle>Assign task cho user</DialogTitle>
+                <DialogTitle>{t("project.assignTaskToUser")}</DialogTitle>
               </DialogHeader>
               <div className="space-y-4">
                 <div>
                   <label className="text-sm font-medium mb-2 block">
-                    Chọn user:
+                    {t("project.selectUser")}:
                   </label>
                   <Select
                     value={selectedUserId?.toString() || ""}
@@ -128,7 +130,9 @@ export function ProjectUsers({
                     }
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Chọn user..." />
+                      <SelectValue
+                        placeholder={t("project.selectUserPlaceholder")}
+                      />
                     </SelectTrigger>
                     <SelectContent>
                       {availableUsers.map((user: any) => (
@@ -142,7 +146,7 @@ export function ProjectUsers({
 
                 <div>
                   <label className="text-sm font-medium mb-2 block">
-                    Số lượng mẫu: {numSamples}
+                    {t("project.numSamples")}: {numSamples}
                   </label>
                   <Slider
                     value={[numSamples]}
@@ -153,7 +157,8 @@ export function ProjectUsers({
                     className="w-full"
                   />
                   <div className="text-xs text-gray-500 mt-1">
-                    Tối đa: {numTaskNotAssigned} mẫu
+                    {t("project.maximum")}: {numTaskNotAssigned}{" "}
+                    {t("samples.samples")}
                   </div>
                 </div>
 
@@ -162,7 +167,7 @@ export function ProjectUsers({
                     variant="outline"
                     onClick={() => setIsAssignDialogOpen(false)}
                   >
-                    Hủy
+                    {t("common.cancel")}
                   </Button>
                   <Button
                     onClick={handleAssignTask}
@@ -175,7 +180,7 @@ export function ProjectUsers({
                     {assignTaskMutation.isPending && (
                       <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                     )}
-                    Assign Task
+                    {t("project.assignTask")}
                   </Button>
                 </div>
               </div>
@@ -186,7 +191,7 @@ export function ProjectUsers({
       <CardContent>
         {userTaskSummary.length === 0 ? (
           <div className="text-center py-8 text-gray-500">
-            Chưa có user nào được assign task
+            {t("project.noUserAssigned")}
           </div>
         ) : (
           <div className="space-y-3">
@@ -199,7 +204,9 @@ export function ProjectUsers({
                   <div className="font-medium">{user.full_name}</div>
                   <div className="text-sm text-gray-500">{user.email}</div>
                 </div>
-                <Badge variant="secondary">{user.task_count} mẫu</Badge>
+                <Badge variant="secondary">
+                  {user.task_count} {t("samples.samples")}
+                </Badge>
               </div>
             ))}
           </div>
@@ -208,7 +215,8 @@ export function ProjectUsers({
         {numTaskNotAssigned > 0 && (
           <div className="mt-4 p-3 bg-blue-50 rounded-lg">
             <div className="text-sm font-medium text-blue-800">
-              Còn {numTaskNotAssigned} mẫu chưa được assign
+              {t("project.unassignedSamplesText")} {numTaskNotAssigned}{" "}
+              {t("project.unassignedSamplesUnit")}
             </div>
           </div>
         )}

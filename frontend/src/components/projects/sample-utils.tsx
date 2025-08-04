@@ -33,37 +33,55 @@ export function getRoleColor(role: string) {
   }
 }
 
-export function getRoleText(role: string) {
+export function getRoleText(role: string, t?: any) {
+  if (!t) {
+    // Fallback to English if no translation function provided
+    switch (role.toLowerCase()) {
+      case "user":
+        return "User";
+      case "assistant":
+        return "Assistant";
+      case "system":
+        return "System";
+      case "tool_call":
+        return "Tool Call";
+      case "tool_response":
+        return "Tool Response";
+      default:
+        return role;
+    }
+  }
+
   switch (role.toLowerCase()) {
     case "user":
-      return "Người dùng";
+      return t("role.user");
     case "assistant":
-      return "Trợ lý";
+      return t("role.assistant");
     case "system":
-      return "Hệ thống";
+      return t("role.system");
     case "tool_call":
-      return "Gọi công cụ";
+      return t("role.toolCall");
     case "tool_response":
-      return "Phản hồi công cụ";
+      return t("role.toolResponse");
     default:
       return role;
   }
 }
 
 /**
- * Xử lý content từ message để tạo ra content cho confirm
- * Kết hợp phần think (suy luận) với content gốc, cách nhau bởi \n
+ * Process content from message to create content for confirm
+ * Combine think section with original content, separated by \n
  */
 export function processMessageContentForConfirm(
   message: LineItemMessageRead,
 ): string {
   const content = message.content;
 
-  // Tìm phần think trong content
+  // Find think section in content
   const thinkMatch = content.match(/<think>([\s\S]*?)<\/think>/);
 
   if (thinkMatch) {
-    // Có phần think, kết hợp think + content gốc
+    // Has think section, combine think + original content
     const thinkContent = `<think>${thinkMatch[1].trim()}</think>`;
     const originalContent = content
       .replace(/<think>[\s\S]*?<\/think>/, "")
@@ -75,7 +93,7 @@ export function processMessageContentForConfirm(
       return thinkContent;
     }
   } else {
-    // Không có phần think, trả về content gốc
+    // No think section, return original content
     return content;
   }
 }

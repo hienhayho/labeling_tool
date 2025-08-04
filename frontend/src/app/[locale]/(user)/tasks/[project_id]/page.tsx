@@ -10,8 +10,10 @@ import { useApi } from "@/hooks/use-api";
 import { projectsGetProjectStatus } from "@/client";
 import { TasksView } from "@/components/tasks/tasks-view";
 import { useAuth } from "@/contexts/auth-context";
+import { useTranslations } from "next-intl";
 
 export default function TasksPage() {
+  const t = useTranslations();
   const params = useParams();
   const projectId = parseInt(params.project_id as string);
   const { client, headers } = useApi();
@@ -52,11 +54,11 @@ export default function TasksPage() {
       <div className="container mx-auto p-6">
         <Card>
           <CardHeader>
-            <CardTitle>Lỗi</CardTitle>
+            <CardTitle>{t("errors.errorTitle")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-red-500 text-center py-8">
-              Có lỗi xảy ra khi tải dự án: {error.message}
+              {t("tasks.loadProjectError")}: {error.message}
             </div>
           </CardContent>
         </Card>
@@ -69,11 +71,11 @@ export default function TasksPage() {
       <div className="container mx-auto p-6">
         <Card>
           <CardHeader>
-            <CardTitle>Không tìm thấy dự án</CardTitle>
+            <CardTitle>{t("tasks.projectNotFound")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
-              Dự án không tồn tại hoặc bạn không có quyền truy cập.
+              {t("tasks.projectNotFoundMessage")}
             </div>
           </CardContent>
         </Card>
@@ -87,7 +89,7 @@ export default function TasksPage() {
         <Button variant="outline" size="sm" asChild>
           <Link href="/projects">
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Quay lại
+            {t("common.back")}
           </Link>
         </Button>
         <h1 className="text-2xl font-bold">{projectData.data.name}</h1>

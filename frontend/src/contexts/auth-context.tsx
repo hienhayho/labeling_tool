@@ -13,6 +13,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/lib/api-client";
 import { usersReadUserMe } from "@/client/sdk.gen";
 import type { UserPublic, Token } from "@/client/types.gen";
+import { useLocale } from "next-intl";
 
 interface AuthContextType {
   user: UserPublic | null;
@@ -45,6 +46,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
   const queryClient = useQueryClient();
+  const locale = useLocale();
 
   // Handle hydration and load token from localStorage on mount
   useEffect(() => {
@@ -110,7 +112,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const logout = () => {
     handleLogout();
-    router.push("/login");
+    router.push(`/${locale}/login`);
   };
 
   const value: AuthContextType = {

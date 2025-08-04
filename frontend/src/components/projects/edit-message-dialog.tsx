@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { LineItemMessageRead } from "@/client";
+import { useTranslations } from "next-intl";
 
 interface EditMessageDialogProps {
   message: LineItemMessageRead | null;
@@ -32,12 +33,12 @@ interface EditMessageDialogProps {
   }) => void;
 }
 
-const ROLE_OPTIONS = [
-  { value: "user", label: "Người dùng" },
-  { value: "assistant", label: "Trợ lý" },
-  { value: "system", label: "Hệ thống" },
-  { value: "tool_call", label: "Gọi công cụ" },
-  { value: "tool_response", label: "Phản hồi công cụ" },
+const getRoleOptions = (t: any) => [
+  { value: "user", label: t("role.user") },
+  { value: "assistant", label: t("role.assistant") },
+  { value: "system", label: t("role.system") },
+  { value: "tool_call", label: t("role.toolCall") },
+  { value: "tool_response", label: t("role.toolResponse") },
 ];
 
 export function EditMessageDialog({
@@ -46,6 +47,8 @@ export function EditMessageDialog({
   onClose,
   onSave,
 }: EditMessageDialogProps) {
+  const t = useTranslations();
+  const ROLE_OPTIONS = getRoleOptions(t);
   const [role, setRole] = useState("");
   const [thinkContent, setThinkContent] = useState("");
   const [originalContent, setOriginalContent] = useState("");
@@ -54,7 +57,7 @@ export function EditMessageDialog({
     if (message) {
       setRole(message.role);
 
-      // Tách think content và original content
+      // Split think content and original content
       const content = message.content;
       const thinkMatch = content.match(/<think>([\s\S]*?)<\/think>/);
 
@@ -73,7 +76,7 @@ export function EditMessageDialog({
   const handleSave = () => {
     if (!message) return;
 
-    // Tạo content mới từ think và original
+    // Create new content from think and original
     let newContent = "";
     if (thinkContent.trim()) {
       newContent = `<think>${thinkContent.trim()}</think>`;
@@ -100,16 +103,16 @@ export function EditMessageDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Chỉnh sửa tin nhắn</DialogTitle>
+          <DialogTitle>{t("dialog.editMessage")}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4">
           {/* Role Selection */}
           <div className="space-y-2">
-            <Label htmlFor="role">Vai trò</Label>
+            <Label htmlFor="role">{t("role.role")}</Label>
             <Select value={role} onValueChange={setRole}>
               <SelectTrigger>
-                <SelectValue placeholder="Chọn vai trò" />
+                <SelectValue placeholder={t("role.selectRole")} />
               </SelectTrigger>
               <SelectContent>
                 {ROLE_OPTIONS.map((option) => (
@@ -123,26 +126,32 @@ export function EditMessageDialog({
 
           {/* Think Content */}
           <div className="space-y-2">
-            <Label htmlFor="think-content">Phần suy luận (Think)</Label>
+            <Label htmlFor="think-content">{t("message.thinkContent")}</Label>
             <Textarea
               id="think-content"
-              placeholder="Nhập phần suy luận..."
+              placeholder={t("message.enterThinkContent")}
               value={thinkContent}
               onChange={(e) => setThinkContent(e.target.value)}
               rows={4}
               className="text-sm"
             />
             <p className="text-xs text-gray-500">
-              Phần suy luận sẽ được đặt trong thẻ &lt;think&gt;...&lt;/think&gt;
+              {t.rich("message.thinkContentNote", {
+                think: (chunks) => (
+                  <code className="text-blue-600">
+                    &lt;think&gt;{chunks}&lt;/think&gt;
+                  </code>
+                ),
+              })}
             </p>
           </div>
 
           {/* Original Content */}
           <div className="space-y-2">
-            <Label htmlFor="original-content">Nội dung chính</Label>
+            <Label htmlFor="original-content">{t("message.mainContent")}</Label>
             <Textarea
               id="original-content"
-              placeholder="Nhập nội dung chính..."
+              placeholder={t("message.enterMainContent")}
               value={originalContent}
               onChange={(e) => setOriginalContent(e.target.value)}
               rows={6}
@@ -152,7 +161,7 @@ export function EditMessageDialog({
 
           {/* Preview */}
           <div className="space-y-2">
-            <Label>Xem trước nội dung</Label>
+            <Label>{t("message.preview")}</Label>
             <div className="p-3 bg-gray-50 rounded-md border text-sm whitespace-pre-wrap">
               {thinkContent.trim() ? (
                 <>
@@ -167,7 +176,7 @@ export function EditMessageDialog({
                   )}
                 </>
               ) : (
-                originalContent || "Chưa có nội dung"
+                originalContent || t("message.noContent")
               )}
             </div>
           </div>
@@ -175,9 +184,9 @@ export function EditMessageDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={handleCancel}>
-            Hủy
+            {t("common.cancel")}
           </Button>
-          <Button onClick={handleSave}>Lưu thay đổi</Button>
+          <Button onClick={handleSave}>{t("message.saveChanges")}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

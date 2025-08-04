@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAuth as useAuthContext } from "@/contexts/auth-context";
 import { toast } from "react-hot-toast";
+import { useLocale, useTranslations } from "next-intl";
 import type {
   BodyLoginLoginAccessToken,
   UserCreate,
@@ -13,6 +14,8 @@ export default function useAuth() {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const { login } = useAuthContext();
   const router = useRouter();
+  const locale = useLocale();
+  const t = useTranslations();
 
   // Login mutation
   const loginMutation = useMutation({
@@ -43,8 +46,8 @@ export default function useAuth() {
     },
     onSuccess: (data: Token) => {
       login(data);
-      router.push("/dashboard");
-      toast.success("Successfully signed in!");
+      router.push(`/${locale}/dashboard`);
+      toast.success(t("auth.loginSuccess"));
     },
     onError: (error: Error) => {
       toast.error(error.message || "Login failed");
@@ -72,8 +75,8 @@ export default function useAuth() {
       return response.json();
     },
     onSuccess: () => {
-      toast.success("Account created successfully! Please sign in.");
-      router.push("/login");
+      toast.success(t("auth.signupSuccess"));
+      router.push(`/${locale}/login`);
     },
     onError: (error: Error) => {
       toast.error(error.message || "Signup failed");

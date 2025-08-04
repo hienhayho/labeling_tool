@@ -12,8 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { format } from "date-fns";
-import { vi } from "date-fns/locale";
+import { vi, enUS } from "date-fns/locale";
 import { UserPublic } from "@/client/types.gen";
+import { useTranslations, useLocale } from "next-intl";
 
 interface UsersTableProps {
   users: UserPublic[];
@@ -28,6 +29,8 @@ export function UsersTable({
   onEdit,
   onDelete,
 }: UsersTableProps) {
+  const t = useTranslations();
+  const locale = useLocale();
   if (isLoading) {
     return (
       <div className="space-y-3">
@@ -44,22 +47,22 @@ export function UsersTable({
         <TableHeader>
           <TableRow>
             <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-              Người dùng
+              {t("table.user")}
             </TableHead>
             <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-              Email
+              {t("table.email")}
             </TableHead>
             <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-              Trạng thái
+              {t("table.status")}
             </TableHead>
             <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-              Vai trò
+              {t("table.role")}
             </TableHead>
             <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-              Đăng nhập cuối
+              {t("table.lastLogin")}
             </TableHead>
             <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-              Thao tác
+              {t("table.actions")}
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -81,7 +84,7 @@ export function UsersTable({
                   </Avatar>
                   <div>
                     <div className="font-medium">
-                      {user.full_name || "Chưa có tên"}
+                      {user.full_name || t("user.noName")}
                     </div>
                   </div>
                 </div>
@@ -89,20 +92,20 @@ export function UsersTable({
               <TableCell className="text-center">{user.email}</TableCell>
               <TableCell className="text-center">
                 <Badge variant={user.is_active ? "default" : "secondary"}>
-                  {user.is_active ? "Hoạt động" : "Không hoạt động"}
+                  {user.is_active ? t("status.active") : t("status.inactive")}
                 </Badge>
               </TableCell>
               <TableCell className="text-center">
                 <Badge variant={user.is_superuser ? "destructive" : "outline"}>
-                  {user.is_superuser ? "Admin" : "User"}
+                  {user.is_superuser ? t("role.admin") : t("role.user")}
                 </Badge>
               </TableCell>
               <TableCell className="text-center">
                 {user.last_login_time
                   ? format(new Date(user.last_login_time), "dd/MM/yyyy HH:mm", {
-                      locale: vi,
+                      locale: locale === "vi" ? vi : enUS,
                     })
-                  : "Chưa đăng nhập"}
+                  : t("user.neverLoggedIn")}
               </TableCell>
               <TableCell className="text-center">
                 <div className="flex justify-center space-x-2">
@@ -112,7 +115,7 @@ export function UsersTable({
                     onClick={() => onEdit(user)}
                     className="cursor-pointer"
                   >
-                    Sửa
+                    {t("common.edit")}
                   </Button>
                   <Button
                     variant="destructive"
@@ -120,7 +123,7 @@ export function UsersTable({
                     onClick={() => onDelete(user)}
                     className="cursor-pointer"
                   >
-                    Xóa
+                    {t("common.delete")}
                   </Button>
                 </div>
               </TableCell>

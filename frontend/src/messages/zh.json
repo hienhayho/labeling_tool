@@ -1,0 +1,386 @@
+{
+  "common": {
+    "add": "添加",
+    "edit": "编辑",
+    "delete": "删除",
+    "cancel": "取消",
+    "save": "保存",
+    "back": "返回",
+    "confirm": "确认",
+    "submit": "提交",
+    "search": "搜索",
+    "home": "首页",
+    "loading": "加载中...",
+    "saving": "保存中...",
+    "deleting": "删除中...",
+    "confirming": "确认中...",
+    "name": "名称",
+    "email": "邮箱",
+    "password": "密码",
+    "description": "描述",
+    "status": "状态",
+    "active": "活跃",
+    "inactive": "非活跃"
+  },
+  "auth": {
+    "login": "登录",
+    "logout": "退出",
+    "register": "注册",
+    "password": "密码",
+    "forgotPassword": "忘记密码？",
+    "welcomeBack": "欢迎回来！",
+    "loginToContinue": "登录以继续访问仪表板",
+    "loginButton": "登录",
+    "loggingIn": "登录中...",
+    "rememberMe": "记住我",
+    "orContinueWith": "或继续使用",
+    "byContinuing": "继续即表示您同意我们的",
+    "terms": "条款",
+    "and": "和",
+    "privacyPolicy": "隐私政策",
+    "loginSuccess": "登录成功",
+    "signupSuccess": "注册成功"
+  },
+  "user": {
+    "addAccount": "添加账户",
+    "editAccount": "编辑账户",
+    "addNewAccount": "添加新账户",
+    "fullName": "全名",
+    "deleteSuccess": "用户删除成功",
+    "confirmDelete": "确认删除",
+    "confirmDeleteMessage": "您确定要删除此用户吗？",
+    "passwordOptional": "（如不更改请留空）",
+    "addUser": "添加用户",
+    "title": "用户管理",
+    "subtitle": "管理系统中的用户",
+    "createSuccess": "用户创建成功",
+    "updateSuccess": "用户更新成功",
+    "deleteError": "删除用户时出错",
+    "createError": "创建用户时出错",
+    "updateError": "更新用户时出错",
+    "loadError": "加载数据时出错",
+    "loadErrorMessage": "请稍后重试或联系管理员",
+    "confirmDeletePrompt": "您确定要删除用户",
+    "confirmDeleteWarning": "此操作无法撤销。",
+    "showing": "显示",
+    "to": "至",
+    "of": "共",
+    "users": "用户",
+    "page": "页",
+    "previous": "上一页",
+    "next": "下一页",
+    "creating": "创建中...",
+    "updating": "更新中...",
+    "noName": "无名称",
+    "neverLoggedIn": "从未登录",
+    "updateAccountInfo": "更新账户信息",
+    "createNewAccount": "创建新账户",
+    "namePlaceholder": "张三",
+    "adminPrivileges": "管理员权限"
+  },
+  "project": {
+    "projectName": "项目名称",
+    "projectNameRequired": "项目名称是必需的",
+    "projectNameTooLong": "项目名称不能超过255个字符",
+    "descriptionTooLong": "描述不能超过255个字符",
+    "createProject": "创建新项目",
+    "createProjectDescription": "填写信息以创建新项目。完成后点击保存。",
+    "deleteProject": "删除项目",
+    "confirmDeleteProject": "确认删除项目",
+    "confirmDeleteProjectMessage": "您确定要删除项目",
+    "deleteSuccess": "项目删除成功！",
+    "deleteError": "删除项目时出错",
+    "loadError": "加载项目时出错",
+    "createProjectToStart": "创建新项目以开始",
+    "noDescription": "无描述",
+    "noProjects": "您还没有项目",
+    "createFirstProject": "创建您的第一个项目",
+    "createSuccess": "项目创建成功！",
+    "createError": "创建项目时出错",
+    "urlInvalid": "无效的URL",
+    "urlTooLong": "URL不能超过255个字符",
+    "enterProjectName": "输入项目名称...",
+    "enterProjectDescription": "输入项目描述...",
+    "googleDriveUrl": "Google Drive URL",
+    "creating": "创建中...",
+    "projectDetails": "项目详情",
+    "statusError": "错误",
+    "loadDetailsError": "加载项目信息时出错",
+    "detailedInfo": "详细信息",
+    "loadingStatus": "加载状态中...",
+    "numSamples": "样本数量",
+    "activeUsers": "活跃用户",
+    "assignTaskToUser": "分配任务给用户",
+    "selectUser": "选择用户",
+    "selectUserPlaceholder": "选择用户...",
+    "maximum": "最大",
+    "assignTask": "分配任务",
+    "noUserAssigned": "还没有用户被分配任务",
+    "unassignedSamplesText": "剩余",
+    "unassignedSamplesUnit": "个样本未分配"
+  },
+  "sample": {
+    "confirmSample": "确认",
+    "confirmSuccess": "样本确认成功",
+    "confirming": "确认中...",
+    "confirm": "确认",
+    "approving": "批准中...",
+    "approve": "批准",
+    "rejecting": "拒绝中...",
+    "reject": "拒绝",
+    "approveSuccess": "样本批准成功",
+    "rejectSuccess": "样本拒绝成功",
+    "availableTools": "可用工具",
+    "conversation": "对话",
+    "waitToView": "请等待查看样本...",
+    "loadError": "加载样本时出错",
+    "sampleId": "样本ID",
+    "index": "索引"
+  },
+  "message": {
+    "saveChanges": "保存更改",
+    "thinkContent": "思考内容",
+    "enterThinkContent": "输入思考内容...",
+    "thinkContentNote": "思考内容将用<think>...</think>标签包装",
+    "mainContent": "主要内容",
+    "enterMainContent": "输入主要内容...",
+    "preview": "预览内容",
+    "noContent": "无内容",
+    "expand": "展开",
+    "viewRawContent": "查看原始内容",
+    "thinking": "思考中",
+    "updateSuccess": "消息更新成功",
+    "updateError": "更新消息时出错",
+    "rawContent": "原始内容",
+    "originalContent": "原始内容"
+  },
+  "file": {
+    "fileName": "文件名"
+  },
+  "validation": {
+    "emailInvalid": "无效的邮箱",
+    "nameRequired": "名称是必需的",
+    "passwordMinLength": "密码必须至少8个字符"
+  },
+  "contact": {
+    "address": "胡志明市，越南"
+  },
+  "navigation": {
+    "home": "首页",
+    "projects": "项目管理",
+    "users": "用户管理",
+    "mainFeatures": "主要功能",
+    "settings": "设置",
+    "support": "支持",
+    "logout": "退出"
+  },
+  "sidebar": {
+    "title": "标注工具",
+    "subtitle": "用于创建项目数据的工具"
+  },
+  "dashboard": {
+    "title": "仪表板",
+    "stats": {
+      "projects": "项目",
+      "samples": "数据样本",
+      "users": "用户",
+      "progress": "进度（%）",
+      "total": "总计"
+    },
+    "tabs": {
+      "byProject": "按项目",
+      "byUser": "按用户",
+      "progress": "进度",
+      "status": "状态"
+    },
+    "charts": {
+      "overallStatus": "整体状态",
+      "projectStats": "项目统计",
+      "userStats": "用户统计",
+      "progressChart": "完成进度",
+      "progressByProject": "项目进度"
+    }
+  },
+  "samples": {
+    "samplesList": "样本列表",
+    "loadSuccess": "数据加载成功",
+    "loadError": "加载列表时出错",
+    "quantity": "数量",
+    "total": "总计",
+    "samples": "样本",
+    "selectStatus": "选择状态",
+    "all": "全部",
+    "numMessages": "消息",
+    "view": "查看",
+    "showing": "显示",
+    "of": "共",
+    "page": "页",
+    "preview": "样本预览",
+    "backToList": "返回列表",
+    "viewSample": "查看样本"
+  },
+  "status": {
+    "pending": "待处理",
+    "confirmed": "已确认",
+    "processing": "处理中",
+    "completed": "已完成",
+    "rejected": "已拒绝",
+    "active": "活跃",
+    "inactive": "非活跃",
+    "unknown": "未知"
+  },
+  "table": {
+    "user": "用户",
+    "status": "状态",
+    "action": "操作",
+    "actions": "操作",
+    "email": "邮箱",
+    "role": "角色",
+    "createdAt": "创建时间",
+    "updatedAt": "更新时间",
+    "lastLogin": "最后登录"
+  },
+  "role": {
+    "user": "用户",
+    "assistant": "助手",
+    "admin": "管理员",
+    "superuser": "超级管理员",
+    "role": "角色",
+    "selectRole": "选择角色",
+    "system": "系统",
+    "toolCall": "工具调用",
+    "toolResponse": "工具响应"
+  },
+  "dialog": {
+    "editMessage": "编辑消息",
+    "statusStats": "样本状态统计",
+    "statusToDownload": "要下载的状态",
+    "irreversibleAction": "此操作无法撤销",
+    "deleteProjectWarning": "此操作无法撤销，将永久删除与此项目相关的所有数据。",
+    "userCanLogin": "用户可以登录"
+  },
+  "progress": {
+    "title": "进度",
+    "status": "处理状态",
+    "processing": "处理中",
+    "sampleData": "样本数据"
+  },
+  "errors": {
+    "loading": "加载仪表板数据中...",
+    "errorTitle": "错误",
+    "errorLoadingDashboard": "加载仪表板数据时出错",
+    "noData": "没有统计数据可用。",
+    "errorOccurred": "发生错误"
+  },
+  "charts": {
+    "comparisonComplete": "完成比较",
+    "projectDetails": "项目详情",
+    "autoUpdateBadge": "每30秒自动更新",
+    "samples": "样本",
+    "tasks": "任务",
+    "samplesPerProject": "每个项目的样本"
+  },
+  "tasks": {
+    "loadProjectError": "加载项目时出错",
+    "projectNotFound": "未找到项目",
+    "projectNotFoundMessage": "项目不存在或您没有访问权限。",
+    "projectNotReady": "项目未准备好",
+    "projectNotActivated": "项目未激活。请等待开始工作。"
+  },
+  "download": {
+    "success": "下载成功！",
+    "error": "下载错误",
+    "selectStatusError": "请至少选择一个状态",
+    "enterFileNameError": "请输入文件名",
+    "downloadData": "下载数据",
+    "downloadProjectData": "下载项目数据",
+    "selectConfigDescription": "选择配置以将项目数据下载为JSONL文件",
+    "limitOptional": "限制（可选）",
+    "leaveEmptyForAll": "留空以下载全部",
+    "leaveEmptyNote": "留空以下载所有数据",
+    "selectAll": "全选",
+    "deselectAll": "取消全选",
+    "downloading": "下载中...",
+    "download": "下载"
+  },
+  "landing": {
+    "subtitle": "AI数据标注工具",
+    "hero": {
+      "title": "智能数据",
+      "highlight": "标注",
+      "description": "强大的工具，帮助您高效准确地标注对话AI数据。支持多用户、项目管理和轻松的数据导出。",
+      "ctaStart": "开始使用",
+      "ctaFeatures": "查看功能"
+    },
+    "features": {
+      "title": "主要功能",
+      "subtitle": "发现使数据标注变得简单高效的强大功能",
+      "conversation": {
+        "title": "基于对话的标注",
+        "description": "以详细和结构化的方式标注对话中的每条消息。支持多种角色（用户、助手）和特殊格式。"
+      },
+      "multiuser": {
+        "title": "多用户支持",
+        "description": "同时为多个用户分配工作。跟踪每个成员的进度和工作质量。"
+      },
+      "project": {
+        "title": "项目管理",
+        "description": "创建和管理多个标注项目。跟踪状态、进度并轻松导出数据。"
+      },
+      "quality": {
+        "title": "质量控制",
+        "description": "审批和质量检查系统。确保数据被准确一致地标注。"
+      },
+      "analytics": {
+        "title": "报告和统计",
+        "description": "带有可视化图表的详细统计仪表板。实时跟踪性能和项目进度。"
+      },
+      "export": {
+        "title": "快速数据导出",
+        "description": "以JSONL格式导出标注数据。根据需要按状态过滤和限制数量。"
+      }
+    },
+    "howItWorks": {
+      "title": "工作原理",
+      "subtitle": "简单高效的数据标注流程",
+      "step1": {
+        "title": "创建项目",
+        "description": "创建新项目并上传要标注的对话数据"
+      },
+      "step2": {
+        "title": "标注数据",
+        "description": "查看每个对话并标注每条消息"
+      },
+      "step3": {
+        "title": "导出数据",
+        "description": "导出标注数据用于AI训练"
+      }
+    },
+    "cta": {
+      "title": "准备开始了吗？",
+      "subtitle": "加入我们，为AI创建高质量的数据集",
+      "button": "立即登录"
+    },
+    "footer": {
+      "subtitle": "AI数据标注工具",
+      "description": "强大的工具，帮助您高效准确地标注对话AI数据。",
+      "features": {
+        "title": "功能",
+        "conversation": "对话标注",
+        "project": "项目管理",
+        "multiuser": "多用户",
+        "export": "数据导出"
+      },
+      "support": {
+        "title": "支持",
+        "guide": "用户指南",
+        "faq": "常见问题",
+        "contact": "联系我们",
+        "report": "报告错误"
+      },
+      "contact": {
+        "title": "联系我们"
+      }
+    }
+  }
+}

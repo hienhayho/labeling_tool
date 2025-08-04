@@ -7,6 +7,7 @@ import { Maximize2, Code, Edit } from "lucide-react";
 import { MessageContent } from "./message-content";
 import { LineItemMessageRead } from "@/client";
 import { getRoleIcon, getRoleColor, getRoleText } from "./sample-utils";
+import { useTranslations } from "next-intl";
 
 interface MessageCardProps {
   message: LineItemMessageRead;
@@ -21,6 +22,7 @@ export function MessageCard({
   onShowRawContent,
   onEditMessage,
 }: MessageCardProps) {
+  const t = useTranslations();
   return (
     <Card className="border-l-4 border-l-blue-500">
       <CardContent className="p-4">
@@ -29,7 +31,7 @@ export function MessageCard({
             <div className="flex items-center gap-2">
               {getRoleIcon(message.role)}
               <Badge className={getRoleColor(message.role)}>
-                {getRoleText(message.role)}
+                {getRoleText(message.role, t)}
               </Badge>
               <span className="text-xs text-gray-500">
                 #{message.line_message_index}
@@ -41,7 +43,7 @@ export function MessageCard({
                 size="sm"
                 className="h-8 w-8 p-0"
                 onClick={() => onEditMessage(message)}
-                title="Chỉnh sửa"
+                title={t("common.edit")}
               >
                 <Edit className="h-3 w-3" />
               </Button>
@@ -50,7 +52,7 @@ export function MessageCard({
                 size="sm"
                 className="h-8 w-8 p-0"
                 onClick={() => onExpandMessage(message)}
-                title="Phóng to"
+                title={t("message.expand")}
               >
                 <Maximize2 className="h-3 w-3" />
               </Button>
@@ -65,7 +67,7 @@ export function MessageCard({
                     message.line_message_index,
                   )
                 }
-                title="Xem raw content"
+                title={t("message.viewRawContent")}
               >
                 <Code className="h-3 w-3" />
               </Button>

@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
 
 export function ProgressDemo() {
+  const t = useTranslations();
   const [progress, setProgress] = useState(0);
   const [current, setCurrent] = useState(0);
   const [total] = useState(3349);
@@ -42,13 +44,13 @@ export function ProgressDemo() {
           <div className="flex items-center gap-3">
             <Loader2 className="h-5 w-5 text-blue-500 animate-spin" />
             <Badge className="bg-blue-100 text-blue-800 border-blue-200">
-              Đang xử lý
+              {t("progress.processing")}
             </Badge>
           </div>
 
           <div className="space-y-2">
             <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-600">Tiến độ:</span>
+              <span className="text-gray-600">{t("progress.title")}:</span>
               <span className="font-medium">
                 {progress.toFixed(1)}%
                 <span className="text-gray-500 ml-1">
@@ -60,7 +62,8 @@ export function ProgressDemo() {
           </div>
 
           <div className="text-xs text-gray-500">
-            Dữ liệu mẫu: {progress.toFixed(1)}% - {current}/{total}
+            {t("progress.sampleData")}: {progress.toFixed(1)}% - {current}/
+            {total}
           </div>
         </div>
       </CardContent>

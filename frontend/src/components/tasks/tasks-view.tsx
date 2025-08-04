@@ -7,6 +7,7 @@ import { useApi } from "@/hooks/use-api";
 import { projectsGetProjectStatus, projectsGetLineItems } from "@/client";
 import { LineItemsTable } from "@/components/projects/line-items-table";
 import { SamplePreview } from "@/components/projects/sample-preview";
+import { useTranslations } from "next-intl";
 
 interface TasksViewProps {
   projectId: number;
@@ -19,6 +20,7 @@ export function TasksView({
   numSamples,
   isEnabled,
 }: TasksViewProps) {
+  const t = useTranslations();
   const [selectedSampleIndex, setSelectedSampleIndex] = useState<number>(1);
   const { client, headers } = useApi();
 
@@ -71,7 +73,7 @@ export function TasksView({
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900 mx-auto mb-4"></div>
-              <p className="text-gray-600">Đang tải dữ liệu...</p>
+              <p className="text-gray-600">{t("common.loading")}</p>
             </div>
           </div>
         </CardContent>
@@ -83,11 +85,11 @@ export function TasksView({
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Dự án chưa sẵn sàng</CardTitle>
+          <CardTitle>{t("tasks.projectNotReady")}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-gray-500 text-center py-8">
-            Dự án chưa được kích hoạt. Vui lòng đợi để bắt đầu làm việc.
+            {t("tasks.projectNotActivated")}
           </p>
         </CardContent>
       </Card>

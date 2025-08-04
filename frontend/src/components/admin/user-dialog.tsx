@@ -25,16 +25,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { UserPublic } from "@/client/types.gen";
+import { useTranslations } from "next-intl";
 
-const userSchema = z.object({
-  email: z.string().email("Email không hợp lệ"),
-  full_name: z.string().min(1, "Tên không được để trống"),
-  password: z.string().min(8, "Mật khẩu phải có ít nhất 8 ký tự").optional(),
-  is_active: z.boolean().default(true),
-  is_superuser: z.boolean().default(false),
-});
+const createUserSchema = (t: any) =>
+  z.object({
+    email: z.string().email(t("validation.emailInvalid")),
+    full_name: z.string().min(1, t("validation.nameRequired")),
+    password: z.string().min(8, t("validation.passwordMinLength")).optional(),
+    is_active: z.boolean().default(true),
+    is_superuser: z.boolean().default(false),
+  });
 
-type UserFormData = z.infer<typeof userSchema>;
+type UserFormData = z.infer<ReturnType<typeof createUserSchema>>;
 
 interface UserDialogProps {
   open: boolean;
@@ -51,6 +53,9 @@ export function UserDialog({
   onSubmit,
   isLoading = false,
 }: UserDialogProps) {
+  const t = useTranslations();
+  const userSchema = createUserSchema(t);
+
   const form = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -93,10 +98,12 @@ export function UserDialog({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
-            {isEditing ? "Sửa tài khoản" : "Thêm tài khoản mới"}
+            {isEditing ? t("user.editAccount") : t("user.addNewAccount")}
           </DialogTitle>
           <DialogDescription>
-            {isEditing ? "Cập nhật thông tin tài khoản" : "Tạo tài khoản mới"}
+            {isEditing
+              ? t("user.updateAccountInfo")
+              : t("user.createNewAccount")}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -109,7 +116,7 @@ export function UserDialog({
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t("common.email")}</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="user@example.com"
@@ -126,9 +133,9 @@ export function UserDialog({
               name="full_name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Họ và tên</FormLabel>
+                  <FormLabel>{t("user.fullName")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Nguyễn Văn A" {...field} />
+                    <Input placeholder={t("user.namePlaceholder")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -140,7 +147,8 @@ export function UserDialog({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
-                    Mật khẩu {isEditing && "(để trống nếu không thay đổi)"}
+                    {t("common.password")}{" "}
+                    {isEditing && t("user.passwordOptional")}
                   </FormLabel>
                   <FormControl>
                     <Input type="password" placeholder="********" {...field} />
@@ -162,9 +170,9 @@ export function UserDialog({
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel>Hoạt động</FormLabel>
+                      <FormLabel>{t("common.active")}</FormLabel>
                       <FormDescription>
-                        Người dùng có thể đăng nhập
+                        {t("dialog.userCanLogin")}
                       </FormDescription>
                     </div>
                   </FormItem>
@@ -182,8 +190,10 @@ export function UserDialog({
                       />
                     </FormControl>
                     <div className="space-y-1 leading-none">
-                      <FormLabel>Admin</FormLabel>
-                      <FormDescription>Quyền quản trị viên</FormDescription>
+                      <FormLabel>{t("role.admin")}</FormLabel>
+                      <FormDescription>
+                        {t("user.adminPrivileges")}
+                      </FormDescription>
                     </div>
                   </FormItem>
                 )}
@@ -197,14 +207,20 @@ export function UserDialog({
                 disabled={isLoading}
                 className="cursor-pointer"
               >
-                Hủy
+                {t("common.cancel")}
               </Button>
               <Button
                 type="submit"
                 disabled={isLoading}
                 className="cursor-pointer"
               >
-                {isLoading ? "Đang xử lý..." : isEditing ? "Cập nhật" : "Tạo"}
+                {isLoading
+                  ? isEditing
+                    ? t("user.updating")
+                    : t("user.creating")
+                  : isEditing
+                    ? t("common.save")
+                    : t("common.add")}
               </Button>
             </DialogFooter>
           </form>

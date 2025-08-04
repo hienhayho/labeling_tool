@@ -1,0 +1,386 @@
+{
+  "common": {
+    "add": "追加",
+    "edit": "編集",
+    "delete": "削除",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "back": "戻る",
+    "confirm": "確認",
+    "submit": "送信",
+    "search": "検索",
+    "home": "ホーム",
+    "loading": "読み込み中...",
+    "saving": "保存中...",
+    "deleting": "削除中...",
+    "confirming": "確認中...",
+    "name": "名前",
+    "email": "メール",
+    "password": "パスワード",
+    "description": "説明",
+    "status": "ステータス",
+    "active": "アクティブ",
+    "inactive": "非アクティブ"
+  },
+  "auth": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "register": "登録",
+    "password": "パスワード",
+    "forgotPassword": "パスワードを忘れましたか？",
+    "welcomeBack": "おかえりなさい！",
+    "loginToContinue": "ダッシュボードに進むためにログインしてください",
+    "loginButton": "ログイン",
+    "loggingIn": "ログイン中...",
+    "rememberMe": "ログイン状態を保持",
+    "orContinueWith": "または続行する",
+    "byContinuing": "続行することで、以下に同意したものとみなします",
+    "terms": "利用規約",
+    "and": "および",
+    "privacyPolicy": "プライバシーポリシー",
+    "loginSuccess": "ログイン成功",
+    "signupSuccess": "登録成功"
+  },
+  "user": {
+    "addAccount": "アカウント追加",
+    "editAccount": "アカウント編集",
+    "addNewAccount": "新しいアカウントを追加",
+    "fullName": "氏名",
+    "deleteSuccess": "ユーザーを正常に削除しました",
+    "confirmDelete": "削除の確認",
+    "confirmDeleteMessage": "このユーザーを削除してもよろしいですか？",
+    "passwordOptional": "（変更しない場合は空白のまま）",
+    "addUser": "ユーザー追加",
+    "title": "ユーザー管理",
+    "subtitle": "システム内のユーザーを管理",
+    "createSuccess": "ユーザーを正常に作成しました",
+    "updateSuccess": "ユーザーを正常に更新しました",
+    "deleteError": "ユーザー削除エラー",
+    "createError": "ユーザー作成エラー",
+    "updateError": "ユーザー更新エラー",
+    "loadError": "データ読み込みエラー",
+    "loadErrorMessage": "後でもう一度お試しいただくか、管理者にお問い合わせください",
+    "confirmDeletePrompt": "ユーザーを削除してもよろしいですか",
+    "confirmDeleteWarning": "この操作は元に戻せません。",
+    "showing": "表示中",
+    "to": "〜",
+    "of": "中",
+    "users": "ユーザー",
+    "page": "ページ",
+    "previous": "前へ",
+    "next": "次へ",
+    "creating": "作成中...",
+    "updating": "更新中...",
+    "noName": "名前なし",
+    "neverLoggedIn": "未ログイン",
+    "updateAccountInfo": "アカウント情報を更新",
+    "createNewAccount": "新しいアカウントを作成",
+    "namePlaceholder": "山田太郎",
+    "adminPrivileges": "管理者権限"
+  },
+  "project": {
+    "projectName": "プロジェクト名",
+    "projectNameRequired": "プロジェクト名は必須です",
+    "projectNameTooLong": "プロジェクト名は255文字以内にしてください",
+    "descriptionTooLong": "説明は255文字以内にしてください",
+    "createProject": "新しいプロジェクトを作成",
+    "createProjectDescription": "新しいプロジェクトを作成するための情報を入力してください。完了したら保存をクリックしてください。",
+    "deleteProject": "プロジェクトを削除",
+    "confirmDeleteProject": "プロジェクト削除の確認",
+    "confirmDeleteProjectMessage": "プロジェクトを削除してもよろしいですか",
+    "deleteSuccess": "プロジェクトを正常に削除しました！",
+    "deleteError": "プロジェクト削除エラー",
+    "loadError": "プロジェクト読み込みエラー",
+    "createProjectToStart": "新しいプロジェクトを作成して開始",
+    "noDescription": "説明なし",
+    "noProjects": "まだプロジェクトがありません",
+    "createFirstProject": "最初のプロジェクトを作成",
+    "createSuccess": "プロジェクトを正常に作成しました！",
+    "createError": "プロジェクト作成エラー",
+    "urlInvalid": "無効なURL",
+    "urlTooLong": "URLは255文字以内にしてください",
+    "enterProjectName": "プロジェクト名を入力...",
+    "enterProjectDescription": "プロジェクトの説明を入力...",
+    "googleDriveUrl": "Google Drive URL",
+    "creating": "作成中...",
+    "projectDetails": "プロジェクト詳細",
+    "statusError": "エラー",
+    "loadDetailsError": "プロジェクト情報の読み込みエラー",
+    "detailedInfo": "詳細情報",
+    "loadingStatus": "ステータス読み込み中...",
+    "numSamples": "サンプル数",
+    "activeUsers": "アクティブユーザー",
+    "assignTaskToUser": "ユーザーにタスクを割り当て",
+    "selectUser": "ユーザーを選択",
+    "selectUserPlaceholder": "ユーザーを選択...",
+    "maximum": "最大",
+    "assignTask": "タスク割り当て",
+    "noUserAssigned": "まだタスクが割り当てられたユーザーはいません",
+    "unassignedSamplesText": "残り",
+    "unassignedSamplesUnit": "サンプル未割り当て"
+  },
+  "sample": {
+    "confirmSample": "確認",
+    "confirmSuccess": "サンプルを正常に確認しました",
+    "confirming": "確認中...",
+    "confirm": "確認",
+    "approving": "承認中...",
+    "approve": "承認",
+    "rejecting": "拒否中...",
+    "reject": "拒否",
+    "approveSuccess": "サンプルを正常に承認しました",
+    "rejectSuccess": "サンプルを正常に拒否しました",
+    "availableTools": "利用可能なツール",
+    "conversation": "会話",
+    "waitToView": "サンプルを表示するまでお待ちください...",
+    "loadError": "サンプル読み込みエラー",
+    "sampleId": "サンプルID",
+    "index": "インデックス"
+  },
+  "message": {
+    "saveChanges": "変更を保存",
+    "thinkContent": "思考内容",
+    "enterThinkContent": "思考内容を入力...",
+    "thinkContentNote": "思考内容は<think>...</think>タグで囲まれます",
+    "mainContent": "メイン内容",
+    "enterMainContent": "メイン内容を入力...",
+    "preview": "内容をプレビュー",
+    "noContent": "内容なし",
+    "expand": "展開",
+    "viewRawContent": "生内容を表示",
+    "thinking": "思考中",
+    "updateSuccess": "メッセージを正常に更新しました",
+    "updateError": "メッセージ更新エラー",
+    "rawContent": "生内容",
+    "originalContent": "元の内容"
+  },
+  "file": {
+    "fileName": "ファイル名"
+  },
+  "validation": {
+    "emailInvalid": "無効なメール",
+    "nameRequired": "名前は必須です",
+    "passwordMinLength": "パスワードは8文字以上である必要があります"
+  },
+  "contact": {
+    "address": "ホーチミン市、ベトナム"
+  },
+  "navigation": {
+    "home": "ホーム",
+    "projects": "プロジェクト管理",
+    "users": "ユーザー管理",
+    "mainFeatures": "主要機能",
+    "settings": "設定",
+    "support": "サポート",
+    "logout": "ログアウト"
+  },
+  "sidebar": {
+    "title": "ラベリングツール",
+    "subtitle": "プロジェクトデータ作成ツール"
+  },
+  "dashboard": {
+    "title": "ダッシュボード",
+    "stats": {
+      "projects": "プロジェクト",
+      "samples": "データサンプル",
+      "users": "ユーザー",
+      "progress": "進捗（%）",
+      "total": "合計"
+    },
+    "tabs": {
+      "byProject": "プロジェクト別",
+      "byUser": "ユーザー別",
+      "progress": "進捗",
+      "status": "ステータス"
+    },
+    "charts": {
+      "overallStatus": "全体ステータス",
+      "projectStats": "プロジェクト統計",
+      "userStats": "ユーザー統計",
+      "progressChart": "完了進捗",
+      "progressByProject": "プロジェクト進捗"
+    }
+  },
+  "samples": {
+    "samplesList": "サンプルリスト",
+    "loadSuccess": "データを正常に読み込みました",
+    "loadError": "リスト読み込みエラー",
+    "quantity": "数量",
+    "total": "合計",
+    "samples": "サンプル",
+    "selectStatus": "ステータスを選択",
+    "all": "すべて",
+    "numMessages": "メッセージ",
+    "view": "表示",
+    "showing": "表示中",
+    "of": "中",
+    "page": "ページ",
+    "preview": "サンプルプレビュー",
+    "backToList": "リストに戻る",
+    "viewSample": "サンプルを表示"
+  },
+  "status": {
+    "pending": "保留中",
+    "confirmed": "確認済み",
+    "processing": "処理中",
+    "completed": "完了",
+    "rejected": "拒否",
+    "active": "アクティブ",
+    "inactive": "非アクティブ",
+    "unknown": "不明"
+  },
+  "table": {
+    "user": "ユーザー",
+    "status": "ステータス",
+    "action": "アクション",
+    "actions": "アクション",
+    "email": "メール",
+    "role": "役割",
+    "createdAt": "作成日時",
+    "updatedAt": "更新日時",
+    "lastLogin": "最終ログイン"
+  },
+  "role": {
+    "user": "ユーザー",
+    "assistant": "アシスタント",
+    "admin": "管理者",
+    "superuser": "スーパー管理者",
+    "role": "役割",
+    "selectRole": "役割を選択",
+    "system": "システム",
+    "toolCall": "ツール呼び出し",
+    "toolResponse": "ツール応答"
+  },
+  "dialog": {
+    "editMessage": "メッセージを編集",
+    "statusStats": "サンプルステータス統計",
+    "statusToDownload": "ダウンロードするステータス",
+    "irreversibleAction": "この操作は元に戻せません",
+    "deleteProjectWarning": "この操作は元に戻せず、このプロジェクトに関連するすべてのデータが永久に削除されます。",
+    "userCanLogin": "ユーザーがログイン可能"
+  },
+  "progress": {
+    "title": "進捗",
+    "status": "処理ステータス",
+    "processing": "処理中",
+    "sampleData": "サンプルデータ"
+  },
+  "errors": {
+    "loading": "ダッシュボードデータを読み込み中...",
+    "errorTitle": "エラー",
+    "errorLoadingDashboard": "ダッシュボードデータの読み込みエラー",
+    "noData": "統計データがありません。",
+    "errorOccurred": "エラーが発生しました"
+  },
+  "charts": {
+    "comparisonComplete": "完了比較",
+    "projectDetails": "プロジェクト詳細",
+    "autoUpdateBadge": "30秒ごとに自動更新",
+    "samples": "サンプル",
+    "tasks": "タスク",
+    "samplesPerProject": "プロジェクト別サンプル"
+  },
+  "tasks": {
+    "loadProjectError": "プロジェクト読み込みエラー",
+    "projectNotFound": "プロジェクトが見つかりません",
+    "projectNotFoundMessage": "プロジェクトが存在しないか、アクセス権限がありません。",
+    "projectNotReady": "プロジェクトの準備ができていません",
+    "projectNotActivated": "プロジェクトが有効化されていません。作業を開始するまでお待ちください。"
+  },
+  "download": {
+    "success": "ダウンロード成功！",
+    "error": "ダウンロードエラー",
+    "selectStatusError": "少なくとも1つのステータスを選択してください",
+    "enterFileNameError": "ファイル名を入力してください",
+    "downloadData": "データをダウンロード",
+    "downloadProjectData": "プロジェクトデータをダウンロード",
+    "selectConfigDescription": "プロジェクトデータをJSONLファイルとしてダウンロードするための設定を選択",
+    "limitOptional": "制限（オプション）",
+    "leaveEmptyForAll": "すべてダウンロードする場合は空白のまま",
+    "leaveEmptyNote": "すべてのデータをダウンロードする場合は空白のまま",
+    "selectAll": "すべて選択",
+    "deselectAll": "すべて選択解除",
+    "downloading": "ダウンロード中...",
+    "download": "ダウンロード"
+  },
+  "landing": {
+    "subtitle": "AIデータラベリングツール",
+    "hero": {
+      "title": "スマートデータ",
+      "highlight": "ラベリング",
+      "description": "会話型AIデータを効率的かつ正確にラベリングするための強力なツール。マルチユーザー、プロジェクト管理、簡単なデータエクスポートをサポート。",
+      "ctaStart": "始める",
+      "ctaFeatures": "機能を見る"
+    },
+    "features": {
+      "title": "主要機能",
+      "subtitle": "データラベリングを簡単で効率的にする強力な機能を発見",
+      "conversation": {
+        "title": "会話ベースのラベリング",
+        "description": "会話内の各メッセージを詳細かつ構造化された方法でラベリング。複数の役割（ユーザー、アシスタント）と特別な書式をサポート。"
+      },
+      "multiuser": {
+        "title": "マルチユーザーサポート",
+        "description": "複数のユーザーに同時に作業を割り当て。各メンバーの進捗と作業品質を追跡。"
+      },
+      "project": {
+        "title": "プロジェクト管理",
+        "description": "複数のラベリングプロジェクトを作成・管理。ステータス、進捗を追跡し、データを簡単にエクスポート。"
+      },
+      "quality": {
+        "title": "品質管理",
+        "description": "承認と品質チェックシステム。データが正確かつ一貫してラベリングされることを保証。"
+      },
+      "analytics": {
+        "title": "レポートと統計",
+        "description": "視覚的なチャートを含む詳細な統計ダッシュボード。パフォーマンスとプロジェクトの進捗をリアルタイムで追跡。"
+      },
+      "export": {
+        "title": "クイックデータエクスポート",
+        "description": "ラベリングされたデータをJSONL形式でエクスポート。必要に応じてステータスでフィルタリングし、数量を制限。"
+      }
+    },
+    "howItWorks": {
+      "title": "仕組み",
+      "subtitle": "シンプルで効率的なデータラベリングプロセス",
+      "step1": {
+        "title": "プロジェクト作成",
+        "description": "新しいプロジェクトを作成し、ラベリングする会話データをアップロード"
+      },
+      "step2": {
+        "title": "データラベリング",
+        "description": "各会話を表示し、各メッセージにラベルを付ける"
+      },
+      "step3": {
+        "title": "データエクスポート",
+        "description": "AI学習用にラベリングされたデータをエクスポート"
+      }
+    },
+    "cta": {
+      "title": "始める準備はできましたか？",
+      "subtitle": "AI用の高品質データセットを作成するために参加しましょう",
+      "button": "今すぐログイン"
+    },
+    "footer": {
+      "subtitle": "AIデータラベリングツール",
+      "description": "会話型AIデータを効率的かつ正確にラベリングするための強力なツール。",
+      "features": {
+        "title": "機能",
+        "conversation": "会話ラベリング",
+        "project": "プロジェクト管理",
+        "multiuser": "マルチユーザー",
+        "export": "データエクスポート"
+      },
+      "support": {
+        "title": "サポート",
+        "guide": "ユーザーガイド",
+        "faq": "FAQ",
+        "contact": "お問い合わせ",
+        "report": "バグ報告"
+      },
+      "contact": {
+        "title": "お問い合わせ"
+      }
+    }
+  }
+}

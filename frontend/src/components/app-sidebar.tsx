@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams } from "next/navigation";
 
 import {
   Sidebar,
@@ -41,33 +41,38 @@ import {
 } from "@/components/ui/tooltip";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
-
-// Main navigation items
-const navigationItems = [
-  {
-    title: "Trang chủ",
-    url: "/dashboard",
-    icon: Home,
-  },
-  {
-    title: "Quản lý dự án",
-    url: "/projects",
-    icon: Folder,
-  },
-];
-
-const adminNavigationItems = [
-  {
-    title: "Quản lý tài khoản",
-    url: "/admin/users",
-    icon: User2,
-  },
-];
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { useTranslations } from "next-intl";
 
 export function AppSidebar() {
   const { open, isMobile } = useSidebar();
   const { logout, user } = useAuth();
   const pathname = usePathname();
+  const params = useParams();
+  const locale = params.locale as string;
+  const t = useTranslations();
+
+  // Main navigation items
+  const navigationItems = [
+    {
+      title: t("navigation.home"),
+      url: `/${locale}/dashboard`,
+      icon: Home,
+    },
+    {
+      title: t("navigation.projects"),
+      url: `/${locale}/projects`,
+      icon: Folder,
+    },
+  ];
+
+  const adminNavigationItems = [
+    {
+      title: t("navigation.users"),
+      url: `/${locale}/admin/users`,
+      icon: User2,
+    },
+  ];
 
   const menuItems = user?.is_superuser
     ? [...navigationItems, ...adminNavigationItems]
@@ -86,23 +91,28 @@ export function AppSidebar() {
               >
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Link href="/" className="flex items-center gap-3">
+                    <Link
+                      href={`/${locale}`}
+                      className="flex items-center gap-3"
+                    >
                       <div className="flex aspect-square size-10 items-center justify-center rounded-lg bg-gray-900 text-white">
                         <Frame className="size-5" />
                       </div>
                       <div className="grid flex-1 text-left text-sm leading-tight">
                         <span className="truncate font-semibold text-gray-900">
-                          Labelling Tool
+                          {t("sidebar.title")}
                         </span>
                         <span className="truncate text-xs text-gray-600">
-                          Tool dùng để tạo dữ liệu cho dự án
+                          {t("sidebar.subtitle")}
                         </span>
                       </div>
                     </Link>
                   </TooltipTrigger>
                   {!open && !isMobile && (
                     <TooltipContent side="right" align="center">
-                      <p>Labelling Tool - Tool dùng để tạo dữ liệu cho dự án</p>
+                      <p>
+                        {t("sidebar.title")} - {t("sidebar.subtitle")}
+                      </p>
                     </TooltipContent>
                   )}
                 </Tooltip>
@@ -116,16 +126,16 @@ export function AppSidebar() {
           <SidebarGroup className="space-y-2">
             {open && (
               <SidebarGroupLabel className="text-xs font-medium text-gray-500 uppercase tracking-wider mb-4">
-                CHỨC NĂNG CHÍNH
+                {t("navigation.mainFeatures")}
               </SidebarGroupLabel>
             )}
             <SidebarGroupContent>
               <SidebarMenu className="space-y-1">
                 {menuItems.map((item) => {
                   const isActive =
-                    pathname === item.url ||
-                    (item.url === "/reports" &&
-                      pathname?.startsWith("/reports"));
+                    item.url.includes(pathname) ||
+                    (item.url === `/${locale}/reports` &&
+                      pathname?.startsWith(`/${locale}/reports`));
 
                   return (
                     <SidebarMenuItem key={item.title}>
@@ -240,6 +250,11 @@ export function AppSidebar() {
             open ? "px-4" : "px-2",
           )}
         >
+          {/* Language Switcher */}
+          <div className={cn("mb-4", open ? "px-0" : "px-1")}>
+            <LanguageSwitcher />
+          </div>
+
           <SidebarMenu>
             <SidebarMenuItem>
               <DropdownMenu>
@@ -302,20 +317,26 @@ export function AppSidebar() {
                   sideOffset={4}
                 >
                   <DropdownMenuItem asChild>
-                    <Link href="/settings" className="flex items-center">
+                    <Link
+                      href={`/${locale}/settings`}
+                      className="flex items-center"
+                    >
                       <Settings />
-                      Cài đặt
+                      {t("navigation.settings")}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/support" className="flex items-center">
+                    <Link
+                      href={`/${locale}/support`}
+                      className="flex items-center"
+                    >
                       <HelpCircle />
-                      Hỗ trợ
+                      {t("navigation.support")}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => logout()}>
                     <LogOut />
-                    Log out
+                    {t("navigation.logout")}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

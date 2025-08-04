@@ -19,17 +19,18 @@ import { Download, Loader2 } from "lucide-react";
 import { useApi } from "@/hooks/use-api";
 import { projectsDownloadProject } from "@/client";
 import toast from "react-hot-toast";
+import { useTranslations } from "next-intl";
 
 interface DownloadDialogProps {
   projectId: number;
   projectName?: string;
 }
 
-const STATUS_OPTIONS = [
-  { value: "UNLABELED" as const, label: "Chờ xử lý" },
-  { value: "CONFIRMED" as const, label: "Hoàn thành" },
-  { value: "APPROVED" as const, label: "Đã duyệt" },
-  { value: "REJECTED" as const, label: "Từ chối" },
+const getStatusOptions = (t: any) => [
+  { value: "UNLABELED" as const, label: t("status.pending") },
+  { value: "CONFIRMED" as const, label: t("status.confirmed") },
+  { value: "APPROVED" as const, label: t("status.completed") },
+  { value: "REJECTED" as const, label: t("status.rejected") },
 ];
 
 type StatusType = "UNLABELED" | "CONFIRMED" | "APPROVED" | "REJECTED";
@@ -52,6 +53,8 @@ export function DownloadDialog({
   projectId,
   projectName,
 }: DownloadDialogProps) {
+  const t = useTranslations();
+  const STATUS_OPTIONS = getStatusOptions(t);
   const [open, setOpen] = useState(false);
   const [limit, setLimit] = useState<string>("");
   const [selectedStatuses, setSelectedStatuses] = useState<StatusType[]>([
@@ -97,11 +100,11 @@ export function DownloadDialog({
       return response;
     },
     onSuccess: () => {
-      toast.success("Tải xuống thành công!");
+      toast.success(t("download.success"));
       setOpen(false);
     },
     onError: (error) => {
-      toast.error(`Lỗi khi tải xuống: ${error.message}`);
+      toast.error(`${t("download.error")}: ${error.message}`);
     },
   });
 
@@ -123,11 +126,11 @@ export function DownloadDialog({
 
   const handleDownload = () => {
     if (selectedStatuses.length === 0) {
-      toast.error("Vui lòng chọn ít nhất một trạng thái");
+      toast.error(t("download.selectStatusError"));
       return;
     }
     if (!fileName.trim()) {
-      toast.error("Vui lòng nhập tên file");
+      toast.error(t("download.enterFileNameError"));
       return;
     }
     downloadMutation.mutate();
@@ -138,37 +141,37 @@ export function DownloadDialog({
       <DialogTrigger asChild>
         <Button variant="outline" className="flex items-center gap-2">
           <Download className="h-4 w-4" />
-          Tải xuống dữ liệu
+          {t("download.downloadData")}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>Tải xuống dữ liệu dự án</DialogTitle>
+          <DialogTitle>{t("download.downloadProjectData")}</DialogTitle>
           <DialogDescription>
-            Chọn cấu hình để tải xuống dữ liệu dự án dưới dạng file JSONL
+            {t("download.selectConfigDescription")}
           </DialogDescription>
         </DialogHeader>
 
         <div className="space-y-6">
           {/* Limit */}
           <div className="space-y-2">
-            <Label htmlFor="limit">Giới hạn số lượng (tùy chọn)</Label>
+            <Label htmlFor="limit">{t("download.limitOptional")}</Label>
             <Input
               id="limit"
               type="number"
-              placeholder="Để trống để tải tất cả"
+              placeholder={t("download.leaveEmptyForAll")}
               value={limit}
               onChange={(e) => setLimit(e.target.value)}
             />
             <p className="text-sm text-gray-500">
-              Để trống để tải xuống tất cả dữ liệu
+              {t("download.leaveEmptyNote")}
             </p>
           </div>
 
           {/* Status Selection */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <Label>Trạng thái cần tải</Label>
+              <Label>{t("dialog.statusToDownload")}</Label>
               <div className="flex gap-2">
                 <Button
                   type="button"
@@ -176,7 +179,7 @@ export function DownloadDialog({
                   size="sm"
                   onClick={handleSelectAll}
                 >
-                  Chọn tất cả
+                  {t("download.selectAll")}
                 </Button>
                 <Button
                   type="button"
@@ -184,7 +187,7 @@ export function DownloadDialog({
                   size="sm"
                   onClick={handleSelectNone}
                 >
-                  Bỏ chọn tất cả
+                  {t("download.deselectAll")}
                 </Button>
               </div>
             </div>
@@ -206,7 +209,7 @@ export function DownloadDialog({
 
           {/* File Name */}
           <div className="space-y-2">
-            <Label htmlFor="fileName">Tên file</Label>
+            <Label htmlFor="fileName">{t("file.fileName")}</Label>
             <div className="flex items-center">
               <Input
                 id="fileName"
@@ -227,7 +230,7 @@ export function DownloadDialog({
             onClick={() => setOpen(false)}
             disabled={downloadMutation.isPending}
           >
-            Hủy
+            {t("common.cancel")}
           </Button>
           <Button
             onClick={handleDownload}
@@ -240,12 +243,12 @@ export function DownloadDialog({
             {downloadMutation.isPending ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                Đang tải xuống...
+                {t("download.downloading")}
               </>
             ) : (
               <>
                 <Download className="h-4 w-4 mr-2" />
-                Tải xuống
+                {t("download.download")}
               </>
             )}
           </Button>

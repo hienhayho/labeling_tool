@@ -1,7 +1,12 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import UserAuthForm from "./user-auth-form";
+import { useTranslations } from "next-intl";
 
 export default function SignInViewPage() {
+  const t = useTranslations("auth");
+
   return (
     <div className="relative h-screen flex items-center justify-center">
       {/* Background effects */}
@@ -36,10 +41,10 @@ export default function SignInViewPage() {
               className="text-2xl lg:text-3xl font-semibold tracking-tight
                          text-gray-900 dark:text-gray-100"
             >
-              Chào mừng trở lại!
+              {t("welcomeBack")}
             </h1>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Đăng nhập để tiếp tục vào dashboard
+              {t("loginToContinue")}
             </p>
           </div>
 
@@ -52,23 +57,23 @@ export default function SignInViewPage() {
         {/* Terms and privacy links */}
         <div className="mt-6 text-center space-y-2 text-sm">
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            Bằng việc tiếp tục, bạn đồng ý với{" "}
+            {t("byContinuing")}{" "}
             <a
               href="#"
               className="underline hover:text-orange-600
                                  dark:hover:text-orange-400
                                  transition-colors duration-200"
             >
-              Điều khoản
+              {t("terms")}
             </a>{" "}
-            và{" "}
+            {t("and")}{" "}
             <a
               href="#"
               className="underline hover:text-orange-600
                                  dark:hover:text-orange-400
                                  transition-colors duration-200"
             >
-              Chính sách bảo mật
+              {t("privacyPolicy")}
             </a>
           </p>
         </div>

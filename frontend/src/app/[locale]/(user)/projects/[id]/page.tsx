@@ -19,8 +19,10 @@ import { useApi } from "@/hooks/use-api";
 import { SamplesView } from "@/components/projects/samples-view";
 import { ProjectUsers } from "@/components/projects/project-users";
 import { DownloadDialog } from "@/components/projects/download-dialog";
+import { useTranslations } from "next-intl";
 
 export default function ProjectDetailPage() {
+  const t = useTranslations();
   const params = useParams();
   const projectId = parseInt(params.id as string);
   const { client, headers } = useApi();
@@ -100,13 +102,13 @@ export default function ProjectDetailPage() {
   const getStatusText = (state: string) => {
     switch (state) {
       case "SUCCESS":
-        return "Hoàn thành";
+        return t("status.completed");
       case "PENDING":
-        return "Đang xử lý";
+        return t("status.processing");
       case "FAILURE":
-        return "Lỗi";
+        return t("project.statusError");
       default:
-        return "Đang xử lý";
+        return t("status.processing");
     }
   };
 
@@ -117,13 +119,13 @@ export default function ProjectDetailPage() {
           <Button variant="outline" size="sm" asChild>
             <Link href="/projects">
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Quay lại
+              {t("common.back")}
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold">Chi tiết dự án</h1>
+          <h1 className="text-2xl font-bold">{t("project.projectDetails")}</h1>
         </div>
         <div className="text-red-500">
-          Có lỗi xảy ra khi tải thông tin dự án: {error.message}
+          {t("project.loadDetailsError")}: {error.message}
         </div>
       </div>
     );
@@ -136,10 +138,12 @@ export default function ProjectDetailPage() {
           <Button variant="outline" size="sm" asChild>
             <Link href="/projects">
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Quay lại
+              {t("common.back")}
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold">Chi tiết dự án #{projectId}</h1>
+          <h1 className="text-2xl font-bold">
+            {t("project.projectDetails")} #{projectId}
+          </h1>
         </div>
         {status?.state === "SUCCESS" && (
           <DownloadDialog projectId={projectId} projectName={status.name} />
@@ -153,7 +157,7 @@ export default function ProjectDetailPage() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                Trạng thái xử lý
+                {t("progress.status")}
                 {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
               </CardTitle>
             </CardHeader>
@@ -171,7 +175,9 @@ export default function ProjectDetailPage() {
                   {progress && (
                     <div className="space-y-2">
                       <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-600">Tiến độ:</span>
+                        <span className="text-gray-600">
+                          {t("progress.title")}:
+                        </span>
                         <span className="font-medium">
                           {progress.percentage.toFixed(1)}%
                           {progress.current && progress.total && (
@@ -188,7 +194,7 @@ export default function ProjectDetailPage() {
                   {status.info && !progress && (
                     <div className="mt-4">
                       <h4 className="font-medium text-sm text-gray-700 mb-2">
-                        Thông tin chi tiết:
+                        {t("project.detailedInfo")}:
                       </h4>
                       <pre className="text-xs bg-gray-50 p-3 rounded border overflow-auto">
                         {JSON.stringify(status.info, null, 2)}
@@ -199,7 +205,7 @@ export default function ProjectDetailPage() {
               ) : (
                 <div className="flex items-center gap-2 text-gray-500">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Đang tải trạng thái...
+                  {t("project.loadingStatus")}
                 </div>
               )}
             </CardContent>
@@ -208,7 +214,7 @@ export default function ProjectDetailPage() {
           {/* Project Info Card */}
           <Card>
             <CardHeader>
-              <CardTitle>Thông tin chi tiết</CardTitle>
+              <CardTitle>{t("project.detailedInfo")}</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -221,23 +227,25 @@ export default function ProjectDetailPage() {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-600">
-                      Tên:
+                      {t("common.name")}:
                     </label>
-                    <p className="text-sm">{status?.name || "Đang tải..."}</p>
+                    <p className="text-sm">
+                      {status?.name || t("common.loading")}
+                    </p>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="text-sm font-medium text-gray-600">
-                      Mô tả:
+                      {t("common.description")}:
                     </label>
                     <p className="text-sm text-gray-600">
-                      {status?.description || "Không có mô tả"}
+                      {status?.description || t("project.noDescription")}
                     </p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-600">
-                      Số mẫu:
+                      {t("project.numSamples")}:
                     </label>
                     <p className="text-sm font-semibold">
                       {status?.num_samples || 0}

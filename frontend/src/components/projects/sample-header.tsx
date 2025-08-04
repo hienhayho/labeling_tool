@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
 import { Badge } from "@/components/ui/badge";
+import { useTranslations } from "next-intl";
 
 interface SampleHeaderProps {
   currentSampleIndex: number;
@@ -28,18 +29,18 @@ interface SampleHeaderProps {
   isSwitching?: boolean;
 }
 
-const getStatusBadge = (status: string) => {
+const getStatusBadge = (status: string, t: any) => {
   switch (status) {
     case "UNLABELED":
-      return <Badge variant="secondary">Chờ xử lý</Badge>;
+      return <Badge variant="secondary">{t("status.pending")}</Badge>;
     case "CONFIRMED":
-      return <Badge variant="default">Hoàn thành</Badge>;
+      return <Badge variant="default">{t("status.confirmed")}</Badge>;
     case "APPROVED":
-      return <Badge variant="success">Đã duyệt</Badge>;
+      return <Badge variant="success">{t("status.completed")}</Badge>;
     case "REJECTED":
-      return <Badge variant="destructive">Từ chối</Badge>;
+      return <Badge variant="destructive">{t("status.rejected")}</Badge>;
     default:
-      return <Badge variant="outline">Không xác định</Badge>;
+      return <Badge variant="outline">{t("status.unknown")}</Badge>;
   }
 };
 
@@ -57,14 +58,15 @@ export function SampleHeader({
   isRejecting,
   isSwitching,
 }: SampleHeaderProps) {
+  const t = useTranslations();
   const { user } = useAuth();
   const isSuperuser = user?.is_superuser || false;
   return (
     <CardHeader className="sticky top-0 bg-white dark:bg-gray-950 z-10 border-b">
       <CardTitle className="flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <span>Xem trước mẫu</span>
-          {getStatusBadge(status)}
+          <span>{t("samples.preview")}</span>
+          {getStatusBadge(status, t)}
         </div>
         <div className="flex items-center gap-2">
           {onConfirm && (
@@ -75,7 +77,7 @@ export function SampleHeader({
               disabled={isConfirming}
             >
               <Check className="h-4 w-4 mr-2" />
-              {isConfirming ? "Đang xác nhận..." : "Xác nhận"}
+              {isConfirming ? t("sample.confirming") : t("sample.confirm")}
             </Button>
           )}
           {isSuperuser && onApprove && (
@@ -86,7 +88,7 @@ export function SampleHeader({
               disabled={isApproving}
             >
               <ShieldCheck className="h-4 w-4 mr-2" />
-              {isApproving ? "Đang phê duyệt..." : "Phê duyệt"}
+              {isApproving ? t("sample.approving") : t("sample.approve")}
             </Button>
           )}
           {isSuperuser && onReject && (
@@ -97,7 +99,7 @@ export function SampleHeader({
               disabled={isRejecting}
             >
               <ShieldX className="h-4 w-4 mr-2" />
-              {isRejecting ? "Đang từ chối..." : "Từ chối"}
+              {isRejecting ? t("sample.rejecting") : t("sample.reject")}
             </Button>
           )}
           <Button

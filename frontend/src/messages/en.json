@@ -1,0 +1,386 @@
+{
+  "common": {
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "back": "Back",
+    "confirm": "Confirm",
+    "submit": "Submit",
+    "search": "Search",
+    "home": "Home",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "deleting": "Deleting...",
+    "confirming": "Confirming...",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "description": "Description",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "welcomeBack": "Welcome back!",
+    "loginToContinue": "Log in to continue to dashboard",
+    "loginButton": "Login",
+    "loggingIn": "Logging in...",
+    "rememberMe": "Remember me",
+    "orContinueWith": "Or continue with",
+    "byContinuing": "By continuing, you agree to our",
+    "terms": "Terms",
+    "and": "and",
+    "privacyPolicy": "Privacy Policy",
+    "loginSuccess": "Login successfully",
+    "signupSuccess": "Signup successfully"
+  },
+  "user": {
+    "addAccount": "Add account",
+    "editAccount": "Edit account",
+    "addNewAccount": "Add new account",
+    "fullName": "Full name",
+    "deleteSuccess": "User deleted successfully",
+    "confirmDelete": "Confirm deletion",
+    "confirmDeleteMessage": "Are you sure you want to delete this user?",
+    "passwordOptional": "(leave blank if no change)",
+    "addUser": "Add user",
+    "title": "User Management",
+    "subtitle": "Manage users in the system",
+    "createSuccess": "User created successfully",
+    "updateSuccess": "User updated successfully",
+    "deleteError": "Error deleting user",
+    "createError": "Error creating user",
+    "updateError": "Error updating user",
+    "loadError": "Error loading data",
+    "loadErrorMessage": "Please try again later or contact administrator",
+    "confirmDeletePrompt": "Are you sure you want to delete user",
+    "confirmDeleteWarning": "This action cannot be undone.",
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "users": "users",
+    "page": "Page",
+    "previous": "Previous",
+    "next": "Next",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "noName": "No name",
+    "neverLoggedIn": "Never logged in",
+    "updateAccountInfo": "Update account information",
+    "createNewAccount": "Create new account",
+    "namePlaceholder": "John Doe",
+    "adminPrivileges": "Administrator privileges"
+  },
+  "project": {
+    "projectName": "Project name",
+    "projectNameRequired": "Project name is required",
+    "projectNameTooLong": "Project name cannot exceed 255 characters",
+    "descriptionTooLong": "Description cannot exceed 255 characters",
+    "createProject": "Create new project",
+    "createProjectDescription": "Fill in the information to create a new project. Click Save when done.",
+    "deleteProject": "Delete project",
+    "confirmDeleteProject": "Confirm project deletion",
+    "confirmDeleteProjectMessage": "Are you sure you want to delete project",
+    "deleteSuccess": "Project deleted successfully!",
+    "deleteError": "Error deleting project",
+    "loadError": "Error loading projects",
+    "createProjectToStart": "Create a new project to get started",
+    "noDescription": "No description",
+    "noProjects": "You have no projects yet",
+    "createFirstProject": "Create your first project",
+    "createSuccess": "Project created successfully!",
+    "createError": "Error creating project",
+    "urlInvalid": "Invalid URL",
+    "urlTooLong": "URL cannot exceed 255 characters",
+    "enterProjectName": "Enter project name...",
+    "enterProjectDescription": "Enter project description...",
+    "googleDriveUrl": "Google Drive URL",
+    "creating": "Creating...",
+    "projectDetails": "Project Details",
+    "statusError": "Error",
+    "loadDetailsError": "Error loading project information",
+    "detailedInfo": "Detailed information",
+    "loadingStatus": "Loading status...",
+    "numSamples": "Number of samples",
+    "activeUsers": "Active Users",
+    "assignTaskToUser": "Assign task to user",
+    "selectUser": "Select user",
+    "selectUserPlaceholder": "Select user...",
+    "maximum": "Maximum",
+    "assignTask": "Assign Task",
+    "noUserAssigned": "No user has been assigned tasks yet",
+    "unassignedSamplesText": "Remaining",
+    "unassignedSamplesUnit": "samples unassigned"
+  },
+  "sample": {
+    "confirmSample": "Confirm",
+    "confirmSuccess": "Sample confirmed successfully",
+    "confirming": "Confirming...",
+    "confirm": "Confirm",
+    "approving": "Approving...",
+    "approve": "Approve",
+    "rejecting": "Rejecting...",
+    "reject": "Reject",
+    "approveSuccess": "Sample approved successfully",
+    "rejectSuccess": "Sample rejected successfully",
+    "availableTools": "Available Tools",
+    "conversation": "Conversation",
+    "waitToView": "Please wait to view samples...",
+    "loadError": "Error loading sample",
+    "sampleId": "Sample ID",
+    "index": "Index"
+  },
+  "message": {
+    "saveChanges": "Save changes",
+    "thinkContent": "Think Content",
+    "enterThinkContent": "Enter think content...",
+    "thinkContentNote": "Think content will be wrapped in <think>...</think> tags",
+    "mainContent": "Main Content",
+    "enterMainContent": "Enter main content...",
+    "preview": "Preview Content",
+    "noContent": "No content",
+    "expand": "Expand",
+    "viewRawContent": "View raw content",
+    "thinking": "Thinking",
+    "updateSuccess": "Message updated successfully",
+    "updateError": "Error updating message",
+    "rawContent": "Raw Content",
+    "originalContent": "Original Content"
+  },
+  "file": {
+    "fileName": "File name"
+  },
+  "validation": {
+    "emailInvalid": "Invalid email",
+    "nameRequired": "Name is required",
+    "passwordMinLength": "Password must be at least 8 characters"
+  },
+  "contact": {
+    "address": "Ho Chi Minh City, Vietnam"
+  },
+  "navigation": {
+    "home": "Home",
+    "projects": "Project Management",
+    "users": "User Management",
+    "mainFeatures": "MAIN FEATURES",
+    "settings": "Settings",
+    "support": "Support",
+    "logout": "Logout"
+  },
+  "sidebar": {
+    "title": "Labelling Tool",
+    "subtitle": "Tool for creating project data"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "stats": {
+      "projects": "Projects",
+      "samples": "Data Samples",
+      "users": "Users",
+      "progress": "Progress (%)",
+      "total": "Total"
+    },
+    "tabs": {
+      "byProject": "By Project",
+      "byUser": "By User",
+      "progress": "Progress",
+      "status": "Status"
+    },
+    "charts": {
+      "overallStatus": "Overall Status",
+      "projectStats": "Project Statistics",
+      "userStats": "User Statistics",
+      "progressChart": "Completion Progress",
+      "progressByProject": "Project Progress"
+    }
+  },
+  "samples": {
+    "samplesList": "Samples List",
+    "loadSuccess": "Data loaded successfully",
+    "loadError": "Error loading list",
+    "quantity": "Quantity",
+    "total": "Total",
+    "samples": "samples",
+    "selectStatus": "Select status",
+    "all": "All",
+    "numMessages": "Messages",
+    "view": "View",
+    "showing": "Showing",
+    "of": "of",
+    "page": "Page",
+    "preview": "Sample Preview",
+    "backToList": "Back to list",
+    "viewSample": "View sample"
+  },
+  "status": {
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "processing": "Processing",
+    "completed": "Completed",
+    "rejected": "Rejected",
+    "active": "Active",
+    "inactive": "Inactive",
+    "unknown": "Unknown"
+  },
+  "table": {
+    "user": "User",
+    "status": "Status",
+    "action": "Action",
+    "actions": "Actions",
+    "email": "Email",
+    "role": "Role",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "lastLogin": "Last Login"
+  },
+  "role": {
+    "user": "User",
+    "assistant": "Assistant",
+    "admin": "Admin",
+    "superuser": "Super Admin",
+    "role": "Role",
+    "selectRole": "Select role",
+    "system": "System",
+    "toolCall": "Tool Call",
+    "toolResponse": "Tool Response"
+  },
+  "dialog": {
+    "editMessage": "Edit Message",
+    "statusStats": "Sample Status Statistics",
+    "statusToDownload": "Status to Download",
+    "irreversibleAction": "This action cannot be undone",
+    "deleteProjectWarning": "This action cannot be undone and will permanently delete all data related to this project.",
+    "userCanLogin": "User can login"
+  },
+  "progress": {
+    "title": "Progress",
+    "status": "Processing Status",
+    "processing": "Processing",
+    "sampleData": "Sample Data"
+  },
+  "errors": {
+    "loading": "Loading dashboard data...",
+    "errorTitle": "Error",
+    "errorLoadingDashboard": "Error loading dashboard data",
+    "noData": "No statistics data available.",
+    "errorOccurred": "An error occurred"
+  },
+  "charts": {
+    "comparisonComplete": "Completion Comparison",
+    "projectDetails": "Project Details",
+    "autoUpdateBadge": "Auto-updates every 30 seconds",
+    "samples": "samples",
+    "tasks": "tasks",
+    "samplesPerProject": "Samples per Project"
+  },
+  "tasks": {
+    "loadProjectError": "Error loading project",
+    "projectNotFound": "Project not found",
+    "projectNotFoundMessage": "The project does not exist or you do not have access.",
+    "projectNotReady": "Project not ready",
+    "projectNotActivated": "Project not activated. Please wait to start working."
+  },
+  "download": {
+    "success": "Download successful!",
+    "error": "Download error",
+    "selectStatusError": "Please select at least one status",
+    "enterFileNameError": "Please enter file name",
+    "downloadData": "Download data",
+    "downloadProjectData": "Download project data",
+    "selectConfigDescription": "Select configuration to download project data as JSONL file",
+    "limitOptional": "Limit (optional)",
+    "leaveEmptyForAll": "Leave empty to download all",
+    "leaveEmptyNote": "Leave empty to download all data",
+    "selectAll": "Select all",
+    "deselectAll": "Deselect all",
+    "downloading": "Downloading...",
+    "download": "Download"
+  },
+  "landing": {
+    "subtitle": "AI Data Labeling Tool",
+    "hero": {
+      "title": "Smart data",
+      "highlight": "labeling",
+      "description": "Powerful tool to help you label conversational AI data efficiently and accurately. Supports multi-user, project management and easy data export.",
+      "ctaStart": "Get started",
+      "ctaFeatures": "View features"
+    },
+    "features": {
+      "title": "Key Features",
+      "subtitle": "Discover powerful features that make data labeling easy and efficient",
+      "conversation": {
+        "title": "Conversation-based labeling",
+        "description": "Label each message in conversations in detail and structured manner. Supports multiple roles (user, assistant) and special formatting."
+      },
+      "multiuser": {
+        "title": "Multi-user support",
+        "description": "Assign work to multiple users simultaneously. Track progress and quality of work for each member."
+      },
+      "project": {
+        "title": "Project management",
+        "description": "Create and manage multiple labeling projects. Track status, progress and export data easily."
+      },
+      "quality": {
+        "title": "Quality control",
+        "description": "Approval and quality check system. Ensure data is labeled accurately and consistently."
+      },
+      "analytics": {
+        "title": "Reports and statistics",
+        "description": "Detailed statistics dashboard with visual charts. Track performance and project progress in real time."
+      },
+      "export": {
+        "title": "Quick data export",
+        "description": "Export labeled data in JSONL format. Filter by status and limit quantity as needed."
+      }
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "subtitle": "Simple and efficient data labeling process",
+      "step1": {
+        "title": "Create project",
+        "description": "Create new project and upload conversation data to be labeled"
+      },
+      "step2": {
+        "title": "Label data",
+        "description": "View each conversation and label each message"
+      },
+      "step3": {
+        "title": "Export data",
+        "description": "Export labeled data for AI training"
+      }
+    },
+    "cta": {
+      "title": "Ready to start?",
+      "subtitle": "Join us to create high-quality datasets for AI",
+      "button": "Login now"
+    },
+    "footer": {
+      "subtitle": "AI Data Labeling Tool",
+      "description": "Powerful tool to help you label conversational AI data efficiently and accurately.",
+      "features": {
+        "title": "Features",
+        "conversation": "Conversation labeling",
+        "project": "Project management",
+        "multiuser": "Multi-user",
+        "export": "Data export"
+      },
+      "support": {
+        "title": "Support",
+        "guide": "User guide",
+        "faq": "FAQ",
+        "contact": "Contact",
+        "report": "Report bugs"
+      },
+      "contact": {
+        "title": "Contact"
+      }
+    }
+  }
+}

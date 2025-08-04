@@ -15,8 +15,10 @@ import {
   usersDeleteUser,
 } from "@/client/sdk.gen";
 import toast from "react-hot-toast";
+import { useTranslations } from "next-intl";
 
 export default function UsersPage() {
+  const t = useTranslations();
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -46,10 +48,10 @@ export default function UsersPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setDialogOpen(false);
-      toast.success("Tạo người dùng thành công");
+      toast.success(t("user.createSuccess"));
     },
     onError: (error: any) => {
-      toast.error(error.message || "Có lỗi xảy ra khi tạo người dùng");
+      toast.error(error.message || t("user.createError"));
     },
   });
 
@@ -72,10 +74,10 @@ export default function UsersPage() {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setDialogOpen(false);
       setSelectedUser(null);
-      toast.success("Cập nhật người dùng thành công");
+      toast.success(t("user.updateSuccess"));
     },
     onError: (error: any) => {
-      toast.error(error.message || "Có lỗi xảy ra khi cập nhật người dùng");
+      toast.error(error.message || t("user.updateError"));
     },
   });
 
@@ -87,10 +89,10 @@ export default function UsersPage() {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       setDeleteDialogOpen(false);
       setUserToDelete(null);
-      toast.success("Xóa người dùng thành công");
+      toast.success(t("user.deleteSuccess"));
     },
     onError: (error: any) => {
-      toast.error(error.message || "Có lỗi xảy ra khi xóa người dùng");
+      toast.error(error.message || t("user.deleteError"));
     },
   });
 
@@ -156,11 +158,9 @@ export default function UsersPage() {
       <div className="flex items-center justify-center h-64">
         <div className="text-center">
           <h3 className="text-lg font-semibold text-red-600">
-            Có lỗi xảy ra khi tải dữ liệu
+            {t("user.loadError")}
           </h3>
-          <p className="text-gray-600 mt-2">
-            Vui lòng thử lại sau hoặc liên hệ quản trị viên
-          </p>
+          <p className="text-gray-600 mt-2">{t("user.loadErrorMessage")}</p>
         </div>
       </div>
     );
@@ -171,15 +171,13 @@ export default function UsersPage() {
       <div className="container mx-auto p-10 flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Quản lý tài khoản
+            {t("user.title")}
           </h1>
-          <p className="text-muted-foreground">
-            Quản lý tài khoản trong hệ thống
-          </p>
+          <p className="text-muted-foreground">{t("user.subtitle")}</p>
         </div>
         <Button onClick={handleAddUser} className="cursor-pointer">
           <Plus className="mr-2 h-4 w-4" />
-          Thêm tài khoản
+          {t("user.addAccount")}
         </Button>
       </div>
 
@@ -195,9 +193,9 @@ export default function UsersPage() {
         {totalPages > 1 && (
           <div className="flex items-center justify-between">
             <div className="text-sm text-muted-foreground">
-              Hiển thị {skip + 1} đến{" "}
-              {Math.min(skip + limit, usersData?.data?.count || 0)} trong tổng
-              số {usersData?.data?.count || 0} người dùng
+              {t("user.showing")} {skip + 1} {t("user.to")}{" "}
+              {Math.min(skip + limit, usersData?.data?.count || 0)}{" "}
+              {t("user.of")} {usersData?.data?.count || 0} {t("user.users")}
             </div>
             <div className="flex items-center space-x-2">
               <Button
@@ -206,10 +204,10 @@ export default function UsersPage() {
                 onClick={() => setPage(page - 1)}
                 disabled={page <= 1}
               >
-                Trước
+                {t("user.previous")}
               </Button>
               <div className="text-sm">
-                Trang {page} / {totalPages}
+                {t("user.page")} {page} / {totalPages}
               </div>
               <Button
                 variant="outline"
@@ -217,7 +215,7 @@ export default function UsersPage() {
                 onClick={() => setPage(page + 1)}
                 disabled={page >= totalPages}
               >
-                Sau
+                {t("user.next")}
               </Button>
             </div>
           </div>
@@ -244,13 +242,15 @@ export default function UsersPage() {
           className="bg-white rounded-lg p-6 max-w-md w-full mx-4"
           onClick={(e) => e.stopPropagation()}
         >
-          <h3 className="text-lg font-semibold mb-4">Xác nhận xóa</h3>
+          <h3 className="text-lg font-semibold mb-4">
+            {t("user.confirmDelete")}
+          </h3>
           <p className="text-gray-600 mb-6">
-            Bạn có chắc chắn muốn xóa người dùng{" "}
+            {t("user.confirmDeletePrompt")}{" "}
             <span className="font-semibold">
               {userToDelete?.full_name || userToDelete?.email}
             </span>
-            ? Hành động này không thể hoàn tác.
+            ? {t("user.confirmDeleteWarning")}
           </p>
           <div className="flex justify-end space-x-3">
             <Button
@@ -258,14 +258,16 @@ export default function UsersPage() {
               onClick={() => setDeleteDialogOpen(false)}
               disabled={deleteUserMutation.isPending}
             >
-              Hủy
+              {t("common.cancel")}
             </Button>
             <Button
               variant="destructive"
               onClick={handleConfirmDelete}
               disabled={deleteUserMutation.isPending}
             >
-              {deleteUserMutation.isPending ? "Đang xóa..." : "Xóa"}
+              {deleteUserMutation.isPending
+                ? t("common.deleting")
+                : t("common.delete")}
             </Button>
           </div>
         </div>

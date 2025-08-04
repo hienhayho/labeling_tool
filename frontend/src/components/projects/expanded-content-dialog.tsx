@@ -13,6 +13,7 @@ import { Code } from "lucide-react";
 import { MessageContent } from "./message-content";
 import { LineItemMessageRead } from "@/client";
 import { getRoleIcon, getRoleColor, getRoleText } from "./sample-utils";
+import { useTranslations } from "next-intl";
 
 interface ExpandedContentDialogProps {
   expandedContent: {
@@ -29,6 +30,7 @@ export function ExpandedContentDialog({
   onClose,
   onShowRawContent,
 }: ExpandedContentDialogProps) {
+  const t = useTranslations();
   if (!expandedContent) return null;
 
   return (
@@ -100,7 +102,7 @@ export function ExpandedContentDialog({
                         <div className="flex items-center gap-2">
                           {getRoleIcon(message.role)}
                           <Badge className={getRoleColor(message.role)}>
-                            {getRoleText(message.role)}
+                            {getRoleText(message.role, t)}
                           </Badge>
                           <span className="text-xs text-gray-500">
                             #{message.line_message_index}
@@ -142,7 +144,7 @@ export function ExpandedContentDialog({
                 <div className="flex items-center gap-2">
                   {getRoleIcon(expandedContent.content.role)}
                   <Badge className={getRoleColor(expandedContent.content.role)}>
-                    {getRoleText(expandedContent.content.role)}
+                    {getRoleText(expandedContent.content.role, t)}
                   </Badge>
                   <span className="text-sm text-gray-500">
                     #{expandedContent.content.line_message_index}
@@ -160,7 +162,7 @@ export function ExpandedContentDialog({
                   }
                 >
                   <Code className="h-4 w-4 mr-2" />
-                  Raw Content
+                  {t("message.rawContent")}
                 </Button>
               </div>
               <div className="prose prose-sm max-w-none">
@@ -177,10 +179,10 @@ export function ExpandedContentDialog({
               <div className="bg-gray-50 border rounded-lg p-4">
                 <div className="flex items-center justify-between mb-3">
                   <h4 className="text-sm font-medium text-gray-700">
-                    Nội dung gốc
+                    {t("message.originalContent")}
                   </h4>
                   <Badge variant="outline" className="text-xs">
-                    Raw Content
+                    {t("message.rawContent")}
                   </Badge>
                 </div>
                 <div className="bg-white border rounded p-3">

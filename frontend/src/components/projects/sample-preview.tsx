@@ -21,6 +21,7 @@ import { ExpandedContentDialog } from "./expanded-content-dialog";
 import { EditMessageDialog } from "./edit-message-dialog";
 import toast from "react-hot-toast";
 import { useAuth } from "@/contexts/auth-context";
+import { useTranslations } from "next-intl";
 
 interface SamplePreviewProps {
   projectId: number;
@@ -64,6 +65,7 @@ export function SamplePreview({
     initialSampleIndex || 1,
   );
   const { user } = useAuth();
+  const t = useTranslations();
 
   // Update currentSampleIndex when initialSampleIndex changes
   useEffect(() => {
@@ -114,7 +116,7 @@ export function SamplePreview({
         headers,
         path: { project_id: projectId, sample_idx: currentSampleIndex },
       });
-      toast.success("Tải sample thành công");
+      toast.success(t("samples.loadSuccess"));
       return result;
     },
     enabled:
@@ -166,7 +168,7 @@ export function SamplePreview({
       queryClient.invalidateQueries({
         queryKey: ["line-items", projectId],
       });
-      toast.success("Xác nhận sample thành công");
+      toast.success(t("sample.confirmSuccess"));
     },
   });
 
@@ -208,7 +210,7 @@ export function SamplePreview({
       queryClient.invalidateQueries({
         queryKey: ["line-items", projectId],
       });
-      toast.success("Phê duyệt sample thành công");
+      toast.success(t("sample.approveSuccess"));
     },
   });
 
@@ -250,7 +252,7 @@ export function SamplePreview({
       queryClient.invalidateQueries({
         queryKey: ["line-items", projectId],
       });
-      toast.success("Từ chối sample thành công");
+      toast.success(t("sample.rejectSuccess"));
     },
   });
 
@@ -279,10 +281,10 @@ export function SamplePreview({
       queryClient.invalidateQueries({
         queryKey: ["sample", projectId, currentSampleIndex],
       });
-      toast.success("Đã cập nhật tin nhắn thành công");
+      toast.success(t("message.updateSuccess"));
     },
     onError: (error) => {
-      toast.error("Có lỗi xảy ra khi cập nhật tin nhắn");
+      toast.error(t("message.updateError"));
       console.error("Error updating message:", error);
     },
   });
@@ -305,7 +307,7 @@ export function SamplePreview({
     if (sampleData?.data?.tools) {
       setExpandedContent({
         type: "tools",
-        title: "Công cụ có sẵn",
+        title: t("sample.availableTools"),
         content: sampleData.data.tools,
       });
     }
@@ -315,7 +317,7 @@ export function SamplePreview({
     if (sampleData?.data?.line_messages) {
       setExpandedContent({
         type: "conversation",
-        title: "Cuộc hội thoại",
+        title: t("sample.conversation"),
         content: sampleData.data.line_messages,
       });
     }
@@ -374,7 +376,7 @@ export function SamplePreview({
     thinkContent: string;
     originalContent: string;
   }) => {
-    // Tạo content mới từ think và original
+    // Create new content from think and original
     let newContent = "";
     if (updatedMessage.thinkContent) {
       newContent = `<think>${updatedMessage.thinkContent}</think>`;
@@ -405,11 +407,11 @@ export function SamplePreview({
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Xem trước mẫu</CardTitle>
+          <CardTitle>{t("samples.preview")}</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-gray-500 text-center py-8">
-            Vui lòng đợi để xem các mẫu ...
+            {t("sample.waitToView")}
           </p>
         </CardContent>
       </Card>
@@ -442,7 +444,7 @@ export function SamplePreview({
 
           {error && (
             <div className="text-red-500 text-center py-8">
-              Có lỗi xảy ra khi tải mẫu: {error.message}
+              {t("sample.loadError")}: {error.message}
             </div>
           )}
 
@@ -459,14 +461,16 @@ export function SamplePreview({
               {/* Messages Section */}
               <div>
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-lg font-semibold">Cuộc hội thoại</h3>
+                  <h3 className="text-lg font-semibold">
+                    {t("sample.conversation")}
+                  </h3>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={handleExpandConversation}
                   >
                     <Maximize2 className="h-4 w-4 mr-2" />
-                    Phóng to
+                    {t("message.expand")}
                   </Button>
                 </div>
                 <div className="space-y-4">

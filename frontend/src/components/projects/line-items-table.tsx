@@ -45,6 +45,7 @@ import {
   Legend,
   Tooltip,
 } from "recharts";
+import { useTranslations } from "next-intl";
 
 interface LineItemsTableProps {
   projectId: number;
@@ -59,6 +60,7 @@ export function LineItemsTable({
   onViewSample,
   selectedSampleIndex,
 }: LineItemsTableProps) {
+  const t = useTranslations();
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [status, setStatus] = useState<LineItemStatus | null>(null);
@@ -86,7 +88,7 @@ export function LineItemsTable({
           status: status || undefined,
         },
       });
-      toast.success("Tải dữ liệu thành công");
+      toast.success(t("samples.loadSuccess"));
       return result;
     },
     refetchInterval: 10000,
@@ -177,15 +179,15 @@ export function LineItemsTable({
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "UNLABELED":
-        return <Badge variant="secondary">Chờ xử lý</Badge>;
+        return <Badge variant="secondary">{t("status.pending")}</Badge>;
       case "CONFIRMED":
-        return <Badge variant="default">Hoàn thành</Badge>;
+        return <Badge variant="default">{t("status.confirmed")}</Badge>;
       case "APPROVED":
-        return <Badge variant="success">Đã duyệt</Badge>;
+        return <Badge variant="success">{t("status.completed")}</Badge>;
       case "REJECTED":
-        return <Badge variant="destructive">Từ chối</Badge>;
+        return <Badge variant="destructive">{t("status.rejected")}</Badge>;
       default:
-        return <Badge variant="outline">Không xác định</Badge>;
+        return <Badge variant="outline">{t("status.unknown")}</Badge>;
     }
   };
 
@@ -193,7 +195,7 @@ export function LineItemsTable({
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Danh sách mẫu</CardTitle>
+          <CardTitle>{t("samples.samplesList")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-center py-8">
@@ -208,11 +210,11 @@ export function LineItemsTable({
     return (
       <Card>
         <CardHeader>
-          <CardTitle>Danh sách mẫu</CardTitle>
+          <CardTitle>{t("samples.samplesList")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="text-red-500 text-center py-8">
-            Có lỗi xảy ra khi tải danh sách: {error.message}
+            {t("samples.loadError")}: {error.message}
           </div>
         </CardContent>
       </Card>
@@ -223,7 +225,7 @@ export function LineItemsTable({
     <Card>
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
-          <span>Danh sách mẫu</span>
+          <span>{t("samples.samplesList")}</span>
           <div className="flex items-center gap-4">
             <Dialog>
               <DialogTrigger asChild>
@@ -234,7 +236,7 @@ export function LineItemsTable({
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
                 <DialogHeader>
-                  <DialogTitle>Thống kê trạng thái mẫu</DialogTitle>
+                  <DialogTitle>{t("dialog.statusStats")}</DialogTitle>
                 </DialogHeader>
                 <div className="mt-6">
                   {lineItemsData?.data?.status_counts && (
@@ -249,13 +251,13 @@ export function LineItemsTable({
                               ).map(([key, value]) => ({
                                 name:
                                   key === "UNLABELED"
-                                    ? "Chờ xử lý"
+                                    ? t("status.pending")
                                     : key === "CONFIRMED"
-                                      ? "Hoàn thành"
+                                      ? t("status.confirmed")
                                       : key === "APPROVED"
-                                        ? "Đã duyệt"
+                                        ? t("status.completed")
                                         : key === "REJECTED"
-                                          ? "Từ chối"
+                                          ? t("status.rejected")
                                           : key,
                                 value: value,
                                 color:
@@ -297,7 +299,10 @@ export function LineItemsTable({
                               ))}
                             </Pie>
                             <Tooltip
-                              formatter={(value) => [value, "Số lượng"]}
+                              formatter={(value) => [
+                                value,
+                                t("samples.quantity"),
+                              ]}
                             />
                             <Legend />
                           </PieChart>
@@ -317,13 +322,13 @@ export function LineItemsTable({
                               </div>
                               <div className="text-sm text-gray-600">
                                 {key === "UNLABELED"
-                                  ? "Chờ xử lý"
+                                  ? t("status.pending")
                                   : key === "CONFIRMED"
-                                    ? "Hoàn thành"
+                                    ? t("status.confirmed")
                                     : key === "APPROVED"
-                                      ? "Đã duyệt"
+                                      ? t("status.completed")
                                       : key === "REJECTED"
-                                        ? "Từ chối"
+                                        ? t("status.rejected")
                                         : key}
                               </div>
                             </div>
@@ -334,7 +339,8 @@ export function LineItemsTable({
                       {/* Total */}
                       <div className="text-center p-4 bg-gray-50 rounded-lg">
                         <div className="text-lg font-semibold text-gray-900">
-                          Tổng cộng: {lineItemsData.data.total_count} mẫu
+                          {t("samples.total")}: {lineItemsData.data.total_count}{" "}
+                          {t("samples.samples")}
                         </div>
                       </div>
                     </div>
@@ -345,14 +351,18 @@ export function LineItemsTable({
 
             <Select value={status || "all"} onValueChange={handleStatusChange}>
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Chọn trạng thái" />
+                <SelectValue placeholder={t("samples.selectStatus")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">Tất cả</SelectItem>
-                <SelectItem value="UNLABELED">Chờ xử lý</SelectItem>
-                <SelectItem value="CONFIRMED">Hoàn thành</SelectItem>
-                <SelectItem value="APPROVED">Đã duyệt</SelectItem>
-                <SelectItem value="REJECTED">Từ chối</SelectItem>
+                <SelectItem value="all">{t("samples.all")}</SelectItem>
+                <SelectItem value="UNLABELED">{t("status.pending")}</SelectItem>
+                <SelectItem value="CONFIRMED">
+                  {t("status.confirmed")}
+                </SelectItem>
+                <SelectItem value="APPROVED">
+                  {t("status.completed")}
+                </SelectItem>
+                <SelectItem value="REJECTED">{t("status.rejected")}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -367,13 +377,13 @@ export function LineItemsTable({
                   ID
                 </TableHead>
                 <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                  Trạng thái
+                  {t("table.status")}
                 </TableHead>
                 <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                  Số tin nhắn
+                  {t("samples.numMessages")}
                 </TableHead>
                 <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                  Thao tác
+                  {t("table.actions")}
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -410,7 +420,7 @@ export function LineItemsTable({
                       onClick={() => onViewSample(item)}
                     >
                       <Eye className="h-4 w-4 mr-2" />
-                      Xem
+                      {t("samples.view")}
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -423,9 +433,10 @@ export function LineItemsTable({
         {lineItemsData?.data && (
           <div className="flex items-center justify-between mt-4">
             <div className="text-sm text-gray-500">
-              Hiển thị {(page - 1) * limit + 1} -{" "}
-              {Math.min(page * limit, lineItemsData.data.total_count)} trong số{" "}
-              {lineItemsData.data.total_count} mẫu
+              {t("samples.showing")} {(page - 1) * limit + 1} -{" "}
+              {Math.min(page * limit, lineItemsData.data.total_count)}{" "}
+              {t("samples.of")} {lineItemsData.data.total_count}{" "}
+              {t("samples.samples")}
             </div>
             <div className="flex items-center gap-2">
               <Button
@@ -440,7 +451,7 @@ export function LineItemsTable({
                 {isAutoPageChange && (
                   <Loader2 className="h-3 w-3 animate-spin" />
                 )}
-                Trang {page} / {lineItemsData.data.num_pages}
+                {t("samples.page")} {page} / {lineItemsData.data.num_pages}
               </span>
               <Button
                 variant="outline"

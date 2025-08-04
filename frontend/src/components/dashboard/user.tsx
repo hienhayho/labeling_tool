@@ -24,6 +24,7 @@ import {
 import { useApi } from "@/hooks/use-api";
 import { projectsGetDashboardUser } from "@/client";
 import { Loader2, FileText, CheckCircle } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const STATUS_COLORS = {
   UNLABELED: "#FFBB28",
@@ -32,14 +33,15 @@ const STATUS_COLORS = {
   REJECTED: "#FF8042",
 };
 
-const STATUS_LABELS = {
-  UNLABELED: "Chờ xử lý",
-  CONFIRMED: "Hoàn thành",
-  APPROVED: "Đã duyệt",
-  REJECTED: "Lỗi",
-};
+const getStatusLabels = (t: any) => ({
+  UNLABELED: t("status.pending"),
+  CONFIRMED: t("status.completed"),
+  APPROVED: t("status.completed"),
+  REJECTED: t("status.rejected"),
+});
 
 export default function DashboardUserPage() {
+  const t = useTranslations();
   const { client, headers } = useApi();
 
   const {
@@ -63,7 +65,7 @@ export default function DashboardUserPage() {
       <div className="container mx-auto p-6">
         <div className="flex items-center justify-center py-8">
           <Loader2 className="h-8 w-8 animate-spin" />
-          <span className="ml-2">Đang tải dữ liệu dashboard...</span>
+          <span className="ml-2">{t("errors.loading")}</span>
         </div>
       </div>
     );
@@ -74,11 +76,11 @@ export default function DashboardUserPage() {
       <div className="container mx-auto p-6">
         <Card>
           <CardHeader>
-            <CardTitle>Lỗi</CardTitle>
+            <CardTitle>{t("errors.errorTitle")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-red-500 text-center py-8">
-              Có lỗi xảy ra khi tải dữ liệu dashboard: {error.message}
+              {t("errors.errorLoadingDashboard")}: {error.message}
             </div>
           </CardContent>
         </Card>
@@ -95,7 +97,7 @@ export default function DashboardUserPage() {
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
-              <p className="text-gray-500">Chưa có dữ liệu thống kê.</p>
+              <p className="text-gray-500">{t("errors.noData")}</p>
             </div>
           </CardContent>
         </Card>
@@ -149,6 +151,7 @@ export default function DashboardUserPage() {
   ];
 
   // Dữ liệu cho biểu đồ tròn trạng thái tổng hợp
+  const STATUS_LABELS = getStatusLabels(t);
   const statusData = Object.entries(totalStatusCounts).map(
     ([status, count]) => ({
       name: STATUS_LABELS[status as keyof typeof STATUS_LABELS],

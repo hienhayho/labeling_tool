@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/contexts/auth-context";
 import { isPublicRoute } from "@/lib/routes";
+import { useLocale } from "next-intl";
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const locale = useLocale();
 
   const isPublic = isPublicRoute(pathname);
 
@@ -21,10 +23,13 @@ export function AuthGuard({ children }: AuthGuardProps) {
     if (!isLoading) {
       if (!isAuthenticated && !isPublic) {
         // Redirect to login if not authenticated and trying to access private routes
-        router.push("/");
-      } else if (isAuthenticated && pathname === "/login") {
+        router.push(`/${locale}`);
+      } else if (
+        isAuthenticated &&
+        (pathname === `/${locale}/login` || pathname === "/login")
+      ) {
         // Redirect to dashboard if authenticated and on login page
-        router.push("/dashboard");
+        router.push(`/${locale}/dashboard`);
       }
     }
   }, [isAuthenticated, isLoading, isPublic, pathname, router]);

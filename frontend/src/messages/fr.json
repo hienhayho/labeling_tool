@@ -1,0 +1,386 @@
+{
+  "common": {
+    "add": "Ajouter",
+    "edit": "Modifier",
+    "delete": "Supprimer",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "back": "Retour",
+    "confirm": "Confirmer",
+    "submit": "Soumettre",
+    "search": "Rechercher",
+    "home": "Accueil",
+    "loading": "Chargement...",
+    "saving": "Enregistrement...",
+    "deleting": "Suppression...",
+    "confirming": "Confirmation...",
+    "name": "Nom",
+    "email": "Email",
+    "password": "Mot de passe",
+    "description": "Description",
+    "status": "Statut",
+    "active": "Actif",
+    "inactive": "Inactif"
+  },
+  "auth": {
+    "login": "Connexion",
+    "logout": "Déconnexion",
+    "register": "S'inscrire",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié ?",
+    "welcomeBack": "Bon retour !",
+    "loginToContinue": "Connectez-vous pour continuer vers le tableau de bord",
+    "loginButton": "Se connecter",
+    "loggingIn": "Connexion en cours...",
+    "rememberMe": "Se souvenir de moi",
+    "orContinueWith": "Ou continuer avec",
+    "byContinuing": "En continuant, vous acceptez nos",
+    "terms": "Conditions",
+    "and": "et",
+    "privacyPolicy": "Politique de confidentialité",
+    "loginSuccess": "Connexion réussie",
+    "signupSuccess": "Inscription réussie"
+  },
+  "user": {
+    "addAccount": "Ajouter un compte",
+    "editAccount": "Modifier le compte",
+    "addNewAccount": "Ajouter un nouveau compte",
+    "fullName": "Nom complet",
+    "deleteSuccess": "Utilisateur supprimé avec succès",
+    "confirmDelete": "Confirmer la suppression",
+    "confirmDeleteMessage": "Êtes-vous sûr de vouloir supprimer cet utilisateur ?",
+    "passwordOptional": "(laisser vide si pas de changement)",
+    "addUser": "Ajouter un utilisateur",
+    "title": "Gestion des utilisateurs",
+    "subtitle": "Gérer les utilisateurs du système",
+    "createSuccess": "Utilisateur créé avec succès",
+    "updateSuccess": "Utilisateur mis à jour avec succès",
+    "deleteError": "Erreur lors de la suppression de l'utilisateur",
+    "createError": "Erreur lors de la création de l'utilisateur",
+    "updateError": "Erreur lors de la mise à jour de l'utilisateur",
+    "loadError": "Erreur lors du chargement des données",
+    "loadErrorMessage": "Veuillez réessayer plus tard ou contacter l'administrateur",
+    "confirmDeletePrompt": "Êtes-vous sûr de vouloir supprimer l'utilisateur",
+    "confirmDeleteWarning": "Cette action ne peut pas être annulée.",
+    "showing": "Affichage",
+    "to": "à",
+    "of": "sur",
+    "users": "utilisateurs",
+    "page": "Page",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "creating": "Création...",
+    "updating": "Mise à jour...",
+    "noName": "Pas de nom",
+    "neverLoggedIn": "Jamais connecté",
+    "updateAccountInfo": "Mettre à jour les informations du compte",
+    "createNewAccount": "Créer un nouveau compte",
+    "namePlaceholder": "Jean Dupont",
+    "adminPrivileges": "Privilèges administrateur"
+  },
+  "project": {
+    "projectName": "Nom du projet",
+    "projectNameRequired": "Le nom du projet est requis",
+    "projectNameTooLong": "Le nom du projet ne peut pas dépasser 255 caractères",
+    "descriptionTooLong": "La description ne peut pas dépasser 255 caractères",
+    "createProject": "Créer un nouveau projet",
+    "createProjectDescription": "Remplissez les informations pour créer un nouveau projet. Cliquez sur Enregistrer lorsque vous avez terminé.",
+    "deleteProject": "Supprimer le projet",
+    "confirmDeleteProject": "Confirmer la suppression du projet",
+    "confirmDeleteProjectMessage": "Êtes-vous sûr de vouloir supprimer le projet",
+    "deleteSuccess": "Projet supprimé avec succès !",
+    "deleteError": "Erreur lors de la suppression du projet",
+    "loadError": "Erreur lors du chargement des projets",
+    "createProjectToStart": "Créer un nouveau projet pour commencer",
+    "noDescription": "Pas de description",
+    "noProjects": "Vous n'avez pas encore de projets",
+    "createFirstProject": "Créer votre premier projet",
+    "createSuccess": "Projet créé avec succès !",
+    "createError": "Erreur lors de la création du projet",
+    "urlInvalid": "URL invalide",
+    "urlTooLong": "L'URL ne peut pas dépasser 255 caractères",
+    "enterProjectName": "Entrer le nom du projet...",
+    "enterProjectDescription": "Entrer la description du projet...",
+    "googleDriveUrl": "URL Google Drive",
+    "creating": "Création...",
+    "projectDetails": "Détails du projet",
+    "statusError": "Erreur",
+    "loadDetailsError": "Erreur lors du chargement des informations du projet",
+    "detailedInfo": "Informations détaillées",
+    "loadingStatus": "Chargement du statut...",
+    "numSamples": "Nombre d'échantillons",
+    "activeUsers": "Utilisateurs actifs",
+    "assignTaskToUser": "Assigner une tâche à l'utilisateur",
+    "selectUser": "Sélectionner un utilisateur",
+    "selectUserPlaceholder": "Sélectionner un utilisateur...",
+    "maximum": "Maximum",
+    "assignTask": "Assigner une tâche",
+    "noUserAssigned": "Aucun utilisateur n'a encore été assigné à des tâches",
+    "unassignedSamplesText": "Restant",
+    "unassignedSamplesUnit": "échantillons non assignés"
+  },
+  "sample": {
+    "confirmSample": "Confirmer",
+    "confirmSuccess": "Échantillon confirmé avec succès",
+    "confirming": "Confirmation...",
+    "confirm": "Confirmer",
+    "approving": "Approbation...",
+    "approve": "Approuver",
+    "rejecting": "Rejet...",
+    "reject": "Rejeter",
+    "approveSuccess": "Échantillon approuvé avec succès",
+    "rejectSuccess": "Échantillon rejeté avec succès",
+    "availableTools": "Outils disponibles",
+    "conversation": "Conversation",
+    "waitToView": "Veuillez patienter pour voir les échantillons...",
+    "loadError": "Erreur lors du chargement de l'échantillon",
+    "sampleId": "ID de l'échantillon",
+    "index": "Index"
+  },
+  "message": {
+    "saveChanges": "Enregistrer les modifications",
+    "thinkContent": "Contenu de réflexion",
+    "enterThinkContent": "Entrer le contenu de réflexion...",
+    "thinkContentNote": "Le contenu de réflexion sera encapsulé dans des balises <think>...</think>",
+    "mainContent": "Contenu principal",
+    "enterMainContent": "Entrer le contenu principal...",
+    "preview": "Aperçu du contenu",
+    "noContent": "Pas de contenu",
+    "expand": "Développer",
+    "viewRawContent": "Voir le contenu brut",
+    "thinking": "Réflexion",
+    "updateSuccess": "Message mis à jour avec succès",
+    "updateError": "Erreur lors de la mise à jour du message",
+    "rawContent": "Contenu brut",
+    "originalContent": "Contenu original"
+  },
+  "file": {
+    "fileName": "Nom du fichier"
+  },
+  "validation": {
+    "emailInvalid": "Email invalide",
+    "nameRequired": "Le nom est requis",
+    "passwordMinLength": "Le mot de passe doit contenir au moins 8 caractères"
+  },
+  "contact": {
+    "address": "Hô Chi Minh-Ville, Vietnam"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "projects": "Gestion de projets",
+    "users": "Gestion des utilisateurs",
+    "mainFeatures": "FONCTIONNALITÉS PRINCIPALES",
+    "settings": "Paramètres",
+    "support": "Support",
+    "logout": "Déconnexion"
+  },
+  "sidebar": {
+    "title": "Outil d'étiquetage",
+    "subtitle": "Outil pour créer des données de projet"
+  },
+  "dashboard": {
+    "title": "Tableau de bord",
+    "stats": {
+      "projects": "Projets",
+      "samples": "Échantillons de données",
+      "users": "Utilisateurs",
+      "progress": "Progrès (%)",
+      "total": "Total"
+    },
+    "tabs": {
+      "byProject": "Par projet",
+      "byUser": "Par utilisateur",
+      "progress": "Progrès",
+      "status": "Statut"
+    },
+    "charts": {
+      "overallStatus": "Statut global",
+      "projectStats": "Statistiques du projet",
+      "userStats": "Statistiques utilisateur",
+      "progressChart": "Progrès d'achèvement",
+      "progressByProject": "Progrès du projet"
+    }
+  },
+  "samples": {
+    "samplesList": "Liste des échantillons",
+    "loadSuccess": "Données chargées avec succès",
+    "loadError": "Erreur lors du chargement de la liste",
+    "quantity": "Quantité",
+    "total": "Total",
+    "samples": "échantillons",
+    "selectStatus": "Sélectionner le statut",
+    "all": "Tous",
+    "numMessages": "Messages",
+    "view": "Voir",
+    "showing": "Affichage",
+    "of": "sur",
+    "page": "Page",
+    "preview": "Aperçu de l'échantillon",
+    "backToList": "Retour à la liste",
+    "viewSample": "Voir l'échantillon"
+  },
+  "status": {
+    "pending": "En attente",
+    "confirmed": "Confirmé",
+    "processing": "En cours de traitement",
+    "completed": "Terminé",
+    "rejected": "Rejeté",
+    "active": "Actif",
+    "inactive": "Inactif",
+    "unknown": "Inconnu"
+  },
+  "table": {
+    "user": "Utilisateur",
+    "status": "Statut",
+    "action": "Action",
+    "actions": "Actions",
+    "email": "Email",
+    "role": "Rôle",
+    "createdAt": "Créé le",
+    "updatedAt": "Mis à jour le",
+    "lastLogin": "Dernière connexion"
+  },
+  "role": {
+    "user": "Utilisateur",
+    "assistant": "Assistant",
+    "admin": "Administrateur",
+    "superuser": "Super administrateur",
+    "role": "Rôle",
+    "selectRole": "Sélectionner un rôle",
+    "system": "Système",
+    "toolCall": "Appel d'outil",
+    "toolResponse": "Réponse d'outil"
+  },
+  "dialog": {
+    "editMessage": "Modifier le message",
+    "statusStats": "Statistiques du statut des échantillons",
+    "statusToDownload": "Statut à télécharger",
+    "irreversibleAction": "Cette action ne peut pas être annulée",
+    "deleteProjectWarning": "Cette action ne peut pas être annulée et supprimera définitivement toutes les données liées à ce projet.",
+    "userCanLogin": "L'utilisateur peut se connecter"
+  },
+  "progress": {
+    "title": "Progrès",
+    "status": "Statut de traitement",
+    "processing": "En cours de traitement",
+    "sampleData": "Données d'échantillon"
+  },
+  "errors": {
+    "loading": "Chargement des données du tableau de bord...",
+    "errorTitle": "Erreur",
+    "errorLoadingDashboard": "Erreur lors du chargement des données du tableau de bord",
+    "noData": "Aucune donnée statistique disponible.",
+    "errorOccurred": "Une erreur s'est produite"
+  },
+  "charts": {
+    "comparisonComplete": "Comparaison d'achèvement",
+    "projectDetails": "Détails du projet",
+    "autoUpdateBadge": "Mise à jour automatique toutes les 30 secondes",
+    "samples": "échantillons",
+    "tasks": "tâches",
+    "samplesPerProject": "Échantillons par projet"
+  },
+  "tasks": {
+    "loadProjectError": "Erreur lors du chargement du projet",
+    "projectNotFound": "Projet non trouvé",
+    "projectNotFoundMessage": "Le projet n'existe pas ou vous n'avez pas accès.",
+    "projectNotReady": "Projet pas prêt",
+    "projectNotActivated": "Projet non activé. Veuillez patienter pour commencer à travailler."
+  },
+  "download": {
+    "success": "Téléchargement réussi !",
+    "error": "Erreur de téléchargement",
+    "selectStatusError": "Veuillez sélectionner au moins un statut",
+    "enterFileNameError": "Veuillez entrer un nom de fichier",
+    "downloadData": "Télécharger les données",
+    "downloadProjectData": "Télécharger les données du projet",
+    "selectConfigDescription": "Sélectionner la configuration pour télécharger les données du projet sous forme de fichier JSONL",
+    "limitOptional": "Limite (optionnel)",
+    "leaveEmptyForAll": "Laisser vide pour tout télécharger",
+    "leaveEmptyNote": "Laisser vide pour télécharger toutes les données",
+    "selectAll": "Tout sélectionner",
+    "deselectAll": "Tout désélectionner",
+    "downloading": "Téléchargement...",
+    "download": "Télécharger"
+  },
+  "landing": {
+    "subtitle": "Outil d'étiquetage de données IA",
+    "hero": {
+      "title": "Étiquetage de données",
+      "highlight": "intelligent",
+      "description": "Outil puissant pour vous aider à étiqueter les données d'IA conversationnelle de manière efficace et précise. Prend en charge multi-utilisateur, gestion de projet et exportation facile des données.",
+      "ctaStart": "Commencer",
+      "ctaFeatures": "Voir les fonctionnalités"
+    },
+    "features": {
+      "title": "Fonctionnalités clés",
+      "subtitle": "Découvrez des fonctionnalités puissantes qui rendent l'étiquetage des données facile et efficace",
+      "conversation": {
+        "title": "Étiquetage basé sur les conversations",
+        "description": "Étiquetez chaque message dans les conversations de manière détaillée et structurée. Prend en charge plusieurs rôles (utilisateur, assistant) et formatage spécial."
+      },
+      "multiuser": {
+        "title": "Support multi-utilisateur",
+        "description": "Assignez le travail à plusieurs utilisateurs simultanément. Suivez les progrès et la qualité du travail de chaque membre."
+      },
+      "project": {
+        "title": "Gestion de projet",
+        "description": "Créez et gérez plusieurs projets d'étiquetage. Suivez le statut, les progrès et exportez les données facilement."
+      },
+      "quality": {
+        "title": "Contrôle qualité",
+        "description": "Système d'approbation et de contrôle qualité. Assurez-vous que les données sont étiquetées avec précision et cohérence."
+      },
+      "analytics": {
+        "title": "Rapports et statistiques",
+        "description": "Tableau de bord statistique détaillé avec graphiques visuels. Suivez les performances et les progrès du projet en temps réel."
+      },
+      "export": {
+        "title": "Exportation rapide des données",
+        "description": "Exportez les données étiquetées au format JSONL. Filtrez par statut et limitez la quantité selon les besoins."
+      }
+    },
+    "howItWorks": {
+      "title": "Comment ça marche",
+      "subtitle": "Processus d'étiquetage de données simple et efficace",
+      "step1": {
+        "title": "Créer un projet",
+        "description": "Créez un nouveau projet et téléchargez les données de conversation à étiqueter"
+      },
+      "step2": {
+        "title": "Étiqueter les données",
+        "description": "Visualisez chaque conversation et étiquetez chaque message"
+      },
+      "step3": {
+        "title": "Exporter les données",
+        "description": "Exportez les données étiquetées pour l'entraînement de l'IA"
+      }
+    },
+    "cta": {
+      "title": "Prêt à commencer ?",
+      "subtitle": "Rejoignez-nous pour créer des ensembles de données de haute qualité pour l'IA",
+      "button": "Se connecter maintenant"
+    },
+    "footer": {
+      "subtitle": "Outil d'étiquetage de données IA",
+      "description": "Outil puissant pour vous aider à étiqueter les données d'IA conversationnelle de manière efficace et précise.",
+      "features": {
+        "title": "Fonctionnalités",
+        "conversation": "Étiquetage de conversation",
+        "project": "Gestion de projet",
+        "multiuser": "Multi-utilisateur",
+        "export": "Exportation de données"
+      },
+      "support": {
+        "title": "Support",
+        "guide": "Guide utilisateur",
+        "faq": "FAQ",
+        "contact": "Contact",
+        "report": "Signaler des bugs"
+      },
+      "contact": {
+        "title": "Contact"
+      }
+    }
+  }
+}

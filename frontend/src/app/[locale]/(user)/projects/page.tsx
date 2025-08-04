@@ -22,17 +22,26 @@ import Link from "next/link";
 import { useAuth } from "@/contexts/auth-context";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 
-const getRedirectUrl = (isSuperuser: boolean, projectId: number) => {
+const getRedirectUrl = (
+  isSuperuser: boolean,
+  projectId: number,
+  locale: string,
+) => {
   if (isSuperuser) {
-    return `/projects/${projectId}`;
+    return `/${locale}/projects/${projectId}`;
   }
-  return `/tasks/${projectId}`;
+  return `/${locale}/tasks/${projectId}`;
 };
 
 export default function ProjectsPage() {
+  const t = useTranslations();
   const { client, headers } = useApi();
   const { user } = useAuth();
+  const params = useParams();
+  const locale = params.locale as string;
   const queryClient = useQueryClient();
   const [projectToDelete, setProjectToDelete] = useState<{
     id: number;
@@ -60,11 +69,11 @@ export default function ProjectsPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
-      toast.success("Đã xóa dự án thành công!");
+      toast.success(t("project.deleteSuccess"));
       setProjectToDelete(null);
     },
     onError: (error) => {
-      toast.error(`Lỗi khi xóa dự án: ${error.message}`);
+      toast.error(`${t("project.deleteError")}: ${error.message}`);
       setProjectToDelete(null);
     },
   });
@@ -84,9 +93,9 @@ export default function ProjectsPage() {
   if (error) {
     return (
       <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">Quản lý dự án</h1>
+        <h1 className="text-2xl font-bold mb-4">{t("navigation.projects")}</h1>
         <div className="text-red-500">
-          Có lỗi xảy ra khi tải danh sách dự án: {error.message}
+          {t("project.loadError")}: {error.message}
         </div>
       </div>
     );
@@ -94,7 +103,7 @@ export default function ProjectsPage() {
 
   return (
     <div className="container mx-auto p-10">
-      <h1 className="text-2xl font-bold mb-4">Quản lý dự án</h1>
+      <h1 className="text-2xl font-bold mb-4">{t("navigation.projects")}</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {user?.is_superuser && (
@@ -103,10 +112,10 @@ export default function ProjectsPage() {
               <CardContent className="flex flex-col items-center justify-center h-28 p-4">
                 <Plus className="h-8 w-8 text-gray-400 mb-2" />
                 <h3 className="text-sm font-semibold text-gray-600 mb-1">
-                  Tạo dự án
+                  {t("project.createProject")}
                 </h3>
                 <p className="text-xs text-gray-500 text-center">
-                  Tạo một dự án mới để bắt đầu
+                  {t("project.createProjectToStart")}
                 </p>
               </CardContent>
             </Card>
@@ -130,7 +139,11 @@ export default function ProjectsPage() {
           : projects?.map((project) => (
               <Link
                 key={project.id}
-                href={getRedirectUrl(user?.is_superuser ?? false, project.id)}
+                href={getRedirectUrl(
+                  user?.is_superuser ?? false,
+                  project.id,
+                  locale,
+                )}
               >
                 <Card className="border hover:shadow-md transition-shadow cursor-pointer">
                   <CardHeader className="pb-2">
@@ -138,7 +151,7 @@ export default function ProjectsPage() {
                   </CardHeader>
                   <CardContent className="pt-0">
                     <p className="text-gray-600 text-xs mb-3">
-                      {project.description || "Không có mô tả"}
+                      {project.description || t("project.noDescription")}
                     </p>
                     <div className="flex justify-between items-center">
                       <span className="text-xs text-gray-500">
@@ -161,7 +174,7 @@ export default function ProjectsPage() {
                           ) : (
                             <Trash2 className="h-3 w-3 mr-1" />
                           )}
-                          Xóa
+                          {t("common.delete")}
                         </Button>
                       )}
                     </div>
@@ -173,11 +186,11 @@ export default function ProjectsPage() {
 
       {user?.is_superuser && !isLoading && projects?.length === 0 && (
         <div className="text-center py-8">
-          <p className="text-gray-500 mb-3">Bạn chưa có dự án nào</p>
+          <p className="text-gray-500 mb-3">{t("project.noProjects")}</p>
           <CreateProjectDialog>
             <Button size="sm">
               <Plus className="h-4 w-4 mr-2" />
-              Tạo dự án đầu tiên
+              {t("project.createFirstProject")}
             </Button>
           </CreateProjectDialog>
         </div>
@@ -187,14 +200,15 @@ export default function ProjectsPage() {
       <AlertDialog open={!!projectToDelete}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Xác nhận xóa dự án</AlertDialogTitle>
+            <AlertDialogTitle>
+              {t("project.confirmDeleteProject")}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Bạn có chắc chắn muốn xóa dự án{" "}
+              {t("project.confirmDeleteProjectMessage")}{" "}
               <span className="font-semibold text-red-600">
                 &ldquo;{projectToDelete?.name}&rdquo;
               </span>
-              ? Hành động này không thể hoàn tác và sẽ xóa vĩnh viễn tất cả dữ
-              liệu liên quan đến dự án này.
+              ? {t("dialog.deleteProjectWarning")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -206,7 +220,7 @@ export default function ProjectsPage() {
                 }
               }}
             >
-              Hủy
+              {t("common.cancel")}
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={confirmDelete}
@@ -216,10 +230,10 @@ export default function ProjectsPage() {
               {deleteProjectMutation.isPending ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Đang xóa...
+                  {t("common.deleting")}
                 </>
               ) : (
-                "Xóa dự án"
+                t("project.deleteProject")
               )}
             </AlertDialogAction>
           </AlertDialogFooter>
