@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, ChevronLeft, ChevronRight } from "lucide-react";
 import { UsersTable } from "@/components/admin/users-table";
 import { UserDialog } from "@/components/admin/user-dialog";
 import { useApi } from "@/hooks/use-api";
@@ -20,7 +20,7 @@ import { useTranslations } from "next-intl";
 export default function UsersPage() {
   const t = useTranslations();
   const [page, setPage] = useState(1);
-  const [limit] = useState(10);
+  const [limit] = useState(8);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserPublic | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -191,31 +191,31 @@ export default function UsersPage() {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between">
-            <div className="text-sm text-muted-foreground">
-              {t("user.showing")} {skip + 1} {t("user.to")}{" "}
+          <div className="flex items-center justify-between mt-4">
+            <div className="text-sm text-gray-500">
+              {t("user.showing")} {skip + 1} -{" "}
               {Math.min(skip + limit, usersData?.data?.count || 0)}{" "}
               {t("user.of")} {usersData?.data?.count || 0} {t("user.users")}
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center gap-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setPage(page - 1)}
                 disabled={page <= 1}
               >
-                {t("user.previous")}
+                <ChevronLeft className="h-4 w-4" />
               </Button>
-              <div className="text-sm">
+              <span className="text-sm font-medium">
                 {t("user.page")} {page} / {totalPages}
-              </div>
+              </span>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => setPage(page + 1)}
                 disabled={page >= totalPages}
               >
-                {t("user.next")}
+                <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
           </div>

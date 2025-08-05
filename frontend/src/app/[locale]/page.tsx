@@ -13,11 +13,12 @@ import {
   BarChart3,
   Zap,
 } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { LanguageSwitcher } from "@/components/language-switcher";
 
 export default function HomePage() {
   const t = useTranslations();
+  const locale = useLocale();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50">
@@ -39,7 +40,7 @@ export default function HomePage() {
             <div className="flex items-center gap-4">
               <LanguageSwitcher />
               <Button asChild className="bg-orange-500 hover:bg-orange-600">
-                <Link href="/login">{t("auth.login")}</Link>
+                <Link href={`/${locale}/login`}>{t("auth.login")}</Link>
               </Button>
             </div>
           </div>
@@ -66,7 +67,7 @@ export default function HomePage() {
                 size="lg"
                 className="bg-orange-500 hover:bg-orange-600 text-lg px-8 py-3"
               >
-                <Link href="/login">
+                <Link href={`/${locale}/login`}>
                   {t("landing.hero.ctaStart")}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
@@ -259,7 +260,7 @@ export default function HomePage() {
             size="lg"
             className="bg-white text-orange-600 hover:bg-gray-100 text-lg px-8 py-3"
           >
-            <Link href="/login">
+            <Link href={`/${locale}/login`}>
               {t("landing.cta.button")}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>

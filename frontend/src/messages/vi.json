@@ -187,7 +187,16 @@
       "progress": "Tiến độ (%)",
       "total": "Tổng số"
     },
+    "overview": {
+      "subtitle": "Tổng quan dự án của bạn",
+      "projects": "Dự án",
+      "totalTasks": "Tổng task",
+      "completed": "Hoàn thành",
+      "progress": "tiến độ"
+    },
     "tabs": {
+      "overview": "Tổng quan",
+      "projects": "Theo dự án",
       "byProject": "Theo dự án",
       "byUser": "Theo người dùng",
       "progress": "Tiến độ",
@@ -198,7 +207,18 @@
       "projectStats": "Thống kê theo dự án",
       "userStats": "Thống kê theo người dùng",
       "progressChart": "Tiến độ hoàn thành",
-      "progressByProject": "Tiến độ dự án"
+      "progressByProject": "Tiến độ dự án",
+      "statusDistribution": "Phân bố trạng thái",
+      "tasksByProject": "Task theo dự án",
+      "projectDetails": "Chi tiết theo dự án",
+      "projectProgress": "Tiến độ dự án",
+      "statusByProject": "Phân bố trạng thái theo dự án",
+      "progressPercent": "Tiến độ (%)",
+      "total": "Tổng số"
+    },
+    "projectDetails": {
+      "title": "Chi tiết dự án",
+      "tasks": "tasks"
     }
   },
   "samples": {
@@ -224,6 +244,7 @@
     "confirmed": "Đã xác nhận",
     "processing": "Đang xử lý",
     "completed": "Hoàn thành",
+    "approved": "Đã duyệt",
     "rejected": "Từ chối",
     "active": "Hoạt động",
     "inactive": "Không hoạt động",

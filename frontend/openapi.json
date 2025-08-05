@@ -97,7 +97,7 @@
         "security": [{ "OAuth2PasswordBearer": [] }]
       }
     },
-    "/api/v1/users/": {
+    "/api/v1/users": {
       "get": {
         "tags": ["users"],
         "summary": "Read Users",

@@ -187,7 +187,16 @@
       "progress": "進捗（%）",
       "total": "合計"
     },
+    "overview": {
+      "subtitle": "プロジェクトの概要",
+      "projects": "プロジェクト",
+      "totalTasks": "総タスク",
+      "completed": "完了",
+      "progress": "進捗"
+    },
     "tabs": {
+      "overview": "概要",
+      "projects": "プロジェクト別",
       "byProject": "プロジェクト別",
       "byUser": "ユーザー別",
       "progress": "進捗",
@@ -198,7 +207,18 @@
       "projectStats": "プロジェクト統計",
       "userStats": "ユーザー統計",
       "progressChart": "完了進捗",
-      "progressByProject": "プロジェクト進捗"
+      "progressByProject": "プロジェクト進捗",
+      "statusDistribution": "ステータス分布",
+      "tasksByProject": "プロジェクト別タスク",
+      "projectDetails": "プロジェクト別詳細",
+      "projectProgress": "プロジェクト進捗",
+      "statusByProject": "プロジェクト別ステータス分布",
+      "progressPercent": "進捗（%）",
+      "total": "合計"
+    },
+    "projectDetails": {
+      "title": "プロジェクト詳細",
+      "tasks": "タスク"
     }
   },
   "samples": {
@@ -224,6 +244,7 @@
     "confirmed": "確認済み",
     "processing": "処理中",
     "completed": "完了",
+    "approved": "承認済み",
     "rejected": "拒否",
     "active": "アクティブ",
     "inactive": "非アクティブ",

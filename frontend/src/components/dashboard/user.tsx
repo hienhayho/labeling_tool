@@ -93,7 +93,7 @@ export default function DashboardUserPage() {
       <div className="container mx-auto p-6">
         <Card>
           <CardHeader>
-            <CardTitle>Dashboard</CardTitle>
+            <CardTitle>{t("dashboard.title")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="text-center py-8">
@@ -131,19 +131,19 @@ export default function DashboardUserPage() {
   // Dữ liệu cho biểu đồ tổng quan
   const overviewData = [
     {
-      name: "Dự án",
+      name: t("dashboard.overview.projects"),
       value: totalProjects,
       icon: FileText,
       color: "#0088FE",
     },
     {
-      name: "Tổng task",
+      name: t("dashboard.overview.totalTasks"),
       value: totalTasks,
       icon: FileText,
       color: "#00C49F",
     },
     {
-      name: "Hoàn thành",
+      name: t("dashboard.overview.completed"),
       value: completedTasks,
       icon: CheckCircle,
       color: "#FFBB28",
@@ -163,11 +163,11 @@ export default function DashboardUserPage() {
   // Dữ liệu cho biểu đồ cột theo dự án
   const projectData = dashboardData.data.map((project: any) => ({
     name: project.project_name,
-    "Tổng số": project.task_count,
-    "Chờ xử lý": project.status_counts.UNLABELED || 0,
-    "Hoàn thành": project.status_counts.CONFIRMED || 0,
-    "Đã duyệt": project.status_counts.APPROVED || 0,
-    Lỗi: project.status_counts.REJECTED || 0,
+    [t("dashboard.charts.total")]: project.task_count,
+    [t("status.pending")]: project.status_counts.UNLABELED || 0,
+    [t("status.completed")]: project.status_counts.CONFIRMED || 0,
+    [t("status.approved")]: project.status_counts.APPROVED || 0,
+    [t("status.rejected")]: project.status_counts.REJECTED || 0,
   }));
 
   // Dữ liệu cho biểu đồ đường tiến độ
@@ -180,27 +180,27 @@ export default function DashboardUserPage() {
 
     return {
       name: project.project_name,
-      "Tiến độ (%)": Math.round(progress),
-      "Tổng số": total,
-      "Hoàn thành": completed,
+      [t("dashboard.charts.progressPercent")]: Math.round(progress),
+      [t("dashboard.charts.total")]: total,
+      [t("dashboard.overview.completed")]: completed,
     };
   });
 
   // Dữ liệu cho biểu đồ area chart
   const areaData = dashboardData.data.map((project: any) => ({
     name: project.project_name,
-    "Chờ xử lý": project.status_counts.UNLABELED || 0,
-    "Hoàn thành": project.status_counts.CONFIRMED || 0,
-    "Đã duyệt": project.status_counts.APPROVED || 0,
-    Lỗi: project.status_counts.REJECTED || 0,
+    [t("status.pending")]: project.status_counts.UNLABELED || 0,
+    [t("status.completed")]: project.status_counts.CONFIRMED || 0,
+    [t("status.approved")]: project.status_counts.APPROVED || 0,
+    [t("status.rejected")]: project.status_counts.REJECTED || 0,
   }));
 
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold">{t("dashboard.title")}</h1>
         <Badge variant="secondary" className="text-sm">
-          Tổng quan dự án của bạn
+          {t("dashboard.overview.subtitle")}
         </Badge>
       </div>
 
@@ -214,9 +214,10 @@ export default function DashboardUserPage() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{item.value}</div>
-              {item.name === "Hoàn thành" && (
+              {item.name === t("dashboard.overview.completed") && (
                 <p className="text-xs text-muted-foreground">
-                  {progressPercentage.toFixed(1)}% tiến độ
+                  {progressPercentage.toFixed(1)}%{" "}
+                  {t("dashboard.overview.progress")}
                 </p>
               )}
             </CardContent>
@@ -227,10 +228,16 @@ export default function DashboardUserPage() {
       {/* Biểu đồ */}
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
-          <TabsTrigger value="overview">Tổng quan</TabsTrigger>
-          <TabsTrigger value="projects">Theo dự án</TabsTrigger>
-          <TabsTrigger value="progress">Tiến độ</TabsTrigger>
-          <TabsTrigger value="status">Trạng thái</TabsTrigger>
+          <TabsTrigger value="overview">
+            {t("dashboard.tabs.overview")}
+          </TabsTrigger>
+          <TabsTrigger value="projects">
+            {t("dashboard.tabs.projects")}
+          </TabsTrigger>
+          <TabsTrigger value="progress">
+            {t("dashboard.tabs.progress")}
+          </TabsTrigger>
+          <TabsTrigger value="status">{t("dashboard.tabs.status")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -238,7 +245,9 @@ export default function DashboardUserPage() {
             {/* Biểu đồ tròn trạng thái */}
             <Card>
               <CardHeader>
-                <CardTitle>Phân bố trạng thái</CardTitle>
+                <CardTitle>
+                  {t("dashboard.charts.statusDistribution")}
+                </CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -275,7 +284,7 @@ export default function DashboardUserPage() {
             {/* Biểu đồ cột dự án */}
             <Card>
               <CardHeader>
-                <CardTitle>Task theo dự án</CardTitle>
+                <CardTitle>{t("dashboard.charts.tasksByProject")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -286,22 +295,22 @@ export default function DashboardUserPage() {
                     <Tooltip />
                     <Legend />
                     <Bar
-                      dataKey="Chờ xử lý"
+                      dataKey={t("status.pending")}
                       fill={STATUS_COLORS.UNLABELED}
                       stackId="a"
                     />
                     <Bar
-                      dataKey="Hoàn thành"
+                      dataKey={t("status.completed")}
                       fill={STATUS_COLORS.CONFIRMED}
                       stackId="a"
                     />
                     <Bar
-                      dataKey="Đã duyệt"
+                      dataKey={t("status.approved")}
                       fill={STATUS_COLORS.APPROVED}
                       stackId="a"
                     />
                     <Bar
-                      dataKey="Lỗi"
+                      dataKey={t("status.rejected")}
                       fill={STATUS_COLORS.REJECTED}
                       stackId="a"
                     />
@@ -315,7 +324,7 @@ export default function DashboardUserPage() {
         <TabsContent value="projects" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Chi tiết theo dự án</CardTitle>
+              <CardTitle>{t("dashboard.charts.projectDetails")}</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
@@ -325,10 +334,22 @@ export default function DashboardUserPage() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="Chờ xử lý" fill={STATUS_COLORS.UNLABELED} />
-                  <Bar dataKey="Hoàn thành" fill={STATUS_COLORS.CONFIRMED} />
-                  <Bar dataKey="Đã duyệt" fill={STATUS_COLORS.APPROVED} />
-                  <Bar dataKey="Lỗi" fill={STATUS_COLORS.REJECTED} />
+                  <Bar
+                    dataKey={t("status.pending")}
+                    fill={STATUS_COLORS.UNLABELED}
+                  />
+                  <Bar
+                    dataKey={t("status.completed")}
+                    fill={STATUS_COLORS.CONFIRMED}
+                  />
+                  <Bar
+                    dataKey={t("status.approved")}
+                    fill={STATUS_COLORS.APPROVED}
+                  />
+                  <Bar
+                    dataKey={t("status.rejected")}
+                    fill={STATUS_COLORS.REJECTED}
+                  />
                 </BarChart>
               </ResponsiveContainer>
             </CardContent>
@@ -338,7 +359,7 @@ export default function DashboardUserPage() {
         <TabsContent value="progress" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Tiến độ dự án</CardTitle>
+              <CardTitle>{t("dashboard.charts.projectProgress")}</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
@@ -350,7 +371,7 @@ export default function DashboardUserPage() {
                   <Legend />
                   <Line
                     type="monotone"
-                    dataKey="Tiến độ (%)"
+                    dataKey={t("dashboard.charts.progressPercent")}
                     stroke="#8884d8"
                     strokeWidth={2}
                   />
@@ -363,7 +384,7 @@ export default function DashboardUserPage() {
         <TabsContent value="status" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Phân bố trạng thái theo dự án</CardTitle>
+              <CardTitle>{t("dashboard.charts.statusByProject")}</CardTitle>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={400}>
@@ -375,28 +396,28 @@ export default function DashboardUserPage() {
                   <Legend />
                   <Area
                     type="monotone"
-                    dataKey="Chờ xử lý"
+                    dataKey={t("status.pending")}
                     stackId="1"
                     stroke={STATUS_COLORS.UNLABELED}
                     fill={STATUS_COLORS.UNLABELED}
                   />
                   <Area
                     type="monotone"
-                    dataKey="Hoàn thành"
+                    dataKey={t("status.completed")}
                     stackId="1"
                     stroke={STATUS_COLORS.CONFIRMED}
                     fill={STATUS_COLORS.CONFIRMED}
                   />
                   <Area
                     type="monotone"
-                    dataKey="Đã duyệt"
+                    dataKey={t("status.approved")}
                     stackId="1"
                     stroke={STATUS_COLORS.APPROVED}
                     fill={STATUS_COLORS.APPROVED}
                   />
                   <Area
                     type="monotone"
-                    dataKey="Lỗi"
+                    dataKey={t("status.rejected")}
                     stackId="1"
                     stroke={STATUS_COLORS.REJECTED}
                     fill={STATUS_COLORS.REJECTED}
@@ -411,7 +432,7 @@ export default function DashboardUserPage() {
       {/* Bảng chi tiết */}
       <Card>
         <CardHeader>
-          <CardTitle>Chi tiết dự án</CardTitle>
+          <CardTitle>{t("dashboard.projectDetails.title")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
@@ -424,7 +445,9 @@ export default function DashboardUserPage() {
                   <h3 className="text-lg font-semibold">
                     {project.project_name}
                   </h3>
-                  <Badge variant="outline">{project.task_count} tasks</Badge>
+                  <Badge variant="outline">
+                    {project.task_count} {t("dashboard.projectDetails.tasks")}
+                  </Badge>
                 </div>
                 {project.project_description && (
                   <p className="text-sm text-muted-foreground">
@@ -471,22 +494,22 @@ export default function DashboardUserPage() {
                           <Pie
                             data={[
                               {
-                                name: "Chờ xử lý",
+                                name: t("status.pending"),
                                 value: project.status_counts.UNLABELED || 0,
                                 fill: STATUS_COLORS.UNLABELED,
                               },
                               {
-                                name: "Hoàn thành",
+                                name: t("status.completed"),
                                 value: project.status_counts.CONFIRMED || 0,
                                 fill: STATUS_COLORS.CONFIRMED,
                               },
                               {
-                                name: "Đã duyệt",
+                                name: t("status.approved"),
                                 value: project.status_counts.APPROVED || 0,
                                 fill: STATUS_COLORS.APPROVED,
                               },
                               {
-                                name: "Lỗi",
+                                name: t("status.rejected"),
                                 value: project.status_counts.REJECTED || 0,
                                 fill: STATUS_COLORS.REJECTED,
                               },

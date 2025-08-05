@@ -22,10 +22,6 @@ export default function useAuth() {
     mutationFn: async (credentials: BodyLoginLoginAccessToken) => {
       const baseUrl =
         process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
-      console.log(
-        "process.env.NEXT_PUBLIC_API_URL",
-        process.env.NEXT_PUBLIC_API_URL,
-      );
       const response = await fetch(`${baseUrl}/api/v1/login/access-token`, {
         method: "POST",
         headers: {

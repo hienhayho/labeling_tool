@@ -88,7 +88,7 @@ export const usersReadUsers = <ThrowOnError extends boolean = false>(options?: O
                 type: 'http'
             }
         ],
-        url: '/api/v1/users/',
+        url: '/api/v1/users',
         ...options
     });
 };
@@ -106,7 +106,7 @@ export const usersCreateUser = <ThrowOnError extends boolean = false>(options: O
                 type: 'http'
             }
         ],
-        url: '/api/v1/users/',
+        url: '/api/v1/users',
         ...options,
         headers: {
             'Content-Type': 'application/json',

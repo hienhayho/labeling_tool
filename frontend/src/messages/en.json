@@ -187,7 +187,16 @@
       "progress": "Progress (%)",
       "total": "Total"
     },
+    "overview": {
+      "subtitle": "Your project overview",
+      "projects": "Projects",
+      "totalTasks": "Total tasks",
+      "completed": "Completed",
+      "progress": "progress"
+    },
     "tabs": {
+      "overview": "Overview",
+      "projects": "By Project",
       "byProject": "By Project",
       "byUser": "By User",
       "progress": "Progress",
@@ -198,7 +207,18 @@
       "projectStats": "Project Statistics",
       "userStats": "User Statistics",
       "progressChart": "Completion Progress",
-      "progressByProject": "Project Progress"
+      "progressByProject": "Project Progress",
+      "statusDistribution": "Status Distribution",
+      "tasksByProject": "Tasks by Project",
+      "projectDetails": "Project Details",
+      "projectProgress": "Project Progress",
+      "statusByProject": "Status Distribution by Project",
+      "progressPercent": "Progress (%)",
+      "total": "Total"
+    },
+    "projectDetails": {
+      "title": "Project Details",
+      "tasks": "tasks"
     }
   },
   "samples": {
@@ -224,6 +244,7 @@
     "confirmed": "Confirmed",
     "processing": "Processing",
     "completed": "Completed",
+    "approved": "Approved",
     "rejected": "Rejected",
     "active": "Active",
     "inactive": "Inactive",

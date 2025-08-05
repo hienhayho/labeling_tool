@@ -46,6 +46,7 @@ class UpdatePassword(SQLModel):
 class User(UserBase, table=True):
     id: int = Field(primary_key=True, sa_column_kwargs={"autoincrement": True})
     hashed_password: str
+    last_login_time: datetime | None = Field(default=None)
     projects: list["Project"] = Relationship(
         back_populates="owner", cascade_delete=True
     )
@@ -55,6 +56,7 @@ class User(UserBase, table=True):
 # Properties to return via API, id is always required
 class UserPublic(UserBase):
     id: int
+    last_login_time: datetime | None = Field(default=None)
 
 
 class UsersPublic(SQLModel):

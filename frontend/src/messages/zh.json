@@ -187,7 +187,16 @@
       "progress": "进度（%）",
       "total": "总计"
     },
+    "overview": {
+      "subtitle": "您的项目概览",
+      "projects": "项目",
+      "totalTasks": "总任务",
+      "completed": "已完成",
+      "progress": "进度"
+    },
     "tabs": {
+      "overview": "概览",
+      "projects": "按项目",
       "byProject": "按项目",
       "byUser": "按用户",
       "progress": "进度",
@@ -198,7 +207,18 @@
       "projectStats": "项目统计",
       "userStats": "用户统计",
       "progressChart": "完成进度",
-      "progressByProject": "项目进度"
+      "progressByProject": "项目进度",
+      "statusDistribution": "状态分布",
+      "tasksByProject": "按项目任务",
+      "projectDetails": "按项目详情",
+      "projectProgress": "项目进度",
+      "statusByProject": "按项目状态分布",
+      "progressPercent": "进度（%）",
+      "total": "总计"
+    },
+    "projectDetails": {
+      "title": "项目详情",
+      "tasks": "任务"
     }
   },
   "samples": {
@@ -224,6 +244,7 @@
     "confirmed": "已确认",
     "processing": "处理中",
     "completed": "已完成",
+    "approved": "已批准",
     "rejected": "已拒绝",
     "active": "活跃",
     "inactive": "非活跃",

@@ -285,7 +285,6 @@ export function SamplePreview({
     },
     onError: (error) => {
       toast.error(t("message.updateError"));
-      console.error("Error updating message:", error);
     },
   });
 

@@ -153,7 +153,6 @@ export function LineItemsTable({
       lineItemsData?.data?.data &&
       lineItemsData.data.data.length > 0
     ) {
-      const firstSampleIndex = lineItemsData.data.data[0].line_index;
       onViewSample(lineItemsData.data.data[0]);
       setIsAutoPageChange(false);
     }
