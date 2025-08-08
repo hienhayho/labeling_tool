@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Slider } from "@/components/ui/slider";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -20,9 +21,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { UserPlus, Loader2 } from "lucide-react";
+import { UserPlus, Loader2, Search } from "lucide-react";
 import { useApi } from "@/hooks/use-api";
-import { usersReadUsers, projectsAssignTask } from "@/client";
+import { usersReadUsers, projectsAssignTask, UserPublic } from "@/client";
 import { useTranslations } from "next-intl";
 
 interface ProjectUsersProps {
@@ -40,6 +41,7 @@ export function ProjectUsers({
   const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
   const [numSamples, setNumSamples] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const { client, headers } = useApi();
   const queryClient = useQueryClient();
 
@@ -93,11 +95,19 @@ export function ProjectUsers({
     // Filter out users who are already assigned to this project
     const assignedUserIds = userTaskSummary.map((user) => user.user_id);
     return usersData.data.data.filter(
-      (user: any) => !assignedUserIds.includes(user.id),
+      (user: UserPublic) => !assignedUserIds.includes(user.id),
     );
   };
 
   const availableUsers = getAvailableUsers();
+
+  // Filter users based on search query
+  const filteredUsers = availableUsers.filter((user: UserPublic) => {
+    const query = searchQuery.toLowerCase();
+    const fullName = (user.full_name || "").toLowerCase();
+    const email = (user.email || "").toLowerCase();
+    return fullName.includes(query) || email.includes(query);
+  });
 
   return (
     <Card>
@@ -106,7 +116,12 @@ export function ProjectUsers({
           <span>{t("project.activeUsers")}</span>
           <Dialog
             open={isAssignDialogOpen}
-            onOpenChange={setIsAssignDialogOpen}
+            onOpenChange={(open) => {
+              setIsAssignDialogOpen(open);
+              if (!open) {
+                setSearchQuery(""); // Clear search when dialog closes
+              }
+            }}
           >
             <DialogTrigger asChild>
               <Button size="sm" disabled={availableUsers.length === 0}>
@@ -125,9 +140,10 @@ export function ProjectUsers({
                   </label>
                   <Select
                     value={selectedUserId?.toString() || ""}
-                    onValueChange={(value) =>
-                      setSelectedUserId(parseInt(value))
-                    }
+                    onValueChange={(value) => {
+                      setSelectedUserId(parseInt(value));
+                      setSearchQuery(""); // Clear search when user is selected
+                    }}
                   >
                     <SelectTrigger>
                       <SelectValue
@@ -135,11 +151,42 @@ export function ProjectUsers({
                       />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableUsers.map((user: any) => (
-                        <SelectItem key={user.id} value={user.id.toString()}>
-                          {user.full_name} ({user.email})
-                        </SelectItem>
-                      ))}
+                      <div className="px-2 py-2">
+                        <div className="relative">
+                          <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <Input
+                            placeholder={t("common.search")}
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="pl-8 h-9"
+                            onClick={(e) => e.stopPropagation()}
+                            onKeyDown={(e) => e.stopPropagation()}
+                          />
+                        </div>
+                      </div>
+                      <div className="max-h-[200px] overflow-y-auto">
+                        {filteredUsers.length === 0 ? (
+                          <div className="py-4 text-center text-sm text-muted-foreground">
+                            {t("common.noResults")}
+                          </div>
+                        ) : (
+                          filteredUsers.map((user: any) => (
+                            <SelectItem
+                              key={user.id}
+                              value={user.id.toString()}
+                            >
+                              <div className="flex flex-col">
+                                <span className="font-medium">
+                                  {user.full_name || user.email}
+                                </span>
+                                <span className="text-xs text-muted-foreground">
+                                  {user.email}
+                                </span>
+                              </div>
+                            </SelectItem>
+                          ))
+                        )}
+                      </div>
                     </SelectContent>
                   </Select>
                 </div>

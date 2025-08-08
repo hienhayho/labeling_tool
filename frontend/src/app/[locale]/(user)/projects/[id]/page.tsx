@@ -17,7 +17,7 @@ import { Progress } from "@/components/ui/progress";
 import { projectsGetProjectStatus } from "@/client";
 import { useApi } from "@/hooks/use-api";
 import { SamplesView } from "@/components/projects/samples-view";
-import { ProjectUsers } from "@/components/projects/project-users";
+import { ProjectUsersDialog } from "@/components/projects/project-users-dialog";
 import { DownloadDialog } from "@/components/projects/download-dialog";
 import { useTranslations } from "next-intl";
 
@@ -145,9 +145,18 @@ export default function ProjectDetailPage() {
             {t("project.projectDetails")} #{projectId}
           </h1>
         </div>
-        {status?.state === "SUCCESS" && (
-          <DownloadDialog projectId={projectId} projectName={status.name} />
-        )}
+        <div className="flex items-center gap-2">
+          {status?.state === "SUCCESS" && (
+            <>
+              <ProjectUsersDialog
+                projectId={projectId}
+                numTaskNotAssigned={status.num_task_not_assigned || 0}
+                userTaskSummary={status.user_task_summary || []}
+              />
+              <DownloadDialog projectId={projectId} projectName={status.name} />
+            </>
+          )}
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -255,15 +264,6 @@ export default function ProjectDetailPage() {
               </div>
             </CardContent>
           </Card>
-
-          {/* Project Users Card */}
-          {status?.state === "SUCCESS" && (
-            <ProjectUsers
-              projectId={projectId}
-              numTaskNotAssigned={status.num_task_not_assigned || 0}
-              userTaskSummary={status.user_task_summary || []}
-            />
-          )}
         </div>
 
         {/* Right Column - Samples View */}

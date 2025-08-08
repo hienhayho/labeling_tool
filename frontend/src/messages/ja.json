@@ -9,6 +9,7 @@
     "confirm": "確認",
     "submit": "送信",
     "search": "検索",
+    "noResults": "結果がありません",
     "home": "ホーム",
     "loading": "読み込み中...",
     "saving": "保存中...",
@@ -20,7 +21,8 @@
     "description": "説明",
     "status": "ステータス",
     "active": "アクティブ",
-    "inactive": "非アクティブ"
+    "inactive": "非アクティブ",
+    "error": "エラーが発生しました"
   },
   "auth": {
     "login": "ログイン",
@@ -117,7 +119,27 @@
     "assignTask": "タスク割り当て",
     "noUserAssigned": "まだタスクが割り当てられたユーザーはいません",
     "unassignedSamplesText": "残り",
-    "unassignedSamplesUnit": "サンプル未割り当て"
+    "unassignedSamplesUnit": "サンプル未割り当て",
+    "manageUsers": "ユーザー管理",
+    "projectUsers": "プロジェクトユーザー",
+    "assignedUsers": "割り当て済みユーザー",
+    "assignNewUser": "新規ユーザー割り当て",
+    "remainingSamples": "残り {count} サンプル未割り当て",
+    "noAvailableUsers": "利用可能なユーザーがいません",
+    "allUsersAssigned": "すべてのユーザーがこのプロジェクトに割り当てられています",
+    "assigning": "割り当て中...",
+    "modifyTaskAssignment": "タスク割り当ての変更",
+    "modifyingTasksFor": "タスクを変更中",
+    "currentTasks": "現在のタスク",
+    "newTaskCount": "新しいタスク数",
+    "modifyTasks": "タスクを変更",
+    "modifying": "変更中...",
+    "confirmDeleteTasks": "このユーザーのラベル未付けタスクをすべて削除してもよろしいですか？",
+    "deleteUserTasks": "ユーザータスクを削除",
+    "confirmDeleteTasksMessage": "{userName}のラベル未付けタスクをすべて削除してもよろしいですか？この操作は元に戻せません。",
+    "updatingData": "データを更新中...",
+    "editTaskAssignment": "タスク割り当てを編集",
+    "deleteUnlabeledTasks": "すべての未ラベルタスクを削除"
   },
   "sample": {
     "confirmSample": "確認",
@@ -278,7 +300,8 @@
     "statusToDownload": "ダウンロードするステータス",
     "irreversibleAction": "この操作は元に戻せません",
     "deleteProjectWarning": "この操作は元に戻せず、このプロジェクトに関連するすべてのデータが永久に削除されます。",
-    "userCanLogin": "ユーザーがログイン可能"
+    "userCanLogin": "ユーザーがログイン可能",
+    "viewChart": "チャートを表示"
   },
   "progress": {
     "title": "進捗",
@@ -323,6 +346,30 @@
     "deselectAll": "すべて選択解除",
     "downloading": "ダウンロード中...",
     "download": "ダウンロード"
+  },
+  "settings": {
+    "title": "設定",
+    "subtitle": "アカウント設定と環境設定を管理",
+    "profile": {
+      "title": "プロフィール情報",
+      "updateSuccess": "プロフィールが正常に更新されました",
+      "fullNamePlaceholder": "フルネームを入力してください",
+      "emailPlaceholder": "メールアドレスを入力してください"
+    },
+    "password": {
+      "title": "パスワード変更",
+      "currentPassword": "現在のパスワード",
+      "currentPasswordPlaceholder": "現在のパスワードを入力",
+      "newPassword": "新しいパスワード",
+      "newPasswordPlaceholder": "新しいパスワードを入力（8文字以上）",
+      "confirmPassword": "パスワードの確認",
+      "confirmPasswordPlaceholder": "新しいパスワードを再入力",
+      "updateButton": "パスワードを更新",
+      "updateSuccess": "パスワードが正常に更新されました",
+      "fieldsRequired": "すべてのパスワードフィールドが必須です",
+      "passwordsNotMatch": "新しいパスワードと確認パスワードが一致しません",
+      "passwordTooShort": "パスワードは8文字以上である必要があります"
+    }
   },
   "landing": {
     "subtitle": "AIデータラベリングツール",

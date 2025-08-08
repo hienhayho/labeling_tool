@@ -654,6 +654,34 @@ export const AssignTaskRequestSchema = {
     title: 'AssignTaskRequest'
 } as const;
 
+export const ModifyTaskAssignmentRequestSchema = {
+    properties: {
+        user_id: {
+            type: 'integer',
+            title: 'User Id'
+        },
+        new_num_samples: {
+            type: 'integer',
+            title: 'New Num Samples'
+        }
+    },
+    type: 'object',
+    required: ['user_id', 'new_num_samples'],
+    title: 'ModifyTaskAssignmentRequest'
+} as const;
+
+export const DeleteUserTasksRequestSchema = {
+    properties: {
+        user_id: {
+            type: 'integer',
+            title: 'User Id'
+        }
+    },
+    type: 'object',
+    required: ['user_id'],
+    title: 'DeleteUserTasksRequest'
+} as const;
+
 export const LineItemMessageConfirmRequestSchema = {
     properties: {
         id: {

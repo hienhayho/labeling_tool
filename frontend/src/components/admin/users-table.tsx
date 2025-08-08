@@ -52,109 +52,115 @@ export function UsersTable({
   return (
     <>
       {/* Desktop Table View */}
-      <div className="hidden md:block rounded-md border">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                {t("table.user")}
-              </TableHead>
-              <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                {t("table.email")}
-              </TableHead>
-              <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                {t("table.status")}
-              </TableHead>
-              <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                {t("table.role")}
-              </TableHead>
-              <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                {t("table.lastLogin")}
-              </TableHead>
-              <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                {t("table.actions")}
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell className="text-center">
-                  <div className="flex items-center justify-center space-x-3">
-                    <Avatar className="h-8 w-8">
-                      <AvatarFallback>
-                        {user.full_name
-                          ? user.full_name
-                              .split(" ")
-                              .map((n) => n[0])
-                              .join("")
-                              .toUpperCase()
-                          : user.email[0].toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <div className="font-medium">
-                        {user.full_name || t("user.noName")}
+      <div className="hidden sm:block relative">
+        <div className="rounded-md border overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <div className="min-w-[800px]">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    {t("table.user")}
+                  </TableHead>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    {t("table.email")}
+                  </TableHead>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    {t("table.status")}
+                  </TableHead>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    {t("table.role")}
+                  </TableHead>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    {t("table.lastLogin")}
+                  </TableHead>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    {t("table.actions")}
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {users.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="text-center">
+                      <div className="flex items-center justify-center space-x-3">
+                        <Avatar className="h-8 w-8">
+                          <AvatarFallback>
+                            {user.full_name
+                              ? user.full_name
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")
+                                  .toUpperCase()
+                              : user.email[0].toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <div className="font-medium">
+                            {user.full_name || t("user.noName")}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell className="text-center">{user.email}</TableCell>
-                <TableCell className="text-center">
-                  <Badge variant={user.is_active ? "default" : "secondary"}>
-                    {user.is_active ? t("status.active") : t("status.inactive")}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Badge
-                    variant={user.is_superuser ? "destructive" : "outline"}
-                  >
-                    {user.is_superuser ? t("role.admin") : t("role.user")}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-center">
-                  {user.last_login_time ? (
-                    <span className="text-sm text-cyan-500 font-bold">
-                      {format(
-                        new Date(user.last_login_time),
-                        "dd/MM/yyyy HH:mm",
-                        {
-                          locale: locale === "vi" ? vi : enUS,
-                        },
+                    </TableCell>
+                    <TableCell className="text-center">{user.email}</TableCell>
+                    <TableCell className="text-center">
+                      <Badge variant={user.is_active ? "default" : "secondary"}>
+                        {user.is_active
+                          ? t("status.active")
+                          : t("status.inactive")}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Badge
+                        variant={user.is_superuser ? "destructive" : "outline"}
+                      >
+                        {user.is_superuser ? t("role.admin") : t("role.user")}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {user.last_login_time ? (
+                        <span className="text-sm text-cyan-500 font-bold">
+                          {format(
+                            new Date(user.last_login_time),
+                            "dd/MM/yyyy HH:mm",
+                            {
+                              locale: locale === "vi" ? vi : enUS,
+                            },
+                          )}
+                        </span>
+                      ) : (
+                        t("user.neverLoggedIn")
                       )}
-                    </span>
-                  ) : (
-                    t("user.neverLoggedIn")
-                  )}
-                </TableCell>
-                <TableCell className="text-center">
-                  <div className="flex justify-center space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onEdit(user)}
-                      className="cursor-pointer"
-                    >
-                      {t("common.edit")}
-                    </Button>
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      onClick={() => onDelete(user)}
-                      className="cursor-pointer"
-                    >
-                      {t("common.delete")}
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <div className="flex justify-center space-x-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => onEdit(user)}
+                          className="cursor-pointer"
+                        >
+                          {t("common.edit")}
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => onDelete(user)}
+                          className="cursor-pointer"
+                        >
+                          {t("common.delete")}
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
       </div>
 
       {/* Mobile Card View */}
-      <div className="md:hidden space-y-4">
+      <div className="sm:hidden space-y-4">
         {users.map((user) => (
           <div
             key={user.id}

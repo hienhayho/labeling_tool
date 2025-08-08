@@ -15,6 +15,7 @@ from app.crud.projects import (
     assign_task,
     confirm_line_item,
     create_project,
+    delete_user_tasks,
     get_line_item_by_index,
     get_line_items,
     get_project_by_id,
@@ -23,15 +24,18 @@ from app.crud.projects import (
     get_projects_dashboard,
     get_projects_dashboard_user,
     get_user_task_summary_in_project,
+    modify_task_assignment,
     update_line_item_message,
 )
 from app.models import (
     AssignTaskRequest,
+    DeleteUserTasksRequest,
     LineItemConfirmRequest,
     LineItemMessageUpdateRequest,
     LineItemRead,
     LineItemsPublic,
     LineItemStatus,
+    ModifyTaskAssignmentRequest,
     ProjectCreate,
     ProjectDownloadRequest,
     ProjectPublic,
@@ -160,6 +164,41 @@ def assign_task_route(
         session=session,
     )
     return {"message": "Task assigned successfully"}
+
+
+@router.put(
+    "/{project_id}/modify-assignment",
+    dependencies=[Depends(get_current_active_superuser)],
+)
+def modify_task_assignment_route(
+    project_id: int,
+    modify_request: ModifyTaskAssignmentRequest,
+    session: SessionDep,
+):
+    modify_task_assignment(
+        project_id=project_id,
+        user_id=modify_request.user_id,
+        new_num_samples=modify_request.new_num_samples,
+        session=session,
+    )
+    return {"message": "Task assignment modified successfully"}
+
+
+@router.delete(
+    "/{project_id}/delete-user-tasks",
+    dependencies=[Depends(get_current_active_superuser)],
+)
+def delete_user_tasks_route(
+    project_id: int,
+    delete_request: DeleteUserTasksRequest,
+    session: SessionDep,
+):
+    deleted_count = delete_user_tasks(
+        project_id=project_id,
+        user_id=delete_request.user_id,
+        session=session,
+    )
+    return {"message": f"Deleted {deleted_count} unlabeled tasks successfully"}
 
 
 @router.post("/{project_id}/confirm/{line_item_id}")

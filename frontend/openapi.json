@@ -1005,6 +1005,109 @@
         }
       }
     },
+    "/api/v1/projects/{project_id}/modify-assignment": {
+      "put": {
+        "tags": ["projects"],
+        "summary": "Modify Task Assignment",
+        "description": "Modify task assignment for a user in a project.",
+        "operationId": "projects-modify_task_assignment",
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModifyTaskAssignmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/projects/{project_id}/delete-user-tasks": {
+      "delete": {
+        "tags": ["projects"],
+        "summary": "Delete User Tasks",
+        "description": "Delete all unlabeled tasks for a specific user in a project.",
+        "operationId": "projects-delete_user_tasks",
+        "security": [{ "OAuth2PasswordBearer": [] }],
+        "parameters": [
+          {
+            "name": "project_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Project Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteUserTasksRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/projects/{project_id}/confirm/{line_item_id}": {
       "post": {
         "tags": ["projects"],
@@ -1593,6 +1696,32 @@
         "type": "object",
         "required": ["user_id", "num_samples"],
         "title": "AssignTaskRequest"
+      },
+      "ModifyTaskAssignmentRequest": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id"
+          },
+          "new_num_samples": {
+            "type": "integer",
+            "title": "New Num Samples"
+          }
+        },
+        "type": "object",
+        "required": ["user_id", "new_num_samples"],
+        "title": "ModifyTaskAssignmentRequest"
+      },
+      "DeleteUserTasksRequest": {
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "title": "User Id"
+          }
+        },
+        "type": "object",
+        "required": ["user_id"],
+        "title": "DeleteUserTasksRequest"
       },
       "LineItemMessageConfirmRequest": {
         "properties": {

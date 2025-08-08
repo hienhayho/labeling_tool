@@ -9,6 +9,7 @@
     "confirm": "Confirm",
     "submit": "Submit",
     "search": "Search",
+    "noResults": "No results found",
     "home": "Home",
     "loading": "Loading...",
     "saving": "Saving...",
@@ -20,7 +21,8 @@
     "description": "Description",
     "status": "Status",
     "active": "Active",
-    "inactive": "Inactive"
+    "inactive": "Inactive",
+    "error": "An error occurred"
   },
   "auth": {
     "login": "Login",
@@ -117,7 +119,27 @@
     "assignTask": "Assign Task",
     "noUserAssigned": "No user has been assigned tasks yet",
     "unassignedSamplesText": "Remaining",
-    "unassignedSamplesUnit": "samples unassigned"
+    "unassignedSamplesUnit": "samples unassigned",
+    "manageUsers": "Manage Users",
+    "projectUsers": "Project Users",
+    "assignedUsers": "Assigned Users",
+    "assignNewUser": "Assign New User",
+    "remainingSamples": "Remaining {count} samples unassigned",
+    "noAvailableUsers": "No available users",
+    "allUsersAssigned": "All users are already assigned to this project",
+    "assigning": "Assigning...",
+    "modifyTaskAssignment": "Modify Task Assignment",
+    "modifyingTasksFor": "Modifying tasks for",
+    "currentTasks": "Current tasks",
+    "newTaskCount": "New task count",
+    "modifyTasks": "Modify Tasks",
+    "modifying": "Modifying...",
+    "confirmDeleteTasks": "Are you sure you want to delete all unlabeled tasks for this user?",
+    "deleteUserTasks": "Delete User Tasks",
+    "confirmDeleteTasksMessage": "Are you sure you want to delete all unlabeled tasks for {userName}? This action cannot be undone.",
+    "updatingData": "Updating data...",
+    "editTaskAssignment": "Edit task assignment",
+    "deleteUnlabeledTasks": "Delete all unlabeled tasks"
   },
   "sample": {
     "confirmSample": "Confirm",
@@ -278,7 +300,8 @@
     "statusToDownload": "Status to Download",
     "irreversibleAction": "This action cannot be undone",
     "deleteProjectWarning": "This action cannot be undone and will permanently delete all data related to this project.",
-    "userCanLogin": "User can login"
+    "userCanLogin": "User can login",
+    "viewChart": "View Chart"
   },
   "progress": {
     "title": "Progress",
@@ -323,6 +346,30 @@
     "deselectAll": "Deselect all",
     "downloading": "Downloading...",
     "download": "Download"
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": "Manage your account settings and preferences",
+    "profile": {
+      "title": "Profile Information",
+      "updateSuccess": "Profile updated successfully",
+      "fullNamePlaceholder": "Enter your full name",
+      "emailPlaceholder": "Enter your email address"
+    },
+    "password": {
+      "title": "Change Password",
+      "currentPassword": "Current Password",
+      "currentPasswordPlaceholder": "Enter current password",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "Enter new password (min 8 characters)",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Re-enter new password",
+      "updateButton": "Update Password",
+      "updateSuccess": "Password updated successfully",
+      "fieldsRequired": "All password fields are required",
+      "passwordsNotMatch": "New password and confirm password do not match",
+      "passwordTooShort": "Password must be at least 8 characters long"
+    }
   },
   "landing": {
     "subtitle": "AI Data Labeling Tool",

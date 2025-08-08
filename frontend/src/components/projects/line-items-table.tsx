@@ -230,7 +230,7 @@ export function LineItemsTable({
               <DialogTrigger asChild>
                 <Button variant="outline" size="sm">
                   <BarChart3 className="h-4 w-4 mr-2" />
-                  View Chart
+                  {t("dialog.viewChart")}
                 </Button>
               </DialogTrigger>
               <DialogContent className="max-w-2xl">
@@ -368,64 +368,66 @@ export function LineItemsTable({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                  ID
-                </TableHead>
-                <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                  {t("table.status")}
-                </TableHead>
-                <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                  {t("samples.numMessages")}
-                </TableHead>
-                <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
-                  {t("table.actions")}
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {lineItemsData?.data?.data?.map((item: LineItemRead) => (
-                <TableRow
-                  key={item.id}
-                  ref={(el) => {
-                    rowRefs.current[item.line_index] = el;
-                  }}
-                  className={
-                    selectedSampleIndex === item.line_index
-                      ? "bg-blue-50 border-l-4 border-l-blue-500"
-                      : ""
-                  }
-                >
-                  <TableCell className="font-medium text-center">
-                    {item.id}
-                    {isNavigatingToSample &&
-                      selectedSampleIndex === item.line_index && (
-                        <Loader2 className="h-3 w-3 animate-spin inline ml-2" />
-                      )}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {getStatusBadge(item.status ?? "UNLABELED")}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    {item.line_messages?.length || 0}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onViewSample(item)}
-                    >
-                      <Eye className="h-4 w-4 mr-2" />
-                      {t("samples.view")}
-                    </Button>
-                  </TableCell>
+        <div className="rounded-md border overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
+          <div className="min-w-[600px]">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    ID
+                  </TableHead>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    {t("table.status")}
+                  </TableHead>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    {t("samples.numMessages")}
+                  </TableHead>
+                  <TableHead className="text-center sticky top-0 bg-white dark:bg-gray-950 z-10 font-bold">
+                    {t("table.actions")}
+                  </TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {lineItemsData?.data?.data?.map((item: LineItemRead) => (
+                  <TableRow
+                    key={item.id}
+                    ref={(el) => {
+                      rowRefs.current[item.line_index] = el;
+                    }}
+                    className={
+                      selectedSampleIndex === item.line_index
+                        ? "bg-blue-50 border-l-4 border-l-blue-500"
+                        : ""
+                    }
+                  >
+                    <TableCell className="font-medium text-center">
+                      {item.id}
+                      {isNavigatingToSample &&
+                        selectedSampleIndex === item.line_index && (
+                          <Loader2 className="h-3 w-3 animate-spin inline ml-2" />
+                        )}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {getStatusBadge(item.status ?? "UNLABELED")}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      {item.line_messages?.length || 0}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => onViewSample(item)}
+                      >
+                        <Eye className="h-4 w-4 mr-2" />
+                        {t("samples.view")}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
 
         {/* Pagination */}

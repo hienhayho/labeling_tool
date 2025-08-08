@@ -27,11 +27,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { UserPublic } from "@/client/types.gen";
 import { useTranslations } from "next-intl";
 
-const createUserSchema = (t: any) =>
+const createUserSchema = (t: any, isEditing: boolean = false) =>
   z.object({
     email: z.string().email(t("validation.emailInvalid")),
     full_name: z.string().min(1, t("validation.nameRequired")),
-    password: z.string().min(8, t("validation.passwordMinLength")).optional(),
+    password: isEditing
+      ? z.string().optional().or(z.literal(""))
+      : z.string().min(8, t("validation.passwordMinLength")),
     is_active: z.boolean().default(true),
     is_superuser: z.boolean().default(false),
   });
@@ -54,7 +56,8 @@ export function UserDialog({
   isLoading = false,
 }: UserDialogProps) {
   const t = useTranslations();
-  const userSchema = createUserSchema(t);
+  const isEditing = !!user;
+  const userSchema = createUserSchema(t, isEditing);
 
   const form = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
@@ -66,8 +69,6 @@ export function UserDialog({
       is_superuser: false,
     },
   });
-
-  const isEditing = !!user;
 
   useEffect(() => {
     if (user) {
@@ -178,26 +179,16 @@ export function UserDialog({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="is_superuser"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>{t("role.admin")}</FormLabel>
-                      <FormDescription>
-                        {t("user.adminPrivileges")}
-                      </FormDescription>
+              {isEditing && (
+                <div className="flex flex-row items-start space-x-3 space-y-0">
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>{t("table.role")}</FormLabel>
+                    <div className="text-sm text-muted-foreground">
+                      {user?.is_superuser ? t("role.admin") : t("role.user")}
                     </div>
-                  </FormItem>
-                )}
-              />
+                  </div>
+                </div>
+              )}
             </div>
             <DialogFooter>
               <Button

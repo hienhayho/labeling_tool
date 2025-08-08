@@ -177,6 +177,82 @@ def assign_task(
         session.commit()
 
 
+def modify_task_assignment(
+    *, session: Session, project_id: int, user_id: int, new_num_samples: int
+) -> None:
+    # Get current tasks assigned to the user in this project
+    current_tasks = session.exec(
+        select(Task)
+        .where(Task.project_id == project_id)
+        .where(Task.user_id == user_id)
+        .order_by(Task.created_at)
+    ).all()
+
+    current_count = len(current_tasks)
+
+    if new_num_samples == current_count:
+        # No change needed
+        return
+
+    elif new_num_samples > current_count:
+        # Increase: assign more tasks
+        # Get all assigned line item IDs in the project
+        all_assigned_line_items = session.exec(
+            select(Task.line_item_id).where(Task.project_id == project_id)
+        ).all()
+
+        # Get all unassigned line items
+        unassigned_line_items = session.exec(
+            select(LineItem.id)
+            .where(LineItem.project_id == project_id)
+            .where(LineItem.id.not_in(all_assigned_line_items))
+        ).all()
+
+        num_to_add = new_num_samples - current_count
+
+        if len(unassigned_line_items) < num_to_add:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Not enough unassigned line items. Available: {len(unassigned_line_items)}, Requested: {num_to_add}",
+            )
+
+        # Assign new tasks
+        for line_item_id in unassigned_line_items[:num_to_add]:
+            task = Task(
+                project_id=project_id,
+                user_id=user_id,
+                line_item_id=line_item_id,
+            )
+            session.add(task)
+        session.commit()
+
+    else:
+        # Decrease: remove tasks (only those with UNLABELED status)
+        num_to_remove = current_count - new_num_samples
+
+        # Get tasks with UNLABELED line items, ordered by creation date (newest first)
+        unlabeled_tasks = session.exec(
+            select(Task)
+            .join(LineItem, Task.line_item_id == LineItem.id)
+            .where(Task.project_id == project_id)
+            .where(Task.user_id == user_id)
+            .where(LineItem.status == LineItemStatus.UNLABELED)
+            .order_by(Task.created_at.desc())
+            .limit(num_to_remove)
+        ).all()
+
+        if len(unlabeled_tasks) < num_to_remove:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Cannot remove {num_to_remove} tasks. Only {len(unlabeled_tasks)} tasks have UNLABELED status",
+            )
+
+        # Delete the tasks
+        for task in unlabeled_tasks:
+            session.delete(task)
+        session.commit()
+
+
 def get_user_task_summary_in_project(
     *, session: Session, project_id: int
 ) -> list[dict]:
@@ -435,3 +511,28 @@ def update_line_item_message(
     session.commit()
     session.refresh(line_item_message)
     return line_item_message
+
+
+def delete_user_tasks(*, session: Session, project_id: int, user_id: int) -> int:
+    """Delete all tasks with UNLABELED status for a specific user in a project.
+
+    Returns the number of tasks deleted.
+    """
+    # Get all tasks with UNLABELED line items for this user in this project
+    unlabeled_tasks = session.exec(
+        select(Task)
+        .join(LineItem, Task.line_item_id == LineItem.id)
+        .where(Task.project_id == project_id)
+        .where(Task.user_id == user_id)
+        .where(LineItem.status == LineItemStatus.UNLABELED)
+    ).all()
+
+    deleted_count = len(unlabeled_tasks)
+
+    # Delete all the unlabeled tasks
+    for task in unlabeled_tasks:
+        session.delete(task)
+
+    session.commit()
+
+    return deleted_count

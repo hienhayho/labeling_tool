@@ -9,6 +9,7 @@
     "confirm": "Xác nhận",
     "submit": "Gửi",
     "search": "Tìm kiếm",
+    "noResults": "Không có kết quả",
     "home": "Trang chủ",
     "loading": "Đang tải...",
     "saving": "Đang lưu...",
@@ -20,7 +21,8 @@
     "description": "Mô tả",
     "status": "Trạng thái",
     "active": "Hoạt động",
-    "inactive": "Không hoạt động"
+    "inactive": "Không hoạt động",
+    "error": "Đã xảy ra lỗi"
   },
   "auth": {
     "login": "Đăng nhập",
@@ -117,7 +119,27 @@
     "assignTask": "Assign Task",
     "noUserAssigned": "Chưa có user nào được assign task",
     "unassignedSamplesText": "Còn",
-    "unassignedSamplesUnit": "mẫu chưa được assign"
+    "unassignedSamplesUnit": "mẫu chưa được assign",
+    "manageUsers": "Quản lý Users",
+    "projectUsers": "Users của dự án",
+    "assignedUsers": "Users đã được gán",
+    "assignNewUser": "Gán User mới",
+    "remainingSamples": "Còn {count} mẫu chưa được gán",
+    "noAvailableUsers": "Không có user khả dụng",
+    "allUsersAssigned": "Tất cả users đã được gán cho dự án này",
+    "assigning": "Đang gán...",
+    "modifyTaskAssignment": "Chỉnh sửa phân công task",
+    "modifyingTasksFor": "Đang chỉnh sửa task cho",
+    "currentTasks": "Task hiện tại",
+    "newTaskCount": "Số task mới",
+    "modifyTasks": "Chỉnh sửa Task",
+    "modifying": "Đang chỉnh sửa...",
+    "confirmDeleteTasks": "Bạn có chắc chắn muốn xóa tất cả task chưa gán nhãn của người dùng này?",
+    "deleteUserTasks": "Xóa Task của người dùng",
+    "confirmDeleteTasksMessage": "Bạn có chắc chắn muốn xóa tất cả task chưa gán nhãn của {userName}? Hành động này không thể hoàn tác.",
+    "updatingData": "Đang cập nhật dữ liệu...",
+    "editTaskAssignment": "Chỉnh sửa phân công task",
+    "deleteUnlabeledTasks": "Xóa tất cả task chưa gán nhãn"
   },
   "sample": {
     "confirmSample": "Xác nhận",
@@ -278,7 +300,8 @@
     "statusToDownload": "Trạng thái cần tải",
     "irreversibleAction": "Hành động này không thể hoàn tác",
     "deleteProjectWarning": "Hành động này không thể hoàn tác và sẽ xóa vĩnh viễn tất cả dữ liệu liên quan đến dự án này.",
-    "userCanLogin": "Người dùng có thể đăng nhập"
+    "userCanLogin": "Người dùng có thể đăng nhập",
+    "viewChart": "Xem biểu đồ"
   },
   "progress": {
     "title": "Tiến độ",
@@ -323,6 +346,30 @@
     "deselectAll": "Bỏ chọn tất cả",
     "downloading": "Đang tải xuống...",
     "download": "Tải xuống"
+  },
+  "settings": {
+    "title": "Cài đặt",
+    "subtitle": "Quản lý cài đặt và tùy chọn tài khoản của bạn",
+    "profile": {
+      "title": "Thông tin cá nhân",
+      "updateSuccess": "Cập nhật thông tin thành công",
+      "fullNamePlaceholder": "Nhập họ và tên của bạn",
+      "emailPlaceholder": "Nhập địa chỉ email của bạn"
+    },
+    "password": {
+      "title": "Đổi mật khẩu",
+      "currentPassword": "Mật khẩu hiện tại",
+      "currentPasswordPlaceholder": "Nhập mật khẩu hiện tại",
+      "newPassword": "Mật khẩu mới",
+      "newPasswordPlaceholder": "Nhập mật khẩu mới (tối thiểu 8 ký tự)",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "confirmPasswordPlaceholder": "Nhập lại mật khẩu mới",
+      "updateButton": "Cập nhật mật khẩu",
+      "updateSuccess": "Cập nhật mật khẩu thành công",
+      "fieldsRequired": "Vui lòng điền đầy đủ các trường mật khẩu",
+      "passwordsNotMatch": "Mật khẩu mới và xác nhận mật khẩu không khớp",
+      "passwordTooShort": "Mật khẩu phải có ít nhất 8 ký tự"
+    }
   },
   "landing": {
     "subtitle": "Công cụ gán nhãn dữ liệu AI",

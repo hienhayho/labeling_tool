@@ -385,6 +385,30 @@ export type AssignTaskRequest = {
 };
 
 /**
+ * ModifyTaskAssignmentRequest
+ */
+export type ModifyTaskAssignmentRequest = {
+    /**
+     * User Id
+     */
+    user_id: number;
+    /**
+     * New Num Samples
+     */
+    new_num_samples: number;
+};
+
+/**
+ * DeleteUserTasksRequest
+ */
+export type DeleteUserTasksRequest = {
+    /**
+     * User Id
+     */
+    user_id: number;
+};
+
+/**
  * LineItemMessageConfirmRequest
  */
 export type LineItemMessageConfirmRequest = {
@@ -1368,6 +1392,66 @@ export type ProjectsAssignTaskResponses = {
 };
 
 export type ProjectsAssignTaskResponse = ProjectsAssignTaskResponses[keyof ProjectsAssignTaskResponses];
+
+export type ProjectsModifyTaskAssignmentData = {
+    body: ModifyTaskAssignmentRequest;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: number;
+    };
+    query?: never;
+    url: '/api/v1/projects/{project_id}/modify-assignment';
+};
+
+export type ProjectsModifyTaskAssignmentErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ProjectsModifyTaskAssignmentError = ProjectsModifyTaskAssignmentErrors[keyof ProjectsModifyTaskAssignmentErrors];
+
+export type ProjectsModifyTaskAssignmentResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type ProjectsModifyTaskAssignmentResponse = ProjectsModifyTaskAssignmentResponses[keyof ProjectsModifyTaskAssignmentResponses];
+
+export type ProjectsDeleteUserTasksData = {
+    body: DeleteUserTasksRequest;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: number;
+    };
+    query?: never;
+    url: '/api/v1/projects/{project_id}/delete-user-tasks';
+};
+
+export type ProjectsDeleteUserTasksErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ProjectsDeleteUserTasksError = ProjectsDeleteUserTasksErrors[keyof ProjectsDeleteUserTasksErrors];
+
+export type ProjectsDeleteUserTasksResponses = {
+    /**
+     * Successful Response
+     */
+    200: Message;
+};
+
+export type ProjectsDeleteUserTasksResponse = ProjectsDeleteUserTasksResponses[keyof ProjectsDeleteUserTasksResponses];
 
 export type ProjectsConfirmLineItemData = {
     body: LineItemConfirmRequest;

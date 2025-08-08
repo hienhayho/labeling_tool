@@ -244,6 +244,15 @@ class AssignTaskRequest(SQLModel):
     num_samples: int
 
 
+class ModifyTaskAssignmentRequest(SQLModel):
+    user_id: int
+    new_num_samples: int
+
+
+class DeleteUserTasksRequest(SQLModel):
+    user_id: int
+
+
 class Task(SQLModel, table=True):
     __tablename__ = "task"
     id: int = Field(primary_key=True, sa_column_kwargs={"autoincrement": True})

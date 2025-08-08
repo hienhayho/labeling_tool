@@ -18,5 +18,5 @@ else
     echo -e "${RED}Potential secrets detected in your code!${NC}"
     echo -e "${YELLOW}Please review the output above and fix any issues.${NC}"
     echo -e "${YELLOW}If these are false positives, update the baseline with:${NC}"
-    echo -e "${YELLOW}detect-secrets scan --baseline .secrets.baseline --exclude-files frontend/src/messages/**/*.json${NC}"
+    echo -e "${YELLOW}detect-secrets scan --baseline .secrets.baseline --exclude-files frontend/src/messages/**/*.json README.md${NC}"
 fi

@@ -9,6 +9,7 @@
     "confirm": "确认",
     "submit": "提交",
     "search": "搜索",
+    "noResults": "没有结果",
     "home": "首页",
     "loading": "加载中...",
     "saving": "保存中...",
@@ -20,7 +21,8 @@
     "description": "描述",
     "status": "状态",
     "active": "活跃",
-    "inactive": "非活跃"
+    "inactive": "非活跃",
+    "error": "发生错误"
   },
   "auth": {
     "login": "登录",
@@ -117,7 +119,27 @@
     "assignTask": "分配任务",
     "noUserAssigned": "还没有用户被分配任务",
     "unassignedSamplesText": "剩余",
-    "unassignedSamplesUnit": "个样本未分配"
+    "unassignedSamplesUnit": "个样本未分配",
+    "manageUsers": "管理用户",
+    "projectUsers": "项目用户",
+    "assignedUsers": "已分配用户",
+    "assignNewUser": "分配新用户",
+    "remainingSamples": "剩余 {count} 个样本未分配",
+    "noAvailableUsers": "没有可用用户",
+    "allUsersAssigned": "所有用户都已分配到此项目",
+    "assigning": "分配中...",
+    "modifyTaskAssignment": "修改任务分配",
+    "modifyingTasksFor": "正在修改任务",
+    "currentTasks": "当前任务",
+    "newTaskCount": "新任务数量",
+    "modifyTasks": "修改任务",
+    "modifying": "修改中...",
+    "confirmDeleteTasks": "您确定要删除此用户的所有未标记任务吗？",
+    "deleteUserTasks": "删除用户任务",
+    "confirmDeleteTasksMessage": "您确定要删除{userName}的所有未标记任务吗？此操作无法撤销。",
+    "updatingData": "正在更新数据...",
+    "editTaskAssignment": "编辑任务分配",
+    "deleteUnlabeledTasks": "删除所有未标记任务"
   },
   "sample": {
     "confirmSample": "确认",
@@ -278,7 +300,8 @@
     "statusToDownload": "要下载的状态",
     "irreversibleAction": "此操作无法撤销",
     "deleteProjectWarning": "此操作无法撤销，将永久删除与此项目相关的所有数据。",
-    "userCanLogin": "用户可以登录"
+    "userCanLogin": "用户可以登录",
+    "viewChart": "查看图表"
   },
   "progress": {
     "title": "进度",
@@ -323,6 +346,30 @@
     "deselectAll": "取消全选",
     "downloading": "下载中...",
     "download": "下载"
+  },
+  "settings": {
+    "title": "设置",
+    "subtitle": "管理您的账户设置和偏好",
+    "profile": {
+      "title": "个人资料",
+      "updateSuccess": "个人资料更新成功",
+      "fullNamePlaceholder": "请输入您的全名",
+      "emailPlaceholder": "请输入您的电子邮件地址"
+    },
+    "password": {
+      "title": "更改密码",
+      "currentPassword": "当前密码",
+      "currentPasswordPlaceholder": "输入当前密码",
+      "newPassword": "新密码",
+      "newPasswordPlaceholder": "输入新密码（至少8个字符）",
+      "confirmPassword": "确认密码",
+      "confirmPasswordPlaceholder": "重新输入新密码",
+      "updateButton": "更新密码",
+      "updateSuccess": "密码更新成功",
+      "fieldsRequired": "所有密码字段都是必填的",
+      "passwordsNotMatch": "新密码和确认密码不匹配",
+      "passwordTooShort": "密码必须至少8个字符"
+    }
   },
   "landing": {
     "subtitle": "AI数据标注工具",
