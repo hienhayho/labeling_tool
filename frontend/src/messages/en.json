@@ -22,7 +22,10 @@
     "status": "Status",
     "active": "Active",
     "inactive": "Inactive",
-    "error": "An error occurred"
+    "error": "An error occurred",
+    "next": "Next",
+    "previous": "Previous",
+    "pageOf": "Page {current} of {total}"
   },
   "auth": {
     "login": "Login",
@@ -449,6 +452,30 @@
       "contact": {
         "title": "Contact"
       }
+    }
+  },
+  "audit": {
+    "viewLogs": "View Audit Logs",
+    "dialogTitle": "Audit Logs",
+    "lineItemLogs": "Line Item Logs",
+    "messageLogs": "Message Logs",
+    "noLogs": "No audit logs found",
+    "status": "Status",
+    "feedback": "Feedback",
+    "tools": "Tools",
+    "oldTools": "Old Tools",
+    "newTools": "New Tools",
+    "role": "Role",
+    "content": "Content",
+    "oldContent": "Old Content",
+    "newContent": "New Content",
+    "userId": "User ID",
+    "additionalData": "Additional Data",
+    "action": {
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete",
+      "status_change": "Status Change"
     }
   }
 }

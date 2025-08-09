@@ -707,6 +707,172 @@ export type ProjectDownloadRequest = {
 };
 
 /**
+ * LineItemAuditLogRead
+ */
+export type LineItemAuditLogRead = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Line Item Id
+     */
+    line_item_id: number;
+    /**
+     * Project Id
+     */
+    project_id: number;
+    /**
+     * User Id
+     */
+    user_id?: number | null;
+    /**
+     * Action
+     */
+    action: string;
+    /**
+     * Old Status
+     */
+    old_status?: string | null;
+    /**
+     * New Status
+     */
+    new_status?: string | null;
+    /**
+     * Old Feedback
+     */
+    old_feedback?: string | null;
+    /**
+     * New Feedback
+     */
+    new_feedback?: string | null;
+    /**
+     * Old Tools
+     */
+    old_tools?: {
+        [key: string]: unknown;
+    } | null;
+    /**
+     * New Tools
+     */
+    new_tools?: {
+        [key: string]: unknown;
+    } | null;
+    /**
+     * Timestamp
+     */
+    timestamp: Date;
+    /**
+     * Ip Address
+     */
+    ip_address?: string | null;
+    /**
+     * User Agent
+     */
+    user_agent?: string | null;
+    /**
+     * Additional Data
+     */
+    additional_data?: {
+        [key: string]: unknown;
+    } | null;
+};
+
+/**
+ * LineItemMessageAuditLogRead
+ */
+export type LineItemMessageAuditLogRead = {
+    /**
+     * Id
+     */
+    id: number;
+    /**
+     * Line Item Message Id
+     */
+    line_item_message_id: number;
+    /**
+     * Line Item Id
+     */
+    line_item_id: number;
+    /**
+     * Project Id
+     */
+    project_id: number;
+    /**
+     * User Id
+     */
+    user_id?: number | null;
+    /**
+     * Action
+     */
+    action: string;
+    /**
+     * Old Role
+     */
+    old_role?: string | null;
+    /**
+     * New Role
+     */
+    new_role?: string | null;
+    /**
+     * Old Content
+     */
+    old_content?: string | null;
+    /**
+     * New Content
+     */
+    new_content?: string | null;
+    /**
+     * Old Feedback
+     */
+    old_feedback?: string | null;
+    /**
+     * New Feedback
+     */
+    new_feedback?: string | null;
+    /**
+     * Timestamp
+     */
+    timestamp: Date;
+    /**
+     * Ip Address
+     */
+    ip_address?: string | null;
+    /**
+     * User Agent
+     */
+    user_agent?: string | null;
+    /**
+     * Additional Data
+     */
+    additional_data?: {
+        [key: string]: unknown;
+    } | null;
+};
+
+/**
+ * AuditLogsPublic
+ */
+export type AuditLogsPublic = {
+    /**
+     * Data
+     */
+    data: Array<LineItemAuditLogRead | LineItemMessageAuditLogRead>;
+    /**
+     * Count
+     */
+    count: number;
+    /**
+     * Page
+     */
+    page: number;
+    /**
+     * Total Pages
+     */
+    total_pages: number;
+};
+
+/**
  * ValidationError
  */
 export type ValidationError = {
@@ -1520,6 +1686,96 @@ export type ProjectsUpdateLineItemMessageResponses = {
 };
 
 export type ProjectsUpdateLineItemMessageResponse = ProjectsUpdateLineItemMessageResponses[keyof ProjectsUpdateLineItemMessageResponses];
+
+export type ProjectsGetLineItemAuditLogsRouteData = {
+    body?: never;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: number;
+    };
+    query?: {
+        /**
+         * Line Item Id
+         */
+        line_item_id?: number;
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/projects/{project_id}/audit/line-items';
+};
+
+export type ProjectsGetLineItemAuditLogsRouteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ProjectsGetLineItemAuditLogsRouteError = ProjectsGetLineItemAuditLogsRouteErrors[keyof ProjectsGetLineItemAuditLogsRouteErrors];
+
+export type ProjectsGetLineItemAuditLogsRouteResponses = {
+    /**
+     * Successful Response
+     */
+    200: AuditLogsPublic;
+};
+
+export type ProjectsGetLineItemAuditLogsRouteResponse = ProjectsGetLineItemAuditLogsRouteResponses[keyof ProjectsGetLineItemAuditLogsRouteResponses];
+
+export type ProjectsGetLineItemMessageAuditLogsRouteData = {
+    body?: never;
+    path: {
+        /**
+         * Project Id
+         */
+        project_id: number;
+    };
+    query?: {
+        /**
+         * Line Item Id
+         */
+        line_item_id?: number;
+        /**
+         * Line Item Message Id
+         */
+        line_item_message_id?: number;
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Limit
+         */
+        limit?: number;
+    };
+    url: '/api/v1/projects/{project_id}/audit/line-item-messages';
+};
+
+export type ProjectsGetLineItemMessageAuditLogsRouteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ProjectsGetLineItemMessageAuditLogsRouteError = ProjectsGetLineItemMessageAuditLogsRouteErrors[keyof ProjectsGetLineItemMessageAuditLogsRouteErrors];
+
+export type ProjectsGetLineItemMessageAuditLogsRouteResponses = {
+    /**
+     * Successful Response
+     */
+    200: AuditLogsPublic;
+};
+
+export type ProjectsGetLineItemMessageAuditLogsRouteResponse = ProjectsGetLineItemMessageAuditLogsRouteResponses[keyof ProjectsGetLineItemMessageAuditLogsRouteResponses];
 
 export type ClientOptions = {
     baseUrl: `${string}://${string}` | (string & {});

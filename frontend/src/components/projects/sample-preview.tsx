@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Maximize2 } from "lucide-react";
+import { Maximize2, History } from "lucide-react";
 import { useApi } from "@/hooks/use-api";
 import {
   projectsGetSampleByIndex,
@@ -19,6 +19,7 @@ import { MessageCard } from "./message-card";
 import { SampleInfo } from "./sample-info";
 import { ExpandedContentDialog } from "./expanded-content-dialog";
 import { EditMessageDialog } from "./edit-message-dialog";
+import { AuditLogDialog } from "./audit-log-dialog";
 import toast from "react-hot-toast";
 import { useAuth } from "@/contexts/auth-context";
 import { useTranslations } from "next-intl";
@@ -100,6 +101,7 @@ export function SamplePreview({
     useState<LineItemMessageRead | null>(null);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isSwitchingSample, setIsSwitchingSample] = useState(false);
+  const [isAuditLogDialogOpen, setIsAuditLogDialogOpen] = useState(false);
   const { client, headers } = useApi();
   const queryClient = useQueryClient();
   const isUserInteraction = useRef(false);
@@ -449,6 +451,17 @@ export function SamplePreview({
 
           {sampleData?.data && (
             <div className="space-y-4">
+              {/* Audit Logs Button */}
+              <div>
+                <Button
+                  variant="outline"
+                  onClick={() => setIsAuditLogDialogOpen(true)}
+                  className="w-full"
+                >
+                  <History className="h-4 w-4 mr-2" />
+                  {t("audit.viewLogs")}
+                </Button>
+              </div>
               {/* Tools Section - Only for superusers */}
               {user?.is_superuser && (
                 <ToolsSection
@@ -512,6 +525,16 @@ export function SamplePreview({
         onClose={handleCloseEditDialog}
         onSave={handleSaveEditedMessage}
       />
+
+      {/* Audit Log Dialog */}
+      {sampleData?.data && (
+        <AuditLogDialog
+          isOpen={isAuditLogDialogOpen}
+          onClose={() => setIsAuditLogDialogOpen(false)}
+          projectId={projectId}
+          lineItemId={sampleData.data.id}
+        />
+      )}
     </>
   );
 }
