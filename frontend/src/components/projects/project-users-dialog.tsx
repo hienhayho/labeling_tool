@@ -3,9 +3,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Slider } from "@/components/ui/slider";
-import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -13,32 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { UserPlus, Loader2, Search, Users, Edit2, Trash2 } from "lucide-react";
+import { Loader2, Users } from "lucide-react";
 import { useApi } from "@/hooks/use-api";
 import {
   usersReadUsers,
@@ -46,20 +18,19 @@ import {
   projectsModifyTaskAssignment,
   projectsDeleteUserTasks,
   UserPublic,
+  UserTaskSummary,
 } from "@/client";
 import { useTranslations } from "next-intl";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { capitalize } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { AssignedUsersTable } from "./assigned-users-table";
+import { AssignNewUserForm } from "./assign-new-user-form";
+import { EditTaskDialog } from "./edit-task-dialog";
+import { DeleteTaskDialog } from "./delete-task-dialog";
 
 interface ProjectUsersDialogProps {
   projectId: number;
   numTaskNotAssigned: number;
-  userTaskSummary: any[];
+  userTaskSummary: UserTaskSummary[];
 }
 
 export function ProjectUsersDialog({
@@ -69,14 +40,10 @@ export function ProjectUsersDialog({
 }: ProjectUsersDialogProps) {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-  const [numSamples, setNumSamples] = useState(1);
-  const [searchQuery, setSearchQuery] = useState("");
   const [editingUser, setEditingUser] = useState<{
     user_id: number;
     current_count: number;
   } | null>(null);
-  const [newTaskCount, setNewTaskCount] = useState(0);
   const [loadingUserId, setLoadingUserId] = useState<number | null>(null);
   const [deletingUser, setDeletingUser] = useState<{
     user_id: number;
@@ -118,9 +85,6 @@ export function ProjectUsersDialog({
       await queryClient.invalidateQueries({
         queryKey: ["project-status", projectId],
       });
-      setSelectedUserId(null);
-      setNumSamples(1);
-      setSearchQuery("");
       // Wait for parent component to update
       setTimeout(() => setIsRefetching(false), 500);
     },
@@ -147,7 +111,6 @@ export function ProjectUsersDialog({
         queryKey: ["project-status", projectId],
       });
       setEditingUser(null);
-      setNewTaskCount(0);
       // Wait for parent component to update
       setTimeout(() => setIsRefetching(false), 500);
     },
@@ -182,22 +145,22 @@ export function ProjectUsersDialog({
     },
   });
 
-  const handleAssignTask = () => {
-    if (selectedUserId && numSamples > 0) {
-      assignTaskMutation.mutate({
-        user_id: selectedUserId,
-        num_samples: numSamples,
-      });
-    }
+  const handleAssignTask = (userId: number, numSamples: number) => {
+    assignTaskMutation.mutate({
+      user_id: userId,
+      num_samples: numSamples,
+    });
   };
 
-  const handleModifyTask = () => {
-    if (editingUser && newTaskCount >= 0) {
-      modifyTaskMutation.mutate({
-        user_id: editingUser.user_id,
-        new_num_samples: newTaskCount,
-      });
-    }
+  const handleModifyTask = (userId: number, newNumSamples: number) => {
+    modifyTaskMutation.mutate({
+      user_id: userId,
+      new_num_samples: newNumSamples,
+    });
+  };
+
+  const handleDeleteTasks = (userId: number) => {
+    deleteTasksMutation.mutate(userId);
   };
 
   const getAvailableUsers = () => {
@@ -211,14 +174,6 @@ export function ProjectUsersDialog({
   };
 
   const availableUsers = getAvailableUsers();
-
-  // Filter users based on search query
-  const filteredUsers = availableUsers.filter((user: UserPublic) => {
-    const query = searchQuery.toLowerCase();
-    const fullName = (user.full_name || "").toLowerCase();
-    const email = (user.email || "").toLowerCase();
-    return fullName.includes(query) || email.includes(query);
-  });
 
   return (
     <TooltipProvider>
@@ -248,401 +203,39 @@ export function ProjectUsersDialog({
             )}
 
             <div className="grid grid-cols-5 gap-6 mt-4">
-              {/* Left side - Assigned Users Table */}
-              <div className="col-span-3 space-y-4">
-                <div>
-                  <h3 className="text-sm font-semibold mb-2">
-                    {t("project.assignedUsers")} ({userTaskSummary.length})
-                  </h3>
-                  {numTaskNotAssigned > 0 && (
-                    <div className="text-sm text-muted-foreground mb-3">
-                      {t("project.remainingSamples", {
-                        count: numTaskNotAssigned,
-                      })}
-                    </div>
-                  )}
-                </div>
+              <AssignedUsersTable
+                userTaskSummary={userTaskSummary}
+                numTaskNotAssigned={numTaskNotAssigned}
+                loadingUserId={loadingUserId}
+                onEditUser={(user) => setEditingUser(user)}
+                onDeleteUser={(user) => setDeletingUser(user)}
+              />
 
-                {userTaskSummary.length === 0 ? (
-                  <div className="text-center py-8 text-gray-500 border rounded-lg">
-                    {t("project.noUserAssigned")}
-                  </div>
-                ) : (
-                  <div className="border rounded-lg overflow-hidden">
-                    <div className="max-h-[280px] overflow-y-auto">
-                      <Table>
-                        <TableHeader className="sticky top-0 bg-white z-10">
-                          <TableRow>
-                            <TableHead className="font-bold w-1/2">
-                              {t("table.user")}
-                            </TableHead>
-                            <TableHead className="text-center font-bold w-1/5">
-                              {capitalize(t("samples.samples"))}
-                            </TableHead>
-                            <TableHead className="text-center font-bold w-3/10">
-                              {t("table.actions")}
-                            </TableHead>
-                          </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                          {userTaskSummary.map((user) => (
-                            <TableRow key={user.user_id}>
-                              <TableCell>
-                                <div>
-                                  <div className="font-medium">
-                                    {user.full_name}
-                                  </div>
-                                  <div className="text-sm text-gray-500">
-                                    {user.email}
-                                  </div>
-                                </div>
-                              </TableCell>
-                              <TableCell className="text-center">
-                                {loadingUserId === user.user_id ? (
-                                  <Loader2 className="h-4 w-4 animate-spin mx-auto" />
-                                ) : (
-                                  <Badge variant="secondary">
-                                    {user.task_count}
-                                  </Badge>
-                                )}
-                              </TableCell>
-                              <TableCell className="text-center">
-                                <div className="flex justify-center gap-1">
-                                  <Tooltip>
-                                    <TooltipTrigger asChild>
-                                      <Button
-                                        size="sm"
-                                        variant="ghost"
-                                        onClick={() => {
-                                          setEditingUser({
-                                            user_id: user.user_id,
-                                            current_count: user.task_count,
-                                          });
-                                          setNewTaskCount(user.task_count);
-                                        }}
-                                        disabled={
-                                          loadingUserId === user.user_id
-                                        }
-                                      >
-                                        <Edit2 className="h-4 w-4" />
-                                      </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                      <p>{t("project.editTaskAssignment")}</p>
-                                    </TooltipContent>
-                                  </Tooltip>
-                                  <Tooltip>
-                                    <TooltipTrigger asChild>
-                                      <Button
-                                        size="sm"
-                                        variant="ghost"
-                                        onClick={() => {
-                                          setDeletingUser({
-                                            user_id: user.user_id,
-                                            full_name: user.full_name,
-                                          });
-                                        }}
-                                        disabled={
-                                          loadingUserId === user.user_id
-                                        }
-                                        className="text-red-600 hover:text-red-700"
-                                      >
-                                        <Trash2 className="h-4 w-4" />
-                                      </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                      <p>{t("project.deleteUnlabeledTasks")}</p>
-                                    </TooltipContent>
-                                  </Tooltip>
-                                </div>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Right side - Assign New User Form */}
-              <div className="col-span-2 space-y-4 border-l pl-6">
-                <h3 className="text-sm font-semibold">
-                  {t("project.assignNewUser")}
-                </h3>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">
-                      {t("project.selectUser")}:
-                    </label>
-                    <Select
-                      value={selectedUserId?.toString() || ""}
-                      onValueChange={(value) => {
-                        setSelectedUserId(parseInt(value));
-                      }}
-                      disabled={availableUsers.length === 0}
-                    >
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={
-                            availableUsers.length === 0
-                              ? t("project.noAvailableUsers")
-                              : t("project.selectUserPlaceholder")
-                          }
-                        />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <div className="px-2 py-2">
-                          <div className="relative">
-                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                            <Input
-                              placeholder={t("common.search")}
-                              value={searchQuery}
-                              onChange={(e) => setSearchQuery(e.target.value)}
-                              className="pl-8 h-9"
-                              onClick={(e) => e.stopPropagation()}
-                              onKeyDown={(e) => e.stopPropagation()}
-                            />
-                          </div>
-                        </div>
-                        <div className="max-h-[200px] overflow-y-auto">
-                          {filteredUsers.length === 0 ? (
-                            <div className="py-4 text-center text-sm text-muted-foreground">
-                              {t("common.noResults")}
-                            </div>
-                          ) : (
-                            filteredUsers.map((user: any) => (
-                              <SelectItem
-                                key={user.id}
-                                value={user.id.toString()}
-                              >
-                                <div className="flex flex-col">
-                                  <span className="font-medium">
-                                    {user.full_name || user.email}
-                                  </span>
-                                  <span className="text-xs text-muted-foreground">
-                                    {user.email}
-                                  </span>
-                                </div>
-                              </SelectItem>
-                            ))
-                          )}
-                        </div>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">
-                      {t("project.numSamples")}:
-                    </label>
-                    <div className="flex items-center gap-3">
-                      <Input
-                        type="number"
-                        value={numSamples}
-                        onChange={(e) => {
-                          const value = parseInt(e.target.value) || 0;
-                          const clampedValue = Math.max(
-                            1,
-                            Math.min(value, numTaskNotAssigned || 1),
-                          );
-                          setNumSamples(clampedValue);
-                        }}
-                        min={1}
-                        max={numTaskNotAssigned || 1}
-                        className="w-24"
-                        disabled={numTaskNotAssigned === 0}
-                      />
-                      <Slider
-                        value={[numSamples]}
-                        onValueChange={(value) => setNumSamples(value[0])}
-                        min={1}
-                        max={numTaskNotAssigned || 1}
-                        step={1}
-                        className="flex-1"
-                        disabled={numTaskNotAssigned === 0}
-                      />
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">
-                      {t("project.maximum")}: {numTaskNotAssigned}{" "}
-                      {t("samples.samples")}
-                    </div>
-                  </div>
-
-                  <Button
-                    onClick={handleAssignTask}
-                    disabled={
-                      !selectedUserId ||
-                      numSamples <= 0 ||
-                      assignTaskMutation.isPending ||
-                      numTaskNotAssigned === 0
-                    }
-                    className="w-full"
-                  >
-                    {assignTaskMutation.isPending ? (
-                      <>
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        {t("project.assigning")}
-                      </>
-                    ) : (
-                      <>
-                        <UserPlus className="h-4 w-4 mr-2" />
-                        {t("project.assignTask")}
-                      </>
-                    )}
-                  </Button>
-
-                  {availableUsers.length === 0 && (
-                    <div className="text-sm text-muted-foreground text-center p-4 bg-gray-50 rounded-lg">
-                      {t("project.allUsersAssigned")}
-                    </div>
-                  )}
-                </div>
-              </div>
+              <AssignNewUserForm
+                availableUsers={availableUsers}
+                numTaskNotAssigned={numTaskNotAssigned}
+                isAssigning={assignTaskMutation.isPending}
+                onAssignTask={handleAssignTask}
+              />
             </div>
           </DialogContent>
         </Dialog>
 
-        {/* Edit Task Assignment Dialog */}
-        <Dialog
-          open={!!editingUser}
-          onOpenChange={(open) => !open && setEditingUser(null)}
-        >
-          <DialogContent className="max-w-md">
-            <DialogHeader>
-              <DialogTitle>{t("project.modifyTaskAssignment")}</DialogTitle>
-            </DialogHeader>
-            {editingUser && (
-              <div className="space-y-4">
-                <div className="text-sm text-muted-foreground">
-                  {t("project.modifyingTasksFor")}:{" "}
-                  <span className="font-medium">
-                    {
-                      userTaskSummary.find(
-                        (u) => u.user_id === editingUser.user_id,
-                      )?.full_name
-                    }
-                  </span>
-                </div>
+        <EditTaskDialog
+          editingUser={editingUser}
+          userTaskSummary={userTaskSummary}
+          numTaskNotAssigned={numTaskNotAssigned}
+          isModifying={modifyTaskMutation.isPending}
+          onClose={() => setEditingUser(null)}
+          onModifyTask={handleModifyTask}
+        />
 
-                <div>
-                  <label className="text-sm font-medium mb-2 block">
-                    {t("project.currentTasks")}: {editingUser.current_count}
-                  </label>
-                  <label className="text-sm font-medium mb-2 block">
-                    {t("project.newTaskCount")}:
-                  </label>
-                  <div className="flex items-center gap-3">
-                    <Input
-                      type="number"
-                      value={newTaskCount}
-                      onChange={(e) => {
-                        const value = parseInt(e.target.value) || 0;
-                        const clampedValue = Math.max(
-                          0,
-                          Math.min(
-                            value,
-                            editingUser.current_count + numTaskNotAssigned,
-                          ),
-                        );
-                        setNewTaskCount(clampedValue);
-                      }}
-                      min={0}
-                      max={editingUser.current_count + numTaskNotAssigned}
-                      className="w-24"
-                    />
-                    <Slider
-                      value={[newTaskCount]}
-                      onValueChange={(value) => setNewTaskCount(value[0])}
-                      min={0}
-                      max={editingUser.current_count + numTaskNotAssigned}
-                      step={1}
-                      className="flex-1"
-                    />
-                  </div>
-                  <div className="text-xs text-gray-500 mt-1">
-                    {t("project.maximum")}:{" "}
-                    {editingUser.current_count + numTaskNotAssigned}
-                  </div>
-                </div>
-
-                <div className="flex justify-end gap-2 pt-4">
-                  <Button
-                    variant="outline"
-                    onClick={() => setEditingUser(null)}
-                    disabled={modifyTaskMutation.isPending}
-                  >
-                    {t("common.cancel")}
-                  </Button>
-                  <Button
-                    onClick={handleModifyTask}
-                    disabled={
-                      newTaskCount === editingUser.current_count ||
-                      modifyTaskMutation.isPending
-                    }
-                  >
-                    {modifyTaskMutation.isPending ? (
-                      <>
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        {t("project.modifying")}
-                      </>
-                    ) : (
-                      t("project.modifyTasks")
-                    )}
-                  </Button>
-                </div>
-              </div>
-            )}
-          </DialogContent>
-        </Dialog>
-
-        {/* Delete Confirmation Dialog */}
-        <AlertDialog
-          open={!!deletingUser}
-          onOpenChange={(open) => {
-            // Only allow closing if not currently deleting
-            if (!deleteTasksMutation.isPending && !open) {
-              setDeletingUser(null);
-            }
-          }}
-        >
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                {t("project.deleteUserTasks")}
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                {t("project.confirmDeleteTasksMessage", {
-                  userName: deletingUser?.full_name || "",
-                })}
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel disabled={deleteTasksMutation.isPending}>
-                {t("common.cancel")}
-              </AlertDialogCancel>
-              <AlertDialogAction
-                onClick={() => {
-                  if (deletingUser) {
-                    deleteTasksMutation.mutate(deletingUser.user_id);
-                  }
-                }}
-                disabled={deleteTasksMutation.isPending}
-                className="bg-red-600 hover:bg-red-700"
-              >
-                {deleteTasksMutation.isPending ? (
-                  <>
-                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    {t("common.deleting")}
-                  </>
-                ) : (
-                  t("common.delete")
-                )}
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <DeleteTaskDialog
+          deletingUser={deletingUser}
+          isDeleting={deleteTasksMutation.isPending}
+          onClose={() => setDeletingUser(null)}
+          onDeleteTasks={handleDeleteTasks}
+        />
       </>
     </TooltipProvider>
   );
