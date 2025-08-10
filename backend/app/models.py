@@ -277,3 +277,117 @@ class ProjectDownloadRequest(SQLModel):
 
     class Config:
         from_attributes = True
+
+
+# Audit Log Models
+class LineItemAuditLog(SQLModel, table=True):
+    __tablename__ = "line_item_audit_log"
+    id: int = Field(primary_key=True, sa_column_kwargs={"autoincrement": True})
+    line_item_id: int = Field(
+        foreign_key="line_item.id", nullable=False, ondelete="CASCADE"
+    )
+    project_id: int = Field(
+        foreign_key="project.id", nullable=False, ondelete="CASCADE"
+    )
+    user_id: int | None = Field(
+        foreign_key="user.id", nullable=True, ondelete="SET NULL"
+    )
+    action: str = Field(max_length=50)  # 'CREATE', 'UPDATE', 'DELETE', 'STATUS_CHANGE'
+    old_status: str | None = Field(max_length=50)
+    new_status: str | None = Field(max_length=50)
+    old_feedback: str | None = Field(default=None)
+    new_feedback: str | None = Field(default=None)
+    old_tools: dict | None = Field(sa_column=Column(JSON))
+    new_tools: dict | None = Field(sa_column=Column(JSON))
+    timestamp: datetime = Field(default_factory=datetime.now)
+    ip_address: str | None = Field(max_length=45)
+    user_agent: str | None = Field(default=None)
+    additional_data: dict | None = Field(sa_column=Column(JSON))
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: datetime = Field(default_factory=datetime.now)
+
+    # Relationships
+    line_item: LineItem = Relationship()
+    project: Project = Relationship()
+    user: User | None = Relationship()
+
+
+class LineItemMessageAuditLog(SQLModel, table=True):
+    __tablename__ = "line_item_message_audit_log"
+    id: int = Field(primary_key=True, sa_column_kwargs={"autoincrement": True})
+    line_item_message_id: int = Field(
+        foreign_key="line_item_message.id", nullable=False, ondelete="CASCADE"
+    )
+    line_item_id: int = Field(
+        foreign_key="line_item.id", nullable=False, ondelete="CASCADE"
+    )
+    project_id: int = Field(
+        foreign_key="project.id", nullable=False, ondelete="CASCADE"
+    )
+    user_id: int | None = Field(
+        foreign_key="user.id", nullable=True, ondelete="SET NULL"
+    )
+    action: str = Field(max_length=50)  # 'CREATE', 'UPDATE', 'DELETE'
+    old_role: str | None = Field(max_length=50)
+    new_role: str | None = Field(max_length=50)
+    old_content: str | None = Field(sa_column=Column(Text))
+    new_content: str | None = Field(sa_column=Column(Text))
+    old_feedback: str | None = Field(default=None)
+    new_feedback: str | None = Field(default=None)
+    timestamp: datetime = Field(default_factory=datetime.now)
+    ip_address: str | None = Field(max_length=45)
+    user_agent: str | None = Field(default=None)
+    additional_data: dict | None = Field(sa_column=Column(JSON))
+    created_at: datetime = Field(default_factory=datetime.now)
+    updated_at: datetime = Field(default_factory=datetime.now)
+
+    # Relationships
+    line_item_message: LineItemMessage = Relationship()
+    line_item: LineItem = Relationship()
+    project: Project = Relationship()
+    user: User | None = Relationship()
+
+
+# Response models for audit logs
+class LineItemAuditLogRead(SQLModel):
+    id: int
+    line_item_id: int
+    project_id: int
+    user_id: int | None
+    action: str
+    old_status: str | None
+    new_status: str | None
+    old_feedback: str | None
+    new_feedback: str | None
+    old_tools: list | None
+    new_tools: list | None
+    timestamp: datetime
+    ip_address: str | None
+    user_agent: str | None
+    additional_data: dict | None
+
+
+class LineItemMessageAuditLogRead(SQLModel):
+    id: int
+    line_item_message_id: int
+    line_item_id: int
+    project_id: int
+    user_id: int | None
+    action: str
+    old_role: str | None
+    new_role: str | None
+    old_content: str | None
+    new_content: str | None
+    old_feedback: str | None
+    new_feedback: str | None
+    timestamp: datetime
+    ip_address: str | None
+    user_agent: str | None
+    additional_data: dict | None
+
+
+class AuditLogsPublic(SQLModel):
+    data: list[LineItemAuditLogRead | LineItemMessageAuditLogRead]
+    count: int
+    page: int
+    total_pages: int

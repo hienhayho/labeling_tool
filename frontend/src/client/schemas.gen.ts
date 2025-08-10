@@ -1081,6 +1081,322 @@ export const ProjectDownloadRequestSchema = {
     title: 'ProjectDownloadRequest'
 } as const;
 
+export const LineItemAuditLogReadSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        line_item_id: {
+            type: 'integer',
+            title: 'Line Item Id'
+        },
+        project_id: {
+            type: 'integer',
+            title: 'Project Id'
+        },
+        user_id: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'User Id'
+        },
+        action: {
+            type: 'string',
+            title: 'Action'
+        },
+        old_status: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Old Status'
+        },
+        new_status: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'New Status'
+        },
+        old_feedback: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Old Feedback'
+        },
+        new_feedback: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'New Feedback'
+        },
+        old_tools: {
+            anyOf: [
+                {
+                    type: 'object'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Old Tools'
+        },
+        new_tools: {
+            anyOf: [
+                {
+                    type: 'object'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'New Tools'
+        },
+        timestamp: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Timestamp'
+        },
+        ip_address: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Ip Address'
+        },
+        user_agent: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'User Agent'
+        },
+        additional_data: {
+            anyOf: [
+                {
+                    type: 'object'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Additional Data'
+        }
+    },
+    type: 'object',
+    required: ['id', 'line_item_id', 'project_id', 'action', 'timestamp'],
+    title: 'LineItemAuditLogRead'
+} as const;
+
+export const LineItemMessageAuditLogReadSchema = {
+    properties: {
+        id: {
+            type: 'integer',
+            title: 'Id'
+        },
+        line_item_message_id: {
+            type: 'integer',
+            title: 'Line Item Message Id'
+        },
+        line_item_id: {
+            type: 'integer',
+            title: 'Line Item Id'
+        },
+        project_id: {
+            type: 'integer',
+            title: 'Project Id'
+        },
+        user_id: {
+            anyOf: [
+                {
+                    type: 'integer'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'User Id'
+        },
+        action: {
+            type: 'string',
+            title: 'Action'
+        },
+        old_role: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Old Role'
+        },
+        new_role: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'New Role'
+        },
+        old_content: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Old Content'
+        },
+        new_content: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'New Content'
+        },
+        old_feedback: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Old Feedback'
+        },
+        new_feedback: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'New Feedback'
+        },
+        timestamp: {
+            type: 'string',
+            format: 'date-time',
+            title: 'Timestamp'
+        },
+        ip_address: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Ip Address'
+        },
+        user_agent: {
+            anyOf: [
+                {
+                    type: 'string'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'User Agent'
+        },
+        additional_data: {
+            anyOf: [
+                {
+                    type: 'object'
+                },
+                {
+                    type: 'null'
+                }
+            ],
+            title: 'Additional Data'
+        }
+    },
+    type: 'object',
+    required: ['id', 'line_item_message_id', 'line_item_id', 'project_id', 'action', 'timestamp'],
+    title: 'LineItemMessageAuditLogRead'
+} as const;
+
+export const AuditLogsPublicSchema = {
+    properties: {
+        data: {
+            type: 'array',
+            items: {
+                anyOf: [
+                    {
+                        '$ref': '#/components/schemas/LineItemAuditLogRead'
+                    },
+                    {
+                        '$ref': '#/components/schemas/LineItemMessageAuditLogRead'
+                    }
+                ]
+            },
+            title: 'Data'
+        },
+        count: {
+            type: 'integer',
+            title: 'Count'
+        },
+        page: {
+            type: 'integer',
+            title: 'Page'
+        },
+        total_pages: {
+            type: 'integer',
+            title: 'Total Pages'
+        }
+    },
+    type: 'object',
+    required: ['data', 'count', 'page', 'total_pages'],
+    title: 'AuditLogsPublic'
+} as const;
+
 export const ValidationErrorSchema = {
     properties: {
         loc: {

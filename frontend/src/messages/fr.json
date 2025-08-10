@@ -450,5 +450,30 @@
         "title": "Contact"
       }
     }
+  },
+  "audit": {
+    "viewLogs": "Voir les journaux de modifications",
+    "dialogTitle": "Journaux de modifications",
+    "lineItemLogs": "Journaux des éléments",
+    "messageLogs": "Journaux des messages",
+    "noLogs": "Aucun journal de modifications trouvé",
+    "status": "Statut",
+    "feedback": "Commentaire",
+    "tools": "Outils",
+    "oldTools": "Anciens outils",
+    "newTools": "Nouveaux outils",
+    "role": "Rôle",
+    "content": "Contenu",
+    "oldContent": "Ancien contenu",
+    "newContent": "Nouveau contenu",
+    "showChanges": "Afficher les modifications",
+    "userId": "ID utilisateur",
+    "additionalData": "Données supplémentaires",
+    "action": {
+      "create": "Créer",
+      "update": "Mettre à jour",
+      "delete": "Supprimer",
+      "status_change": "Changement de statut"
+    }
   }
 }

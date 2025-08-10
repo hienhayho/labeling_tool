@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import polars as pl
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from fastapi.responses import FileResponse
 from loguru import logger
 
@@ -11,6 +11,10 @@ from app.api.deps import (
     get_current_active_superuser,
 )
 from app.core.config import settings
+from app.crud.audit import (
+    get_line_item_audit_logs,
+    get_line_item_message_audit_logs,
+)
 from app.crud.projects import (
     assign_task,
     confirm_line_item,
@@ -29,8 +33,11 @@ from app.crud.projects import (
 )
 from app.models import (
     AssignTaskRequest,
+    AuditLogsPublic,
     DeleteUserTasksRequest,
+    LineItemAuditLogRead,
     LineItemConfirmRequest,
+    LineItemMessageAuditLogRead,
     LineItemMessageUpdateRequest,
     LineItemRead,
     LineItemsPublic,
@@ -208,6 +215,7 @@ def confirm_line_item_message_route(
     line_item_confirm_request: LineItemConfirmRequest,
     session: SessionDep,
     current_user: CurrentUser,
+    request: Request,
 ):
     confirm_line_item(
         session=session,
@@ -216,6 +224,7 @@ def confirm_line_item_message_route(
         project_id=project_id,
         line_item_id=line_item_id,
         line_item_confirm_request=line_item_confirm_request,
+        request=request,
     )
     return {"message": "Line item confirmed successfully"}
 
@@ -236,12 +245,16 @@ def update_line_item_message_route(
     line_item_message_id: int,
     line_item_message_update_request: LineItemMessageUpdateRequest,
     session: SessionDep,
+    current_user: CurrentUser,
+    request: Request,
 ):
     return update_line_item_message(
         session=session,
         project_id=project_id,
         line_item_message_id=line_item_message_id,
         line_item_message_update_request=line_item_message_update_request,
+        user_id=current_user.id,
+        request=request,
     )
 
 
@@ -269,4 +282,121 @@ def download_project(
         Path(settings.TEMP_DOWNLOAD_FOLDER)
         / f"{project_download_request.file_name}.jsonl",
         filename=f"{project_download_request.file_name}.jsonl",
+    )
+
+
+@router.get("/{project_id}/audit/line-items", response_model=AuditLogsPublic)
+def get_line_item_audit_logs_route(
+    project_id: int,
+    session: SessionDep,
+    current_user: CurrentUser,
+    line_item_id: int | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
+    page: int = Query(default=1, ge=1),
+    limit: int = Query(default=50, ge=1, le=100),
+):
+    """Get audit logs for line items in a project"""
+    from datetime import datetime
+
+    # Convert string dates to datetime objects
+    start_datetime = datetime.fromisoformat(start_date) if start_date else None
+    end_datetime = datetime.fromisoformat(end_date) if end_date else None
+
+    # Get audit logs
+    logs, total_count, total_pages = get_line_item_audit_logs(
+        session=session,
+        project_id=project_id,
+        line_item_id=line_item_id,
+        user_id=current_user.id if not current_user.is_superuser else None,
+        start_date=start_datetime,
+        end_date=end_datetime,
+        page=page,
+        limit=limit,
+    )
+
+    # Convert to response model
+    log_reads = [
+        LineItemAuditLogRead(
+            id=log.id,
+            line_item_id=log.line_item_id,
+            project_id=log.project_id,
+            user_id=log.user_id,
+            action=log.action,
+            old_status=log.old_status,
+            new_status=log.new_status,
+            old_feedback=log.old_feedback,
+            new_feedback=log.new_feedback,
+            old_tools=log.old_tools,
+            new_tools=log.new_tools,
+            timestamp=log.timestamp,
+            ip_address=log.ip_address,
+            user_agent=log.user_agent,
+            additional_data=log.additional_data,
+        )
+        for log in logs
+    ]
+
+    return AuditLogsPublic(
+        data=log_reads, count=total_count, page=page, total_pages=total_pages
+    )
+
+
+@router.get("/{project_id}/audit/line-item-messages", response_model=AuditLogsPublic)
+def get_line_item_message_audit_logs_route(
+    project_id: int,
+    session: SessionDep,
+    current_user: CurrentUser,
+    line_item_id: int | None = None,
+    line_item_message_id: int | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
+    page: int = Query(default=1, ge=1),
+    limit: int = Query(default=50, ge=1, le=100),
+):
+    """Get audit logs for line item messages in a project"""
+    from datetime import datetime
+
+    # Convert string dates to datetime objects
+    start_datetime = datetime.fromisoformat(start_date) if start_date else None
+    end_datetime = datetime.fromisoformat(end_date) if end_date else None
+
+    # Get audit logs
+    logs, total_count, total_pages = get_line_item_message_audit_logs(
+        session=session,
+        project_id=project_id,
+        line_item_id=line_item_id,
+        line_item_message_id=line_item_message_id,
+        user_id=current_user.id if not current_user.is_superuser else None,
+        start_date=start_datetime,
+        end_date=end_datetime,
+        page=page,
+        limit=limit,
+    )
+
+    # Convert to response model
+    log_reads = [
+        LineItemMessageAuditLogRead(
+            id=log.id,
+            line_item_message_id=log.line_item_message_id,
+            line_item_id=log.line_item_id,
+            project_id=log.project_id,
+            user_id=log.user_id,
+            action=log.action,
+            old_role=log.old_role,
+            new_role=log.new_role,
+            old_content=log.old_content,
+            new_content=log.new_content,
+            old_feedback=log.old_feedback,
+            new_feedback=log.new_feedback,
+            timestamp=log.timestamp,
+            ip_address=log.ip_address,
+            user_agent=log.user_agent,
+            additional_data=log.additional_data,
+        )
+        for log in logs
+    ]
+
+    return AuditLogsPublic(
+        data=log_reads, count=total_count, page=page, total_pages=total_pages
     )
