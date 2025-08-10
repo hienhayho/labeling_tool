@@ -450,5 +450,30 @@
         "title": "お問い合わせ"
       }
     }
+  },
+  "audit": {
+    "viewLogs": "変更履歴を表示",
+    "dialogTitle": "変更履歴",
+    "lineItemLogs": "項目ログ",
+    "messageLogs": "メッセージログ",
+    "noLogs": "変更履歴が見つかりません",
+    "status": "ステータス",
+    "feedback": "フィードバック",
+    "tools": "ツール",
+    "oldTools": "以前のツール",
+    "newTools": "新しいツール",
+    "role": "役割",
+    "content": "内容",
+    "oldContent": "以前の内容",
+    "newContent": "新しい内容",
+    "showChanges": "変更を表示",
+    "userId": "ユーザーID",
+    "additionalData": "追加データ",
+    "action": {
+      "create": "作成",
+      "update": "更新",
+      "delete": "削除",
+      "status_change": "ステータス変更"
+    }
   }
 }

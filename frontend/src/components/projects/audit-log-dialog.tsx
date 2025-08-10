@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Dialog,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useApi } from "@/hooks/use-api";
 import { AuditLogCard } from "./audit-log-card";
 import {
@@ -19,7 +20,7 @@ import {
   projectsGetLineItemMessageAuditLogsRoute,
 } from "@/client";
 import { useTranslations } from "next-intl";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Loader2 } from "lucide-react";
 
 interface AuditLogDialogProps {
   isOpen: boolean;
@@ -40,6 +41,7 @@ export function AuditLogDialog({
   );
   const { client, headers } = useApi();
   const t = useTranslations();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Fetch line item audit logs
   const {
@@ -83,11 +85,37 @@ export function AuditLogDialog({
     enabled: isOpen && activeTab === "messages",
   });
 
-  const handleRefresh = () => {
-    if (activeTab === "line-item") {
-      refetchLineItem();
-    } else {
-      refetchMessages();
+  // Reset page when dialog opens
+  useEffect(() => {
+    if (isOpen) {
+      setCurrentPage(1);
+    }
+  }, [isOpen]);
+
+  // Auto-refresh when dialog opens or tab changes
+  useEffect(() => {
+    if (isOpen) {
+      const timer = setTimeout(() => {
+        if (activeTab === "line-item") {
+          refetchLineItem();
+        } else {
+          refetchMessages();
+        }
+      }, 100); // Small delay to ensure state is updated
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen, activeTab, refetchLineItem, refetchMessages]);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    try {
+      if (activeTab === "line-item") {
+        await refetchLineItem();
+      } else {
+        await refetchMessages();
+      }
+    } finally {
+      setIsRefreshing(false);
     }
   };
 
@@ -104,18 +132,22 @@ export function AuditLogDialog({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl max-h-[80vh]">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
-            <span>{t("audit.dialogTitle")}</span>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleRefresh}
-              disabled={isLoading}
-            >
-              <RefreshCw
-                className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
-              />
-            </Button>
+          <DialogTitle className="flex items-center justify-center">
+            <div className="flex items-center justify-between gap-2">
+              <span>{t("audit.dialogTitle")}</span>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleRefresh}
+                disabled={isLoading || isRefreshing}
+              >
+                {isRefreshing ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <RefreshCw className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </DialogTitle>
         </DialogHeader>
 
@@ -130,8 +162,20 @@ export function AuditLogDialog({
           <TabsContent value={activeTab} className="mt-4">
             <div className="h-[500px] overflow-y-auto pr-4">
               {isLoading && (
-                <div className="flex justify-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="border rounded-lg p-4 space-y-3">
+                      <div className="flex items-around justify-between">
+                        <Skeleton className="h-6 w-24" />
+                        <Skeleton className="h-4 w-32" />
+                      </div>
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-3/4" />
+                      <div className="pt-2 border-t">
+                        <Skeleton className="h-3 w-48" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
 

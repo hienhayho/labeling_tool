@@ -450,5 +450,30 @@
         "title": "Liên hệ"
       }
     }
+  },
+  "audit": {
+    "viewLogs": "Xem nhật ký thay đổi",
+    "dialogTitle": "Nhật ký thay đổi",
+    "lineItemLogs": "Nhật ký mục",
+    "messageLogs": "Nhật ký tin nhắn",
+    "noLogs": "Không tìm thấy nhật ký thay đổi",
+    "status": "Trạng thái",
+    "feedback": "Phản hồi",
+    "tools": "Công cụ",
+    "oldTools": "Công cụ cũ",
+    "newTools": "Công cụ mới",
+    "role": "Vai trò",
+    "content": "Nội dung",
+    "oldContent": "Nội dung cũ",
+    "newContent": "Nội dung mới",
+    "showChanges": "Hiển thị thay đổi",
+    "userId": "ID người dùng",
+    "additionalData": "Dữ liệu bổ sung",
+    "action": {
+      "create": "Tạo",
+      "update": "Cập nhật",
+      "delete": "Xóa",
+      "status_change": "Thay đổi trạng thái"
+    }
   }
 }

@@ -314,35 +314,54 @@ def confirm_line_item(
         "tools": line_item.tools,
     }
 
-    if line_item_confirm_request.tools:
+    # Track if any changes were made
+    has_changes = False
+
+    if (
+        line_item_confirm_request.tools is not None
+        and line_item_confirm_request.tools != line_item.tools
+    ):
         line_item.tools = line_item_confirm_request.tools
+        has_changes = True
 
-    if line_item_confirm_request.feedback:
+    if (
+        line_item_confirm_request.feedback is not None
+        and line_item_confirm_request.feedback != line_item.feedback
+    ):
         line_item.feedback = line_item_confirm_request.feedback
-    line_item.status = line_item_confirm_request.status
-    session.add(line_item)
-    session.commit()
+        has_changes = True
 
-    # Capture new values for audit logging
-    new_values = {
-        "status": line_item.status.value if line_item.status else None,
-        "feedback": line_item.feedback,
-        "tools": line_item.tools,
-    }
+    if line_item_confirm_request.status != line_item.status:
+        line_item.status = line_item_confirm_request.status
+        has_changes = True
 
-    # Log the change
-    action = (
-        "STATUS_CHANGE" if old_values["status"] != new_values["status"] else "UPDATE"
-    )
-    log_line_item_change(
-        session=session,
-        line_item=line_item,
-        action=action,
-        user_id=user_id,
-        request=request,
-        old_values=old_values,
-        new_values=new_values,
-    )
+    # Only update and log if there were actual changes
+    if has_changes:
+        session.add(line_item)
+        session.commit()
+
+        # Capture new values for audit logging
+        new_values = {
+            "status": line_item.status.value if line_item.status else None,
+            "feedback": line_item.feedback,
+            "tools": line_item.tools,
+        }
+
+        # Log the change
+        action = (
+            "STATUS_CHANGE"
+            if old_values["status"] != new_values["status"]
+            else "UPDATE"
+        )
+        log_line_item_change(
+            session=session,
+            line_item=line_item,
+            action=action,
+            user_id=user_id,
+            request=request,
+            old_values=old_values,
+            new_values=new_values,
+        )
 
     for line_message_confirm_request in line_item_confirm_request.line_messages:
         line_message = session.exec(
@@ -361,34 +380,52 @@ def confirm_line_item(
             "feedback": line_message.feedback,
         }
 
-        if line_message_confirm_request.feedback:
+        # Track if any changes were made
+        has_message_changes = False
+
+        if (
+            line_message_confirm_request.feedback
+            and line_message_confirm_request.feedback != line_message.feedback
+        ):
             line_message.feedback = line_message_confirm_request.feedback
-        if line_message_confirm_request.role:
+            has_message_changes = True
+        if (
+            line_message_confirm_request.role
+            and line_message_confirm_request.role != line_message.role
+        ):
             line_message.role = line_message_confirm_request.role
-        if line_message_confirm_request.content:
+            has_message_changes = True
+        if (
+            line_message_confirm_request.content
+            and line_message_confirm_request.content != line_message.content
+        ):
             line_message.content = line_message_confirm_request.content
-        session.add(line_message)
-        session.commit()
+            has_message_changes = True
 
-        # Capture new values for audit logging
-        new_message_values = {
-            "role": line_message.role,
-            "content": line_message.content,
-            "feedback": line_message.feedback,
-        }
+        # Only update and log if there were actual changes
+        if has_message_changes:
+            session.add(line_message)
+            session.commit()
 
-        # Log the message change
-        log_line_item_message_change(
-            session=session,
-            line_item_message=line_message,
-            line_item_id=line_item_id,
-            project_id=project_id,
-            action="UPDATE",
-            user_id=user_id,
-            request=request,
-            old_values=old_message_values,
-            new_values=new_message_values,
-        )
+            # Capture new values for audit logging
+            new_message_values = {
+                "role": line_message.role,
+                "content": line_message.content,
+                "feedback": line_message.feedback,
+            }
+
+            # Log the message change
+            log_line_item_message_change(
+                session=session,
+                line_item_message=line_message,
+                line_item_id=line_item_id,
+                project_id=project_id,
+                action="UPDATE",
+                user_id=user_id,
+                request=request,
+                old_values=old_message_values,
+                new_values=new_message_values,
+            )
 
 
 def get_projects_dashboard(*, session: Session) -> list[dict]:
@@ -575,33 +612,47 @@ def update_line_item_message(
         "feedback": line_item_message.feedback,
     }
 
-    if line_item_message_update_request.role:
+    # Track if any changes were made
+    has_changes = False
+
+    if (
+        line_item_message_update_request.role
+        and line_item_message_update_request.role != line_item_message.role
+    ):
         line_item_message.role = line_item_message_update_request.role
-    if line_item_message_update_request.content:
+        has_changes = True
+    if (
+        line_item_message_update_request.content
+        and line_item_message_update_request.content != line_item_message.content
+    ):
         line_item_message.content = line_item_message_update_request.content
-    session.add(line_item_message)
-    session.commit()
-    session.refresh(line_item_message)
+        has_changes = True
 
-    # Capture new values for audit logging
-    new_values = {
-        "role": line_item_message.role,
-        "content": line_item_message.content,
-        "feedback": line_item_message.feedback,
-    }
+    # Only update and log if there were actual changes
+    if has_changes:
+        session.add(line_item_message)
+        session.commit()
+        session.refresh(line_item_message)
 
-    # Log the change
-    log_line_item_message_change(
-        session=session,
-        line_item_message=line_item_message,
-        line_item_id=line_item_message.line_item_id,
-        project_id=line_item.project_id if line_item else project_id,
-        action="UPDATE",
-        user_id=user_id,
-        request=request,
-        old_values=old_values,
-        new_values=new_values,
-    )
+        # Capture new values for audit logging
+        new_values = {
+            "role": line_item_message.role,
+            "content": line_item_message.content,
+            "feedback": line_item_message.feedback,
+        }
+
+        # Log the change
+        log_line_item_message_change(
+            session=session,
+            line_item_message=line_item_message,
+            line_item_id=line_item_message.line_item_id,
+            project_id=line_item.project_id if line_item else project_id,
+            action="UPDATE",
+            user_id=user_id,
+            request=request,
+            old_values=old_values,
+            new_values=new_values,
+        )
 
     return line_item_message
 

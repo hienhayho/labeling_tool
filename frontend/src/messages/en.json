@@ -455,11 +455,11 @@
     }
   },
   "audit": {
-    "viewLogs": "View Audit Logs",
-    "dialogTitle": "Audit Logs",
+    "viewLogs": "View Change Logs",
+    "dialogTitle": "Change Logs",
     "lineItemLogs": "Line Item Logs",
     "messageLogs": "Message Logs",
-    "noLogs": "No audit logs found",
+    "noLogs": "No change logs found",
     "status": "Status",
     "feedback": "Feedback",
     "tools": "Tools",
@@ -469,6 +469,7 @@
     "content": "Content",
     "oldContent": "Old Content",
     "newContent": "New Content",
+    "showChanges": "Show Changes",
     "userId": "User ID",
     "additionalData": "Additional Data",
     "action": {

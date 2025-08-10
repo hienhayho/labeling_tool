@@ -450,5 +450,30 @@
         "title": "联系我们"
       }
     }
+  },
+  "audit": {
+    "viewLogs": "查看更改日志",
+    "dialogTitle": "更改日志",
+    "lineItemLogs": "项目日志",
+    "messageLogs": "消息日志",
+    "noLogs": "未找到更改日志",
+    "status": "状态",
+    "feedback": "反馈",
+    "tools": "工具",
+    "oldTools": "旧工具",
+    "newTools": "新工具",
+    "role": "角色",
+    "content": "内容",
+    "oldContent": "旧内容",
+    "newContent": "新内容",
+    "showChanges": "显示更改",
+    "userId": "用户ID",
+    "additionalData": "附加数据",
+    "action": {
+      "create": "创建",
+      "update": "更新",
+      "delete": "删除",
+      "status_change": "状态更改"
+    }
   }
 }

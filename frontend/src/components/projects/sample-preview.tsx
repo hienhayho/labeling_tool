@@ -456,10 +456,13 @@ export function SamplePreview({
                 <Button
                   variant="outline"
                   onClick={() => setIsAuditLogDialogOpen(true)}
-                  className="w-full"
+                  className="w-full relative"
                 >
                   <History className="h-4 w-4 mr-2" />
                   {t("audit.viewLogs")}
+                  {sampleData.data.status !== "UNLABELED" && (
+                    <span className="absolute -top-1 -right-1 h-3 w-3 bg-blue-500 rounded-full animate-pulse" />
+                  )}
                 </Button>
               </div>
               {/* Tools Section - Only for superusers */}

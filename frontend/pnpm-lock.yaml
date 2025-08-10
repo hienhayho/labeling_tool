@@ -64,6 +64,9 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
+      diff:
+        specifier: ^5.2.0
+        version: 5.2.0
       lucide-react:
         specifier: ^0.525.0
         version: 0.525.0(react@19.1.0)
@@ -101,6 +104,9 @@ importers:
       "@tailwindcss/postcss":
         specifier: ^4
         version: 4.1.11
+      "@types/diff":
+        specifier: ^5.2.3
+        version: 5.2.3
       "@types/node":
         specifier: ^20
         version: 20.19.9
@@ -1514,6 +1520,12 @@ packages:
         integrity: sha512-Ps3T8E8dZDam6fUyNiMkekK3XUsaUEik+idO9/YjPtfj2qruF8tFBXS7XhtE4iIXBLxhmLjP3SXpLhVf21I9Lw==,
       }
 
+  "@types/diff@5.2.3":
+    resolution:
+      {
+        integrity: sha512-K0Oqlrq3kQMaO2RhfrNQX5trmt+XLyom88zS0u84nnIcLvFnRUMRRHmrGny5GSM+kNO9IZLARsdQHDzkhAgmrQ==,
+      }
+
   "@types/estree@1.0.8":
     resolution:
       {
@@ -2357,6 +2369,13 @@ packages:
       {
         integrity: sha512-ypdmJU/TbBby2Dxibuv7ZLW3Bs1QEmM7nHjEANfohJLvE0XVujisn1qPJcZxg+qDucsr+bP6fLD1rPS3AhJ7EQ==,
       }
+
+  diff@5.2.0:
+    resolution:
+      {
+        integrity: sha512-uIFDxqpRZGZ6ThOk84hEfqWoHx2devRFvpTZcTHur85vImfaxUbTW9Ryh4CpCuDnToOP1CEtXKIgytHBPVff5A==,
+      }
+    engines: { node: ">=0.3.1" }
 
   doctrine@2.1.0:
     resolution:
@@ -5409,6 +5428,8 @@ snapshots:
 
   "@types/d3-timer@3.0.2": {}
 
+  "@types/diff@5.2.3": {}
+
   "@types/estree@1.0.8": {}
 
   "@types/json-schema@7.0.15": {}
@@ -5905,6 +5926,8 @@ snapshots:
   detect-libc@2.0.4: {}
 
   detect-node-es@1.1.0: {}
+
+  diff@5.2.0: {}
 
   doctrine@2.1.0:
     dependencies:

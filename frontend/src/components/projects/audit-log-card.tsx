@@ -14,6 +14,7 @@ import {
   Trash,
 } from "lucide-react";
 import { format } from "date-fns";
+import { HighlightedDiff, JsonDiff } from "./audit-log-utils";
 
 interface AuditLogCardProps {
   log: LineItemAuditLogRead | LineItemMessageAuditLogRead;
@@ -59,18 +60,43 @@ export function AuditLogCard({ log, isLineItemLog }: AuditLogCardProps) {
 
       // Status change
       if (lineItemLog.old_status || lineItemLog.new_status) {
+        const getStatusColor = (status: string) => {
+          switch (status) {
+            case "UNLABELED":
+              return "text-gray-600 bg-gray-100";
+            case "CONFIRMED":
+              return "text-blue-700 bg-blue-100";
+            case "APPROVED":
+              return "text-green-700 bg-green-100";
+            case "REJECTED":
+              return "text-red-700 bg-red-100";
+            default:
+              return "text-gray-600 bg-gray-100";
+          }
+        };
+
         changes.push(
           <div key="status" className="mb-2">
             <span className="font-semibold">{t("audit.status")}:</span>
-            {lineItemLog.old_status && (
-              <span className="text-gray-600"> {lineItemLog.old_status}</span>
-            )}
-            {lineItemLog.old_status && lineItemLog.new_status && (
-              <span className="mx-2">→</span>
-            )}
-            {lineItemLog.new_status && (
-              <span className="text-green-600"> {lineItemLog.new_status}</span>
-            )}
+            <div className="inline-flex items-center gap-2 ml-2">
+              {lineItemLog.old_status && (
+                <span
+                  className={`px-2 py-1 rounded text-sm font-medium ${getStatusColor(lineItemLog.old_status)}`}
+                >
+                  {t(`status.${lineItemLog.old_status.toLowerCase()}`)}
+                </span>
+              )}
+              {lineItemLog.old_status && lineItemLog.new_status && (
+                <span className="mx-1">→</span>
+              )}
+              {lineItemLog.new_status && (
+                <span
+                  className={`px-2 py-1 rounded text-sm font-medium ${getStatusColor(lineItemLog.new_status)}`}
+                >
+                  {t(`status.${lineItemLog.new_status.toLowerCase()}`)}
+                </span>
+              )}
+            </div>
           </div>,
         );
       }
@@ -81,14 +107,10 @@ export function AuditLogCard({ log, isLineItemLog }: AuditLogCardProps) {
           <div key="feedback" className="mb-2">
             <span className="font-semibold">{t("audit.feedback")}:</span>
             <div className="ml-4 mt-1">
-              {lineItemLog.old_feedback && (
-                <div className="text-gray-600 line-through">
-                  {lineItemLog.old_feedback}
-                </div>
-              )}
-              {lineItemLog.new_feedback && (
-                <div className="text-green-600">{lineItemLog.new_feedback}</div>
-              )}
+              <HighlightedDiff
+                oldText={lineItemLog.old_feedback}
+                newText={lineItemLog.new_feedback}
+              />
             </div>
           </div>,
         );
@@ -97,30 +119,12 @@ export function AuditLogCard({ log, isLineItemLog }: AuditLogCardProps) {
       // Tools change
       if (lineItemLog.old_tools || lineItemLog.new_tools) {
         changes.push(
-          <div key="tools" className="mb-2">
-            <span className="font-semibold">{t("audit.tools")}:</span>
-            <div className="ml-4 mt-1 text-xs">
-              {lineItemLog.old_tools && (
-                <details className="mb-1">
-                  <summary className="cursor-pointer text-gray-600">
-                    {t("audit.oldTools")}
-                  </summary>
-                  <pre className="mt-1 p-2 bg-gray-100 rounded overflow-x-auto">
-                    {JSON.stringify(lineItemLog.old_tools, null, 2)}
-                  </pre>
-                </details>
-              )}
-              {lineItemLog.new_tools && (
-                <details>
-                  <summary className="cursor-pointer text-green-600">
-                    {t("audit.newTools")}
-                  </summary>
-                  <pre className="mt-1 p-2 bg-green-50 rounded overflow-x-auto">
-                    {JSON.stringify(lineItemLog.new_tools, null, 2)}
-                  </pre>
-                </details>
-              )}
-            </div>
+          <div key="tools" className="mb-4">
+            <div className="font-semibold mb-2">{t("audit.tools")}:</div>
+            <JsonDiff
+              oldJson={lineItemLog.old_tools}
+              newJson={lineItemLog.new_tools}
+            />
           </div>,
         );
       }
@@ -151,26 +155,17 @@ export function AuditLogCard({ log, isLineItemLog }: AuditLogCardProps) {
           <div key="content" className="mb-2">
             <span className="font-semibold">{t("audit.content")}:</span>
             <div className="ml-4 mt-1">
-              {messageLog.old_content && (
-                <details className="mb-1">
-                  <summary className="cursor-pointer text-gray-600">
-                    {t("audit.oldContent")}
-                  </summary>
-                  <div className="mt-1 p-2 bg-gray-100 rounded overflow-x-auto whitespace-pre-wrap">
-                    {messageLog.old_content}
-                  </div>
-                </details>
-              )}
-              {messageLog.new_content && (
-                <details>
-                  <summary className="cursor-pointer text-green-600">
-                    {t("audit.newContent")}
-                  </summary>
-                  <div className="mt-1 p-2 bg-green-50 rounded overflow-x-auto whitespace-pre-wrap">
-                    {messageLog.new_content}
-                  </div>
-                </details>
-              )}
+              <details open className="group">
+                <summary className="cursor-pointer text-blue-600 text-sm font-medium mb-2">
+                  {t("audit.showChanges")}
+                </summary>
+                <div className="bg-gray-50 p-3 rounded border border-gray-200 max-h-96 overflow-y-auto">
+                  <HighlightedDiff
+                    oldText={messageLog.old_content}
+                    newText={messageLog.new_content}
+                  />
+                </div>
+              </details>
             </div>
           </div>,
         );
